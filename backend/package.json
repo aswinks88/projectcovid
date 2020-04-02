@@ -1,0 +1,12 @@
+{
+  "name": "covidtracker",
+  "version": "1.0.0",
+  "description": "A covid tracker for New Zealand",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "author": "Aswin",
+  "license": "ISC"
+}
