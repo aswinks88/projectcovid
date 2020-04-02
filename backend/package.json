@@ -8,5 +8,17 @@
     "start": "node server.js"
   },
   "author": "Aswin",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.19.2",
+    "cheerio": "^1.0.0-rc.3",
+    "cheerio-tableparser": "^1.0.1",
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "esm": "^3.2.25",
+    "express": "^4.17.1",
+    "json-format": "^1.0.1",
+    "mongoose": "^5.9.7",
+    "nodemon": "^2.0.2"
+  }
 }
