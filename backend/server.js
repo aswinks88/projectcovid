@@ -2,7 +2,8 @@ import express from 'express'
 import mongoose from 'mongoose'
 import cors from 'cors'
 import confirmedRoute from './Routes/CovidNzData.route'
-require('dotenv').config
+import Stats from './Routes/CovidNzData.route'
+require('dotenv').config({debug: process.env.DEBUG })
 
 const port = process.env.PORT || 5000
 const uri = process.env.ATLAS_URI
@@ -22,7 +23,7 @@ connection.once('open', () => {
 })
 
 app.use('/', confirmedRoute)
-
+app.use('/stats', Stats)
 app.listen(port, () =>{
     console.log(`server is running on port: http://localhost:${port}`)
 })
