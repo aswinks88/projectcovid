@@ -23,7 +23,14 @@ export default class SummaryofCovid extends Component {
 }
     render() {
         return (
-            <div>
+           <div>
+                
+           </div>
+        )
+    }
+}
+
+ {/* <div>
             <div className="row">
      
      <div className="col-xl-4 col-lg-4 col-md-4 col-sm-6 mb-4">
@@ -102,8 +109,4 @@ export default class SummaryofCovid extends Component {
                </CardDeck>
           
            </div>         
-            </div>
-        )
-    }
-}
-
+            </div> */}
