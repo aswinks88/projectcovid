@@ -23,9 +23,7 @@ export default class SummaryofCovid extends Component {
 }
     render() {
         return (
-           <div>
-                
-           </div>
+       <div></div>
         )
     }
 }
