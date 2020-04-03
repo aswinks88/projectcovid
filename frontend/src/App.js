@@ -4,10 +4,12 @@ import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap/dist/js/bootstrap.js'
 import SummaryofCovid from './components/SummaryofCovid/SummaryofCovid'
+import Header from './components/Header/Header'
 function App() {
   return (
     <div className='container'>
-    <p className='navbar-brand'>Covid Tracker</p>
+      <Header />
+    {/* <p className='navbar-brand'>Covid Tracker</p> */}
       <SummaryofCovid />
     </div>
   );
