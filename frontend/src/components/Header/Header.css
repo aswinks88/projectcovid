@@ -1,26 +1,86 @@
+.navbar{
+    border-radius: 0px;
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.3);
+    border: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 12;
+    width: 100%;
+}
+.navbar-header{
+    padding: 10px 7px;
+}
+section.content{
+    margin: 100px 15px 15px 0px;
+    -moz-transition: 0.5s;
+    -o-transition: 0.5s;
+    -webkit-transition: 0.5s;
+    transition: 0.5s;
+}
+/* .ls-closed section.content {
+    margin-left: 15px;
+} */
+.container-fluid{
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
+}
+.row{
+    margin-right: -15px;
+    margin-left: -15px;
+}
+.block-header{
+    margin-bottom: 15px;
+}
+
 .info-box{
-    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
     height: 80px;
     display: flex;
     cursor: default;
+    background-color: #fff;
     position: relative;
     overflow: hidden;
     margin-bottom: 30px;
 }
-
 .info-box .icon{
     display: inline-block;
     text-align: center;
     background-color: rgba(0, 0, 0, 0.12);
-    width: 20px;
+    width: 80px;
 }
+.info-box .icon i{
+    color: white;
+    font-size: 50px;
+    line-height: 80px;
+    }
 
+.info-box .up-arrow{
+    display: inline-block;
+    text-align: center;
+    /* background-color: rgba(0, 0, 0, 0.12); */
+    width: 50px;
+}
+.info-box .up-arrow i{
+    color: white;
+    font-size: 15px;
+    line-height: 80px;
+    }
+/* .down-arrow{
+    color: white;
+    font-size: 35px;
+    line-height:80px;
+   display: inline-block;
+   margin-left: 70px;
+} */
 .info-box .content{
     display: inline-block;
     padding: 7px 10px;
 }
 .info-box .content .text{
-    font-size: 13px;
+    font-size: 15px;
     margin-top: 11px;
     color: white !important;
 }
@@ -31,6 +91,7 @@
     color: white !important;
 }
 
-.fas .fa-virus{
-    color: green;
+.bg-orange{
+    background-color: #FF9800;
+    color: white;
 }

@@ -2,7 +2,7 @@ import React from 'react'
 import './Header.css'
 export default function Header(props) {
     return (
-         <section>
+         <div>
          <nav className='navbar' style={{backgroundColor: 'red', color: 'white'}}>
                <div className='container-fluid'>
                     <div className='navbar-header'>
@@ -10,45 +10,102 @@ export default function Header(props) {
                     </div>
                </div>
           </nav>
+          <section className='content'>
           <div className='container-fluid'>
-               <div className='block' style ={{marginBottom: '15px', display: 'block'}}>
+               <div className='block-header'>
                     <h2>Summary</h2>
                </div>
                <div className='row clearfix'>
-                    <div className='col-lg-3 col-md-3 col-sm-6 col-xs-12'>
+                    <div className='col-12 col-lg-6 col-xl'>
                     <div className='bg-info info-box'>
                     <div className='icon'>
-                    <i class="fas fa-virus"></i>
+                    <i className="fas fa-virus"></i>
+
                     </div>
                     <div className='content'>
                          <div className='text'>
                          Total Cases
                          </div>
-                         <div className='number count-to'>800</div>
+                         <div className='number count-to'>{props.data[4]}</div>
+                         {/* <div className='number count-to'>950</div> */}
+                         
+
+                    </div>
+                    {/* <div className='up-arrow'>
+                         <i className="fas fa-arrow-up"></i>
+
+                         </div> */}
+                    {/* <i class="fas fa-arrow-down down-arrow"></i> */}
+
                     </div>
                     </div>
+
+                    <div className='col-12 col-lg-6 col-xl'>
+                    <div className='info-box bg-success'>
+                    <div className='icon'>
+                    <i className="fas fa-house-user"></i>
                     </div>
+                    <div className='content'>
+                         <div className='text'>
+                         Total Recovered
+                         </div>
+                         <div className='number count-to'>{props.data[8]}</div>
+                         {/* <div className='number count-to'>950</div> */}
+
+                    </div>
+                    {/* <div className='up-arrow'>
+                         <i className="fas fa-arrow-up"></i>
+
+                         </div> */}
+                    </div>
+                    </div>
+
+
+                    <div className='col-12 col-lg-6 col-xl'>
+                    <div className='info-box bg-danger'>
+                    <div className='icon'>
+                    <i className="fas fa-head-side-virus"></i>
+                    </div>
+                    <div className='content'>
+                         <div className='text'>
+                         Death
+                         </div>
+                         <div className='number count-to'>{props.data[10]}</div>
+                         {/* <div className='number count-to'>950</div> */}
+
+                    </div>
+                    {/* <div className='up-arrow'>
+                         <i className="fas fa-arrow-up"></i>
+
+                    </div> */}
+                    </div>
+                    </div>
+                    <div className='col-12 col-lg-6 col-xl'>
+                    <div className='info-box bg-orange'>
+                    <div className='icon'>
+                    <i className="fas fa-hospital-alt"></i>
+                    </div>
+                    <div className='content'>
+                         <div className='text'>
+                         Cases in hospital
+                         </div>
+                         <div className='number count-to'>{props.data[6]}</div>
+                         {/* <div className='number count-to'>950</div> */}
+
+                    </div>
+                    {/* <div className='up-arrow'>
+                         <i className="fas fa-arrow-up"></i>
+
+                         </div> */}
+                    </div>
+                    </div>
+                    
                </div>
           </div>
+          </section>
+          
            
-         </section>
+         </div>
         
     )
 }
-// col-xl-10 col-lg-9 col-md-8 ml-auto bg-dark fixed-top py-2
-
- {/* <div className='container my-4'> */}
-            {/* <header className='App-header navbar'>
-              
-              </header> */}
-               {/* <div className='row'>
-                    <div className='col-xl-10 col-lg-9 col-md-8 ml-auto bg-dark fixed-top py-2 top-navbar'>
-                         <div className='row align-items-center'>
-                              <div>
-                                   <h4 className='text-light text-uppercase mb-0'>Covid-19 Tracker</h4>
-                              </div>
-                         </div>
-
-                    </div>
-               </div>
-           </div> */}
