@@ -1,6 +1,5 @@
 import React from 'react'
 import './Header.css'
-import Graph from '../Graph/Graph'
 export default function Header(props) {
     return (
          <div>
@@ -27,7 +26,8 @@ export default function Header(props) {
                          <div className='text'>
                          Total Cases
                          </div>
-                         <div className='number count-to'>{props.data[4]}</div>
+                         <div className='number count-to'>{props.data[4]} 
+                              (<i className="fas fa-arrow-up up-arrow"></i>{props.data[5]})</div>
                          {/* <div className='number count-to'>950</div> */}
                          
 
@@ -102,8 +102,7 @@ export default function Header(props) {
                     </div>
                </div>
           </div>
-          <Graph />
-
+                                   
           </section>
           
            

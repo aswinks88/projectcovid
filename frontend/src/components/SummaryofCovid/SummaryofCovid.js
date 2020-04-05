@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import {Card, CardDeck} from 'react-bootstrap'
 import axios from 'axios'
 import Header from '../Header/Header'
+import Graph from '../Graph/Graph'
+
 export default class SummaryofCovid extends Component {
     constructor(props){
         super(props)
@@ -10,9 +12,9 @@ export default class SummaryofCovid extends Component {
             }
         
     }
-    componentDidMount(){
+    async componentDidMount(){
         
-        axios.get('http://localhost:5000/')
+        await axios.get('http://localhost:5000/')
         .then(res => {
             const stats = res.data
             console.log(stats)
@@ -26,6 +28,7 @@ export default class SummaryofCovid extends Component {
         return (
        <div>
             <Header data={this.state.data} />
+            <Graph/>
        </div>
         )
     }
