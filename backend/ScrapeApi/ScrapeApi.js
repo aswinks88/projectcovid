@@ -17,12 +17,10 @@ export async function findCovid19TotalCases(ministryofHealthData){
     summaryData.each((i, el) => {
         $(el).find('tbody > tr > td:nth-child(2)').each((i, el) => {
             totalToDate.push($(el).text())
-            // console.log(totalToDate)
         })
 
         $(el).find('tbody > tr > td:nth-child(3)').each((i, el) => {
             newInLast.push($(el).text())
-            // console.log(newInLast)
         })
 
         for(let i =0; i<totalToDate.length; i++){
@@ -36,7 +34,6 @@ export async function findCovidDataOvertheTime(githubData){
     const $ = cheerio.load(githubData)
     const totalcasesOvertimeNumber = $('#LC172')
     const totalcasesOvertimeDate = $('#LC1')
-    // const dataFormatted = {Casedate:[], totalCases:[]}
     const totalConfirmedCases = []
     const dates = []
     const cases = []
@@ -51,20 +48,15 @@ export async function findCovidDataOvertheTime(githubData){
         })
     })
  
-    // console.log('github', cases[78], dates[77])
     for(let i = 5 ; i< cases.length; i++){
         totalConfirmedCases.push(dates[i - 1], cases[i])
-        // dataFormatted.Casedate.push(dates[i - 1])
-        // dataFormatted.totalCases.push(cases[i])
     }
-    // console.log(dataFormatted.Casedate, dataFormatted.totalCases)
     return totalConfirmedCases
 }
 
 export async function covid19TotalCount(){
     const ministryofHealthData = await getHTML(URL.currentcases)
     const totalCases = await findCovid19TotalCases(ministryofHealthData)
-    // console.log(`Total number of cases including probable cases in New Zealand: ${totalCases}`)
     return totalCases
 }
 
@@ -72,6 +64,5 @@ export async function covid19TotalOverTime(){
     
     const githubData = await getHTML(URL.githubCSSEGISandData)
     const casesOverTime = await findCovidDataOvertheTime(githubData)
-    // console.log(`Total number of cases including probable cases in New Zealand: ${casesOverTime}`)
     return casesOverTime
 }
