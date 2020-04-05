@@ -1,6 +1,6 @@
 const router = require('express').Router()
 const Nzdata = require('../Models/CovidNzData.model')
-const {covid19TotalCount} = require('../ScrapeApi/ScrapeApi')
+const {covid19TotalCount, covid19TotalOverTime} = require('../ScrapeApi/ScrapeApi')
 const {ManageDb} = require('../db/db')
 
 
@@ -11,9 +11,11 @@ router.route('/').get(async (req, res) => {
 })
 
 router.route('/stats').get(async(req, res)=>{
-     Nzdata.find()
-    .then(caseResult => res.json(caseResult))
-    .catch(err => res.status(400).json('Error: ' + err))
+    const overData = await covid19TotalOverTime()
+    return res.json(overData)
+    //  Nzdata.find()
+    // .then(caseResult => res.json(caseResult))
+    // .catch(err => res.status(400).json('Error: ' + err))
 })
 module.exports = router
 

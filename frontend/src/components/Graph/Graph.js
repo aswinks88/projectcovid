@@ -30,7 +30,7 @@ export class Graph extends Component {
     componentDidMount(){
         axios.get('http://localhost:5000/stats')
         .then(res => {
-            console.log(res.data[0].totalcases)
+            console.log(1 , res.data)
         })
     }
     render() {
