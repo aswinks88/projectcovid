@@ -11,6 +11,10 @@
 .navbar-header{
     padding: 10px 7px;
 }
+.navbar-header h2{
+    /* font-size: 30px; */
+    text-align: center;
+}
 section.content{
     margin: 100px 15px 15px 0px;
     -moz-transition: 0.5s;

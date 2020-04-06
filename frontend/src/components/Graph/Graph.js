@@ -71,13 +71,13 @@ export class Graph extends Component {
                            <div className='header'>
                                 <div className='row clearfix'>
                                      <div className='col-xs-12 col-sm-6'>
-                                          <h2>Confirmed cases</h2>
+                                          <h4>Confirmed cases</h4>
                                      </div>
                                 </div>
                            </div>
                            <div className='body'>
                                 <div className='chart' style={{display: 'block'}}>
-                                <Bar
+                                <Line
                                       data={this.state.chartData}
                                       width={765}
                                       height={275}

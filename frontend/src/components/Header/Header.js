@@ -8,14 +8,14 @@ export default function Header(props) {
          <nav className='navbar' style={{backgroundColor: 'red', color: 'white'}}>
                <div className='container-fluid'>
                     <div className='navbar-header'>
-                         <h4 className='navbar-brand'>Covid-19 Tracker</h4>
+                         <h2>Covid-19 Tracker</h2>
                     </div>
                </div>
           </nav>
           <section className='content'>
           <div className='container-fluid'>
                <div className='block-header'>
-                    <h2>Summary</h2>
+                    <h4>Summary</h4>
                </div>
                <div className='row clearfix'>
                     <div className='col-12 col-lg-6 col-xl'>
