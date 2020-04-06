@@ -1,5 +1,7 @@
 import React from 'react'
 import './Header.css'
+import Graph from '../Graph/Graph'
+
 export default function Header(props) {
     return (
          <div>
@@ -102,7 +104,7 @@ export default function Header(props) {
                     </div>
                </div>
           </div>
-                                   
+          <Graph/>                  
           </section>
           
            
