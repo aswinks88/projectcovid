@@ -15,7 +15,7 @@ function App() {
       {/* <Header /> */}
     {/* <p className='navbar-brand'>Covid Tracker</p> */}
       <SummaryofCovid />
-      {/* <Maps /> */}
+      <Maps />
     </div>
   );
 }
