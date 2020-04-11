@@ -1,13 +1,7 @@
 import React, { Component } from 'react'
 import L from 'leaflet'
 import 'leaflet/dist/leaflet.css'
-import {chain} from 'stream-chain'
-import {parser} from 'stream-json'
-import {pick} from 'stream-json/filters/Pick'
-import {ignore}  from 'stream-json/filters/Ignore'
-import {streamValues} from 'stream-json/streamers/StreamValues'
-import fs from 'fs'
-import zlib from 'zlib'
+import axios from 'axios'
 // import {GeoJSON} from 'react-leaflet'
 // import statesData from './nz-district'
 import statesData from './nz-district-data.json'
@@ -15,8 +9,14 @@ import statesData from './nz-district-data.json'
 export default class Leaflet extends Component {
     constructor(props){
         super(props)
+        this.state = {
+            dhb : '',
+            totalcases: '',
+            lasttewntyfourhrs: ''
+        }
         this.getColor = this.getColor.bind(this)
         this.mapStyle = this.mapStyle.bind(this)
+        this.fetchDHBdata = this.fetchDHBdata.bind(this)
     }
     getColor(d){
         return d > 200  ? '#E31A1C' :
@@ -28,7 +28,7 @@ export default class Leaflet extends Component {
     }
     mapStyle(){
         return {
-            fillColor: this.getColor(100),
+            fillColor: this.getColor(200),
             weight: 2,
             opacity: 1,
             color: 'white',
@@ -37,7 +37,32 @@ export default class Leaflet extends Component {
 
         }
     }
+    fetchDHBdata(){
+        axios.get('http://localhost:5000')
+        .then(res => {
+            // let dhb = []
+            // let totalcases = []
+            // let lasttewntyfourhrs = []
+            // for (let i = 12; i< res.data.length ; i++)
+            // {
+            //     if(i % 3 === 0){
+            //         dhb.push(res.data[i])
+            //     } 
+            // }
+            // console.log(res.data)
+            res.data.filter((data, i) => {
+                if(i >=12){
+                    // console.log(data, i)
+                    return console.log(data)
+                }
+            })
+            // this.setState({
+            //     nzDHBData: res.data
+            // })
+        })
+    }
     componentDidMount(){
+        this.fetchDHBdata()
         this.map = L.map('map', {
             center: [-40.9006,174.886],
             zoom: 6,

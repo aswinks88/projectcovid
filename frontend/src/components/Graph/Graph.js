@@ -5,24 +5,10 @@ import './Graph.css'
 export class Graph extends Component {
     constructor(props){
         super(props)
-        console.log(1,this.props.data)
+        // console.log(1,this.props.data)
 
         this.state = {
-            chartData:{},
-            data:{
-                labels:['1','2','3','4','5','6'],
-                datasets: [
-                    {
-                        label: 'test graph',
-                        backgroundColor: "rgba(255,0,255,0.75)",
-                        data: [4,5,1,10,32,2,12]
-                    },{
-                        label: 'Subscription',
-                        backgroundColor: "rgba(0,255,0,0.75)",
-                        data: [4,15,11,15,42,12,22]
-                    }
-                ]
-            }
+            chartData:{}
         }
         // console.log(this.state.chartData)
         
@@ -54,7 +40,7 @@ export class Graph extends Component {
                         }
                     })
             
-            console.log(1 ,this.state.chartData.labels, this.state.chartData.datasets)
+            // console.log(1 ,this.state.chartData.labels, this.state.chartData.datasets)
             // this.setState({
             //     labels: res.data
             // })

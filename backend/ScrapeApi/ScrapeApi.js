@@ -11,30 +11,60 @@ export async function getHTML(url){
 export async function findCovid19TotalCases(ministryofHealthData){
     const $ = cheerio.load(ministryofHealthData)
     const summaryData = $('.table-style-two').first()
-    let totalSummaryofCases = []
-    let totalToDate = []
-    let newInLast = []
-    summaryData.each((i, el) => {
-        $(el).find('tbody > tr > td:nth-child(2)').each((i, el) => {
-            totalToDate.push($(el).text())
-        })
+    const casesbyDHB = $('.table-style-two').eq(1)
+    const summary = []
 
-        $(el).find('tbody > tr > td:nth-child(3)').each((i, el) => {
-            newInLast.push($(el).text())
+    // function fetchDataofSummaryTable() {
+        $(summaryData).each((i, el) => {
+            const $element = $(el)
+            const summaryofCases = $element.find('tbody > tr > th')
+            const $totalToDate = $element.find('tbody > tr > td:nth-child(2)')
+            const $newInLast = $element.find('tbody > tr > td:nth-child(3)')
+            for(let i=0; i < $totalToDate.length; i++){
+                
+                const summaryofTable = {
+                    casesSummaryHead: summaryofCases.eq(i).text(),
+                    TotaltoDate: $totalToDate.eq(i).text(),
+                    last: $newInLast.eq(i).text()
+                }  
+            summary.push(summaryofTable)
+            }
+           
+            // console.log(summary)
+            // return summary
         })
+    // }
+    return summary
 
-        for(let i =0; i<totalToDate.length; i++){
-            totalSummaryofCases.push(`${totalToDate[i]}`,  `${newInLast[i]}`)
-        }
-    })
-    return totalSummaryofCases
+//     casesbyDHB.each((i, el) => {
+//         $(el).find('tbody > tr > td:nth-child(1)').each((i, el) => {
+//             totalCasesDhb.dhb.push($(el).text())
+//         })
+//         // console.log(totalCasesDhb)
+//         $(el).find('tbody > tr > td:nth-child(2)').each((i, el) => {
+//             totalCasesDhb.totalcases.push($(el).text())
+//         })
+//         $(el).find('tbody > tr > td:nth-child(3)').each((i, el) => {
+//             totalCasesDhb.lastTwentyfourhrs.push($(el).text())
+//         })
+
+//         // console.log(totalCasesDhb.dhb)
+//         // console.log(totalSummaryofCases)
+//     })
+//     totalSummaryofCases.push(totalCasesDhb)
+//         // console.log(totalSummaryofCases)
+
+//     let promises = await Promise.all(totalSummaryofCases)
+//     // console.log(totalSummaryofCases[13])
+
+//     return promises
 }
 
 export async function findCovidDataOvertheTime(githubData){
     const $ = cheerio.load(githubData)
     const totalcasesOvertimeNumber = $('#LC172')
     const totalcasesOvertimeDate = $('#LC1')
-    const totalConfirmedCases = []
+    const  totalConfirmedCases = []
     const dates = []
     const cases = []
     totalcasesOvertimeDate.each((i, el) => {
@@ -47,8 +77,9 @@ export async function findCovidDataOvertheTime(githubData){
             cases.push($(el).text().replace(/^\s+|\s+$|\s+(?=\s)/g, ""))
         })
     })
- 
-    for(let i = 5 ; i< cases.length; i++){
+    //here variable i is initialised to 40 in order to move 40 places in the data table so that we can scrape the data
+    // from 26/02/20 2 days before the first case registered in NZ.
+    for(let i = 40 ; i< cases.length; i++){
         totalConfirmedCases.push(dates[i - 1], cases[i])
     }
     return totalConfirmedCases
@@ -57,6 +88,7 @@ export async function findCovidDataOvertheTime(githubData){
 export async function covid19TotalCount(){
     const ministryofHealthData = await getHTML(URL.currentcases)
     const totalCases = await findCovid19TotalCases(ministryofHealthData)
+    // console.log(totalCases)
     return totalCases
 }
 
