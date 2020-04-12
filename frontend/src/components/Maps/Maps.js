@@ -5,6 +5,8 @@ import axios from 'axios'
 // import {GeoJSON} from 'react-leaflet'
 // import statesData from './nz-district'
 import statesData from './nz-district-data.json'
+// import statesData from './nzdhb2.json'
+
 
 export default class Leaflet extends Component {
     constructor(props){
@@ -18,50 +20,18 @@ export default class Leaflet extends Component {
         this.mapStyle = this.mapStyle.bind(this)
         this.fetchDHBdata = this.fetchDHBdata.bind(this)
     }
-    getColor(d){
-        return d > 200  ? '#E31A1C' :
-        d > 100  ? '#FC4E2A' :
-        d > 50   ? '#FD8D3C' :
-        d > 20   ? '#FEB24C' :
-        d > 10   ? '#FED976' :
-                   '#FFEDA0'
-    }
-    mapStyle(){
-        return {
-            fillColor: this.getColor(200),
-            weight: 2,
-            opacity: 1,
-            color: 'white',
-            dashArray: '3',
-            fillOpacity: 0.7
-
-        }
-    }
     fetchDHBdata(){
-        axios.get('http://localhost:5000')
+        axios.get('http://localhost:5000/dhbdata')
         .then(res => {
-            // let dhb = []
-            // let totalcases = []
-            // let lasttewntyfourhrs = []
-            // for (let i = 12; i< res.data.length ; i++)
-            // {
-            //     if(i % 3 === 0){
-            //         dhb.push(res.data[i])
-            //     } 
-            // }
-            // console.log(res.data)
-            res.data.filter((data, i) => {
-                if(i >=12){
-                    // console.log(data, i)
-                    return console.log(data)
-                }
+            res.data.map(data => {
+                console.log(data.cases)
             })
-            // this.setState({
-            //     nzDHBData: res.data
-            // })
+            // console.log(res.data)
         })
     }
+
     componentDidMount(){
+
         this.fetchDHBdata()
         this.map = L.map('map', {
             center: [-40.9006,174.886],
@@ -77,6 +47,27 @@ export default class Leaflet extends Component {
         }).addTo(this.map)
         L.geoJSON(statesData, {style: this.mapStyle}).addTo(this.map)
     }
+    getColor(d){
+        return d > 15  ? '#800026' :
+        d > 10  ? '#FC4E2A' :
+        d > 5  ? '#FD8D3C' :
+        d > 2   ? '#FEB24C' :
+        d > 1   ? '#FED976' :
+                   '#FFEDA0'
+    }
+    mapStyle(feature){
+        return {
+            fillColor: this.getColor(feature.properties.DHB12),
+            weight: 2,
+            opacity: 1,
+            color: 'grey',
+            dashArray: '3',
+            fillOpacity: 0.7
+
+        }
+    }
+    
+   
    
     render(){
         return (

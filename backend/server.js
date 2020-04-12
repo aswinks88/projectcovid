@@ -3,6 +3,7 @@ import mongoose from 'mongoose'
 import cors from 'cors'
 import confirmedRoute from './Routes/CovidNzData.route'
 import Stats from './Routes/CovidNzData.route'
+import Dhbdata from './Routes/CovidNzData.route'
 require('dotenv').config({debug: process.env.DEBUG })
 
 const port = process.env.PORT || 5000
@@ -24,6 +25,7 @@ connection.once('open', () => {
 
 app.use('/', confirmedRoute)
 app.use('/stats', Stats)
+app.use('/dhbdata', Dhbdata)
 app.listen(port, () =>{
     console.log(`server is running on port: http://localhost:${port}`)
 })

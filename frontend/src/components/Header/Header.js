@@ -15,7 +15,7 @@ export default function Header(props) {
           return el.last
      })
      // const data = props.data
-     console.log(TotaltoDate)
+     // console.log(TotaltoDate)
     return (
          <div>
          <nav className='navbar' style={{backgroundColor: 'red', color: 'white'}}>
