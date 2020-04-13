@@ -38,7 +38,8 @@ export default class Leaflet extends Component {
         axios.get('http://localhost:5000/dhbdata')
         .then(res => {
             res.data.map(data => {
-                console.log(data)
+                // console.log(data)
+                return data
             })
             // console.log(res.data)
         })

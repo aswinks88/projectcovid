@@ -8,7 +8,8 @@ export class Graph extends Component {
         // console.log(1,this.props.data)
 
         this.state = {
-            chartData:{}
+            chartData:{},
+            dailyCases: {}
         }
         // console.log(this.state.chartData)
         
@@ -18,6 +19,7 @@ export class Graph extends Component {
         .then(res => {
             let dates = []
             let confirmedCases = []
+            const dailyCases = []
             for(let i=0; i < res.data.length; i++){
                 if(i % 2 === 0){
                     dates.push(res.data[i])
@@ -25,16 +27,34 @@ export class Graph extends Component {
                     confirmedCases.push(res.data[i])
                 }
             }
+            for(let i=0; i< confirmedCases.length; i++){
+                dailyCases.push(confirmedCases[i+1] - confirmedCases[i])
+                console.log(confirmedCases[i+1] , confirmedCases[i])
+            }
+            // console.log(dailyCases)
                     // console.log(i , res.data[i])
                     this.setState({
                         chartData:{
                             labels: dates,
                             datasets:[
                                 {
-                                    label: 'Total confirmed cases',
+                                    label: 'Total confirmed cases of COVID-19',
                                     backgroundColor: "rgb(0,139,139)",
                                     borderColor: 'rgb(255,255,255)',
                                     data:confirmedCases
+                                }
+                            ]
+                        }
+                    })
+                    this.setState({
+                        dailyCases:{
+                            labels: dates,
+                            datasets:[
+                                {
+                                    label: 'Daily confirmed cases of COVID-19',
+                                    backgroundColor: "rgb(0,139,139)",
+                                    borderColor: 'rgb(255,255,255)',
+                                    data:dailyCases
                                 }
                             ]
                         }
@@ -52,7 +72,7 @@ export class Graph extends Component {
              <div>
             {/* <section class='content'></section> */}
             <div className='row clearfix'>
-                 <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
+                 <div className='col-xs-12 col-sm-12 col-md-12 col-lg-12'>
                       <div className='card'>
                            <div className='header'>
                                 <div className='row clearfix'>
@@ -74,19 +94,19 @@ export class Graph extends Component {
                            </div>
                       </div>
                  </div>
-                 <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
+                 <div className='col-xs-12 col-sm-12 col-md-12 col-lg-12'>
                       <div className='card'>
                            <div className='header'>
                                 <div className='row clearfix'>
                                      <div className='col-xs-12 col-sm-6'>
-                                          <h4>Confirmed cases</h4>
+                                          <h4>Daily cases</h4>
                                      </div>
                                 </div>
                            </div>
                            <div className='body'>
                                 <div className='chart' style={{display: 'block'}}>
                                 <Bar
-                                      data={this.state.chartData}
+                                      data={this.state.dailyCases}
                                       width={765}
                                       height={275}
                                       options={{ aspectRatio:1, maintainAspectRatio: false, responsive: true }}

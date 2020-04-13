@@ -89,7 +89,7 @@ export default function Header(props) {
                          </div>
                          {/* <div className='number count-to'>{props.data[6]}</div> */}
                          <div className='number count-to'>{TotaltoDate[3]}
-                         (<i className="fas fa-arrow-down down-arrow"></i>{NewinLast[3]})
+                         (<i className="fas fa-arrow-up up-arrow"></i>{NewinLast[3]})
                          </div>
 
                     </div>
