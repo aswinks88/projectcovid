@@ -1,6 +1,6 @@
 import React, {useState,useEffect} from 'react'
 import './Header.css'
-import Graph from '../Graph/Graph'
+import Graph from '../Chart/Chart'
 
 export default function Header(props) {
      // const {Data, useData} = useState()
