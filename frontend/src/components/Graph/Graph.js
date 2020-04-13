@@ -5,24 +5,10 @@ import './Graph.css'
 export class Graph extends Component {
     constructor(props){
         super(props)
-        console.log(1,this.props.data)
+        // console.log(1,this.props.data)
 
         this.state = {
-            chartData:{},
-            data:{
-                labels:['1','2','3','4','5','6'],
-                datasets: [
-                    {
-                        label: 'test graph',
-                        backgroundColor: "rgba(255,0,255,0.75)",
-                        data: [4,5,1,10,32,2,12]
-                    },{
-                        label: 'Subscription',
-                        backgroundColor: "rgba(0,255,0,0.75)",
-                        data: [4,15,11,15,42,12,22]
-                    }
-                ]
-            }
+            chartData:{}
         }
         // console.log(this.state.chartData)
         
@@ -47,14 +33,14 @@ export class Graph extends Component {
                                 {
                                     label: 'Total confirmed cases',
                                     backgroundColor: "rgb(0,139,139)",
-                                    borderColor: 'rgb(255, 99, 132)',
+                                    borderColor: 'rgb(255,255,255)',
                                     data:confirmedCases
                                 }
                             ]
                         }
                     })
             
-            console.log(1 ,this.state.chartData.labels, this.state.chartData.datasets)
+            // console.log(1 ,this.state.chartData.labels, this.state.chartData.datasets)
             // this.setState({
             //     labels: res.data
             // })
@@ -66,7 +52,7 @@ export class Graph extends Component {
              <div>
             {/* <section class='content'></section> */}
             <div className='row clearfix'>
-                 <div className='col-xs-12 col-sm-12 col-md-12 col-lg-12'>
+                 <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
                       <div className='card'>
                            <div className='header'>
                                 <div className='row clearfix'>
@@ -78,6 +64,28 @@ export class Graph extends Component {
                            <div className='body'>
                                 <div className='chart' style={{display: 'block'}}>
                                 <Line
+                                      data={this.state.chartData}
+                                      width={765}
+                                      height={275}
+                                      options={{ aspectRatio:1, maintainAspectRatio: false, responsive: true }}
+                                  />
+                                </div>
+                                
+                           </div>
+                      </div>
+                 </div>
+                 <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
+                      <div className='card'>
+                           <div className='header'>
+                                <div className='row clearfix'>
+                                     <div className='col-xs-12 col-sm-6'>
+                                          <h4>Confirmed cases</h4>
+                                     </div>
+                                </div>
+                           </div>
+                           <div className='body'>
+                                <div className='chart' style={{display: 'block'}}>
+                                <Bar
                                       data={this.state.chartData}
                                       width={765}
                                       height={275}

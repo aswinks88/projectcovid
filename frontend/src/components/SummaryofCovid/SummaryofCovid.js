@@ -16,7 +16,7 @@ export default class SummaryofCovid extends Component {
         await axios.get('http://localhost:5000/')
         .then(res => {
             const stats = res.data
-            console.log(stats)
+            // console.log(stats)
             this.setState({
             data: stats
         })
