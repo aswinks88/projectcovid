@@ -4,32 +4,54 @@ import 'leaflet/dist/leaflet.css'
 import axios from 'axios'
 // import {GeoJSON} from 'react-leaflet'
 // import statesData from './nz-district'
-import statesData from './nz-district-data.json'
-// import statesData from './nzdhb2.json'
-
-
+// import statesData from './nz-district-data.json'
+import statesData from './nz1.json'
+import './Maps.css'
+let geojson
+var info = L.control()
+const cases_150 = "#E71D36"
+const cases_100 = "#2EC4B6"
+const cases_50 = "#EFFFE9"
+const cases_40 = "#011627"
+const cases_15 = "#509923"
+const cases_0 = "#3eb80e"
 export default class Leaflet extends Component {
     constructor(props){
         super(props)
-        this.state = {
-            dhb : '',
-            totalcases: '',
-            lasttewntyfourhrs: ''
+
+        this.state={
+            name: '',
+            cases: '',
+            updated: ''
+
         }
-        this.getColor = this.getColor.bind(this)
         this.mapStyle = this.mapStyle.bind(this)
+        this.getColor = this.getColor.bind(this)
         this.fetchDHBdata = this.fetchDHBdata.bind(this)
+        
+        this.resetHighlight = this.resetHighlight.bind(this)
+        this.zoomToFeature =this.zoomToFeature.bind(this)
+        this.highlightFeature = this.highlightFeature.bind(this)
+        this.onEachFeature = this.onEachFeature.bind(this)   
     }
     fetchDHBdata(){
         axios.get('http://localhost:5000/dhbdata')
         .then(res => {
             res.data.map(data => {
-                console.log(data.cases)
+                console.log(data)
             })
             // console.log(res.data)
         })
     }
 
+    getColor(d){
+        return d > 150  ?  cases_150:
+        d > 100  ?  cases_100 :
+        d > 50  ? cases_50 :
+        d > 40   ?  cases_40 :
+        d > 15   ?  cases_15 :
+        cases_0
+    }
     componentDidMount(){
 
         this.fetchDHBdata()
@@ -45,19 +67,12 @@ export default class Leaflet extends Component {
             maxZoom: 20,
             maxNativeZoom: 17
         }).addTo(this.map)
-        L.geoJSON(statesData, {style: this.mapStyle}).addTo(this.map)
+        geojson = L.geoJSON(statesData, {style: this.mapStyle,  onEachFeature: this.onEachFeature}).addTo(this.map)
     }
-    getColor(d){
-        return d > 15  ? '#800026' :
-        d > 10  ? '#FC4E2A' :
-        d > 5  ? '#FD8D3C' :
-        d > 2   ? '#FEB24C' :
-        d > 1   ? '#FED976' :
-                   '#FFEDA0'
-    }
+
     mapStyle(feature){
         return {
-            fillColor: this.getColor(feature.properties.DHB12),
+            fillColor: this.getColor(feature.properties.cases),
             weight: 2,
             opacity: 1,
             color: 'grey',
@@ -67,8 +82,42 @@ export default class Leaflet extends Component {
         }
     }
     
-   
-   
+   highlightFeature(e) {
+        var layer = e.target;
+        // console.log(layer.feature.properties)
+        this.setState({
+            name: layer.feature.properties.NAME,
+            cases: layer.feature.properties.cases
+        })
+        layer.setStyle({
+            weight: 5,
+            color: '#666',
+            dashArray: '',
+            fillOpacity: 0.7
+        });
+    
+        if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
+            layer.bringToFront();
+        }
+
+    }
+    resetHighlight(e) {
+        geojson.resetStyle(e.target);
+        this.setState({
+            name: ''
+        })
+    }
+    zoomToFeature(e) {
+        this.map.fitBounds(e.target.getBounds());
+    }
+    onEachFeature(feature, layer) {
+        layer.on({
+            mouseover: this.highlightFeature,
+            mouseout: this.resetHighlight,
+            click: this.zoomToFeature
+        });
+    }
+  
     render(){
         return (
            
@@ -77,10 +126,25 @@ export default class Leaflet extends Component {
                          <div className='col-lg-12 col-md-12 col-sm-12 col-xs-12'>
             <div className='card'>
                 <div className='header'>
-                <h2>DHB</h2>
+                <h2>Cases by DHB</h2>
                 </div>
                 <div className='body'>
                     <div style={{position: 'sticky', overflow: 'hidden'}}>
+                        {!this.state.name ? (
+                            <div className='hover'>Touch or Hover over an area</div>
+                        ) : (
+                                <div className='info'>
+                                <strong>DHB: {this.state.name}</strong>
+                                <span>Total Number of Cases: {this.state.cases}</span>
+                                </div>)}
+                    <div className = 'legend'>
+                            <div style={{"--color": cases_150}}>150+</div>
+                            <div style={{"--color": cases_100}}>100+</div>
+                            <div style={{"--color": cases_50}}>50+</div>
+                            <div style={{"--color": cases_40}}>40+</div>
+                            <div style={{"--color": cases_15}}>15+</div>
+                            <div style={{"--color": cases_0}}>0+</div>
+                    </div>
                     <div style={{width:'100%', height:'720px'}} id='map'></div>
                     </div>
                    
