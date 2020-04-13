@@ -31,28 +31,6 @@ export async function findCovid19TotalCases(ministryofHealthData){
             }
         })
 
-    
-
-        // $(el).find('tbody > tr > td:nth-child(1)').each((i, el) => {
-        //     totalCasesDhb.dhb.push($(el).text())
-        // })
-        // // console.log(totalCasesDhb)
-        // $(el).find('tbody > tr > td:nth-child(2)').each((i, el) => {
-        //     totalCasesDhb.totalcases.push($(el).text())
-        // })
-        // $(el).find('tbody > tr > td:nth-child(3)').each((i, el) => {
-        //     totalCasesDhb.lastTwentyfourhrs.push($(el).text())
-        // })
-
-        // console.log(totalCasesDhb.dhb)
-        // console.log(totalSummaryofCases)
-//     totalSummaryofCases.push(totalCasesDhb)
-//         // console.log(totalSummaryofCases)
-
-//     let promises = await Promise.all(totalSummaryofCases)
-//     // console.log(totalSummaryofCases[13])
-
-//     return promises
 return summary
 
 }
