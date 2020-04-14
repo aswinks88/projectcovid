@@ -6,7 +6,8 @@ import fs from 'fs'
 const URL = {currentcases: 'https://www.health.govt.nz/our-work/diseases-and-conditions/covid-19-novel-coronavirus/covid-19-current-situation/covid-19-current-cases',
                 currentcasesdetails:'https://www.health.govt.nz/our-work/diseases-and-conditions/covid-19-novel-coronavirus/covid-19-current-situation/covid-19-current-cases/covid-19-current-cases-details',
             githubCSSEGISandData:'https://github.com/CSSEGISandData/COVID-19/blob/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv',
-            recoveryDataCSSEGIS: 'https://github.com/CSSEGISandData/COVID-19/blob/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_recovered_global.csv'}
+            recoveryDataCSSEGIS: 'https://github.com/CSSEGISandData/COVID-19/blob/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_recovered_global.csv',
+        deathRateCSSEGIS: 'https://github.com/CSSEGISandData/COVID-19/blob/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_deaths_global.csv'}
 export async function getHTML(url){
     const {data: html} = await axios.get(url)
     return html
@@ -113,7 +114,8 @@ export async function findCovidDataOvertheTime(githubData){
     return totalConfirmedCases
 }
 
-export async function fetchRecoveryData(csseDatalink){
+export async function fetchRecoveryData(csseDatalink, deathRateLink){
+    //loading recovery rate URL
 const $ = cheerio.load(csseDatalink)
 const recoveryData = $('#LC169')
 const recoveryDates = $('#LC1')
@@ -131,11 +133,30 @@ recoveryDates.each((i, el) => {
         dates.push($(el).text())
     })
 })
+
+//loading death rate URL
+const $$ = cheerio.load(deathRateLink)
+// const deathRatedate = $$('#LC1')
+const deathCases = $$('#LC172')
+const totalDeathRate = []
+const dailyDeathrate = []
+deathCases.each((i, el) => {
+    $$(el).find('td').each((i, el) => {
+        dailyDeathrate.push($$(el).text())
+    })
+})
+console.log(dailyDeathrate)
 for(let i =60; i<recoveryCases.length; i++){
     totalRecoverydata.push(dates[i - 1], recoveryCases[i])
 }
+for(let i =60; i<dailyDeathrate.length; i++){
+    totalDeathRate.push(dailyDeathrate[i])
+}
+
+
 // console.log(totalRecoverydata.html())
-return  totalRecoverydata
+return  {totalRecoverydata,
+    totalDeathRate}
 }
 
 
@@ -162,6 +183,7 @@ export async function covid19TotalOverTime(){
 
 export async function recoveryDataCount(){
     const recoveryDatagithub = await getHTML(URL.recoveryDataCSSEGIS)
-    const recoveryResults = await fetchRecoveryData(recoveryDatagithub)
+    const deathRate = await getHTML(URL.deathRateCSSEGIS)
+    const recoveryResults = await fetchRecoveryData(recoveryDatagithub, deathRate)
     return recoveryResults
 }
