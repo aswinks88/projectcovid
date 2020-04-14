@@ -102,8 +102,14 @@ export async function findCovidDataOvertheTime(githubData){
     //here variable i is initialised to 40 in order to move 40 places in the data table so that we can scrape the data
     // from 26/02/20 2 days before the first case registered in NZ.
     for(let i = 40 ; i< cases.length; i++){
-        totalConfirmedCases.push(dates[i - 1], cases[i])
+        totalConfirmedCases.push(dates[i - 1], cases[i])  
     }
+    totalConfirmedCases.filter(filterDate => {
+        if(filterDate === '3/22/20'){
+           const index =  totalConfirmedCases.indexOf('102')
+           totalConfirmedCases[index] = '66'
+        }
+    })
     return totalConfirmedCases
 }
 

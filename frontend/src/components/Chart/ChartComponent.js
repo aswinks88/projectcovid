@@ -14,7 +14,7 @@ const ChartComponent = (props) => {
                            </div>
                            <div className='body'>
                                 <div className='chart' style={{display: 'block'}}>
-                                <Bar
+                                <Line
                                       data={props.data}
                                       width={765}
                                       height={275}
