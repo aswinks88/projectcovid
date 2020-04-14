@@ -5,7 +5,8 @@ import fs from 'fs'
 // import filesjson from ''
 const URL = {currentcases: 'https://www.health.govt.nz/our-work/diseases-and-conditions/covid-19-novel-coronavirus/covid-19-current-situation/covid-19-current-cases',
                 currentcasesdetails:'https://www.health.govt.nz/our-work/diseases-and-conditions/covid-19-novel-coronavirus/covid-19-current-situation/covid-19-current-cases/covid-19-current-cases-details',
-            githubCSSEGISandData:'https://github.com/CSSEGISandData/COVID-19/blob/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv'}
+            githubCSSEGISandData:'https://github.com/CSSEGISandData/COVID-19/blob/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv',
+            recoveryDataCSSEGIS: 'https://github.com/CSSEGISandData/COVID-19/blob/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_recovered_global.csv'}
 export async function getHTML(url){
     const {data: html} = await axios.get(url)
     return html
@@ -106,6 +107,35 @@ export async function findCovidDataOvertheTime(githubData){
     return totalConfirmedCases
 }
 
+export async function fetchRecoveryData(csseDatalink){
+const $ = cheerio.load(csseDatalink)
+const recoveryData = $('#LC169')
+const recoveryDates = $('#LC1')
+const totalRecoverydata = []
+const dates = []
+const recoveryCases = []
+recoveryData.each((i, el) => {
+    $(el).find('td').each((i, el)=>{
+        recoveryCases.push($(el).text().replace(/^\s+|\s+$|\s+(?=\s)/g, ""))
+    })
+})
+
+recoveryDates.each((i, el) => {
+    $(el).find('th').each((i, el)=>{
+        dates.push($(el).text())
+    })
+})
+for(let i =60; i<recoveryCases.length; i++){
+    totalRecoverydata.push(dates[i - 1], recoveryCases[i])
+}
+// console.log(totalRecoverydata.html())
+return  totalRecoverydata
+}
+
+
+
+
+
 export async function covid19TotalCount(){
     const ministryofHealthData = await getHTML(URL.currentcases)
     const totalCases = await findCovid19TotalCases(ministryofHealthData)
@@ -122,4 +152,10 @@ export async function covid19TotalOverTime(){
     const githubData = await getHTML(URL.githubCSSEGISandData)
     const casesOverTime = await findCovidDataOvertheTime(githubData)
     return casesOverTime
+}
+
+export async function recoveryDataCount(){
+    const recoveryDatagithub = await getHTML(URL.recoveryDataCSSEGIS)
+    const recoveryResults = await fetchRecoveryData(recoveryDatagithub)
+    return recoveryResults
 }
