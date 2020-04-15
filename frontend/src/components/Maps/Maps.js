@@ -22,7 +22,7 @@ export default class Leaflet extends Component {
         this.state={
             name: '',
             cases: '',
-            updated: ''
+            changes: ''
 
         }
         this.mapStyle = this.mapStyle.bind(this)
@@ -88,7 +88,8 @@ export default class Leaflet extends Component {
         // console.log(layer.feature.properties)
         this.setState({
             name: layer.feature.properties.NAME,
-            cases: layer.feature.properties.cases
+            cases: layer.feature.properties.cases,
+            changes: layer.feature.properties.changes
         })
         layer.setStyle({
             weight: 5,
@@ -137,6 +138,7 @@ export default class Leaflet extends Component {
                                 <div className='info'>
                                 <strong>DHB: {this.state.name}</strong>
                                 <span>Total Number of Cases: {this.state.cases}</span>
+                                <span>Changes in last 24 hours: {this.state.changes}</span>
                                 </div>)}
                     <div className = 'legend'>
                             <div style={{"--color": cases_150}}>150+</div>
@@ -146,7 +148,7 @@ export default class Leaflet extends Component {
                             <div style={{"--color": cases_15}}>15+</div>
                             <div style={{"--color": cases_0}}>0+</div>
                     </div>
-                    <div style={{width:'100%', height:'720px'}} id='map'></div>
+                    <div style={{width:'100%', height:'500px'}} id='map'></div>
                     </div>
                    
                 </div>

@@ -1,22 +1,41 @@
 import axios from 'axios'
 import cheerio from 'cheerio'
 import fs from 'fs'
+import Path from 'path'
 // import filesjson from '../../frontend/src/components/Maps/nz-district-data.json'
 // import filesjson from ''
 const URL = {currentcases: 'https://www.health.govt.nz/our-work/diseases-and-conditions/covid-19-novel-coronavirus/covid-19-current-situation/covid-19-current-cases',
-                currentcasesdetails:'https://www.health.govt.nz/our-work/diseases-and-conditions/covid-19-novel-coronavirus/covid-19-current-situation/covid-19-current-cases/covid-19-current-cases-details',
+            currentcasesdetails:'https://www.health.govt.nz/our-work/diseases-and-conditions/covid-19-novel-coronavirus/covid-19-current-situation/covid-19-current-cases/covid-19-current-cases-details',
             githubCSSEGISandData:'https://github.com/CSSEGISandData/COVID-19/blob/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv',
             recoveryDataCSSEGIS: 'https://github.com/CSSEGISandData/COVID-19/blob/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_recovered_global.csv',
-        deathRateCSSEGIS: 'https://github.com/CSSEGISandData/COVID-19/blob/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_deaths_global.csv'}
+            deathRateCSSEGIS: 'https://github.com/CSSEGISandData/COVID-19/blob/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_deaths_global.csv'}
 export async function getHTML(url){
     const {data: html} = await axios.get(url)
     return html
 }
 
-export async function findCovid19TotalCases(ministryofHealthData){
+export async function findCovid19TotalCases(ministryofHealthData,  currentcasesdetails){
     const $ = cheerio.load(ministryofHealthData)
     const summaryData = $('.table-style-two').first()
     const summary = []
+    //scraping the download link from another page but from the same site
+    const $$ = cheerio.load(currentcasesdetails)
+    const totlCasesPage = $$('.field-item')
+    const downloadLink = []
+    $$(totlCasesPage).each((i,el)=>{
+        const pageContent = $$(el)
+        const anchorTag = pageContent.find('ul').eq(1).find('li > a')
+        downloadLink.push(anchorTag.attr('href'))
+    })
+    console.log(1, downloadLink[0])
+
+const path = Path.resolve(__dirname, 'files', 'cases.csv')
+axios.get(`https://www.health.govt.nz${downloadLink[0]}`, {responseType: 'stream'})
+.then(response => {
+    response.data.pipe(fs.createWriteStream(path))
+})
+// console.log(res.data.length)
+// currentcasesdetails.data.pipe(fs.createWriteStream(path))
         $(summaryData).each((i, el) => {
             const $element = $(el)
             const summaryofCases = $element.find('tbody > tr > th')
@@ -73,6 +92,7 @@ export async function casesbyDHB(ministryofHealthData){
     //         // console.log(parsedJsonData.features[i].properties.NAME, casesinDHB[j].Place, parsedJsonData.features[i].properties.DHB12)
 
     //         parsedJsonData[i].properties.cases = casesinDHB[j].cases
+    //         parsedJsonData[i].properties.changes = casesinDHB[j].changes
     //                 fs.writeFile('../frontend/src/components/Maps/nz1.json',  JSON.stringify(parsedJsonData), (err) =>{
     //                     console.log(err)
     //                 }) 
@@ -145,7 +165,7 @@ deathCases.each((i, el) => {
         dailyDeathrate.push($$(el).text())
     })
 })
-console.log(dailyDeathrate)
+// console.log(dailyDeathrate)
 for(let i =60; i<recoveryCases.length; i++){
     totalRecoverydata.push(dates[i - 1], recoveryCases[i])
 }
@@ -165,7 +185,8 @@ return  {totalRecoverydata,
 
 export async function covid19TotalCount(){
     const ministryofHealthData = await getHTML(URL.currentcases)
-    const totalCases = await findCovid19TotalCases(ministryofHealthData)
+    const currentcasesdetails = await getHTML(URL.currentcasesdetails)
+    const totalCases = await findCovid19TotalCases(ministryofHealthData,  currentcasesdetails)
     return totalCases
 }
 export async function TotalCasesbyDHB(){

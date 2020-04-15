@@ -1,6 +1,6 @@
 import React, {useState,useEffect} from 'react'
 import './Header.css'
-import Graph from '../Chart/Chart'
+// import Graph from '../Chart/Chart'
 
 export default function Header(props) {
      // const {Data, useData} = useState()
@@ -123,7 +123,7 @@ export default function Header(props) {
                     
                </div>
           </div>
-          <Graph/>                  
+          {/* <Graph/>                   */}
           </section>
           
            

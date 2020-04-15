@@ -74,7 +74,7 @@ export class Chart extends Component {
                         data:recoveryCases
                     },
                     {
-                        label: 'Recovery rate of COVID-19 cases',
+                        label: 'Death rate of COVID-19 cases',
                         backgroundColor: "red",
                         borderColor: 'rgb(255,255,255)',
                         data:deathRate
