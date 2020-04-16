@@ -22,7 +22,10 @@ export default class Leaflet extends Component {
         this.state={
             name: '',
             cases: '',
-            changes: ''
+            active: '',
+            recovered: '',
+            changes: '',
+            deceased: ''
 
         }
         this.mapStyle = this.mapStyle.bind(this)
@@ -73,7 +76,7 @@ export default class Leaflet extends Component {
 
     mapStyle(feature){
         return {
-            fillColor: this.getColor(feature.properties.cases),
+            fillColor: this.getColor(feature.properties.total),
             weight: 2,
             opacity: 1,
             color: 'grey',
@@ -88,7 +91,10 @@ export default class Leaflet extends Component {
         // console.log(layer.feature.properties)
         this.setState({
             name: layer.feature.properties.NAME,
-            cases: layer.feature.properties.cases,
+            active: layer.feature.properties.active,
+            recovered: layer.feature.properties.recovered,
+            total: layer.feature.properties.total,
+            deceased:  layer.feature.properties.deceased,
             changes: layer.feature.properties.changes
         })
         layer.setStyle({
@@ -137,7 +143,10 @@ export default class Leaflet extends Component {
                         ) : (
                                 <div className='info'>
                                 <strong>DHB: {this.state.name}</strong>
-                                <span>Total Number of Cases: {this.state.cases}</span>
+                                <span>Total Number of Cases: {this.state.total}</span>
+                                <span>Active :{this.state.active}</span>
+                                <span>Recovered :{this.state.recovered}</span>
+                                <span>Deceased :{this.state.deceased}</span>
                                 <span>Changes in last 24 hours: {this.state.changes}</span>
                                 </div>)}
                     <div className = 'legend'>
