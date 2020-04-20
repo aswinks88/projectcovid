@@ -9,12 +9,13 @@ import statesData from './nz1.json'
 import './Maps.css'
 let geojson
 var info = L.control()
-const cases_150 = "#E71D36"
-const cases_100 = "#2EC4B6"
-const cases_50 = "#EFFFE9"
-const cases_40 = "#011627"
-const cases_15 = "#509923"
-const cases_0 = "#3eb80e"
+const cases_150 = "#188977"
+const cases_100 = "#56B870"
+const cases_50 = "#74C67A"
+const cases_40 = "#99D492"
+const cases_15 = "#BFE1B0"
+const cases_0 = "#DEEDCF"
+
 export default class Leaflet extends Component {
     constructor(props){
         super(props)
@@ -37,8 +38,8 @@ export default class Leaflet extends Component {
         this.highlightFeature = this.highlightFeature.bind(this)
         this.onEachFeature = this.onEachFeature.bind(this)   
     }
-    fetchDHBdata(){
-        axios.get('http://localhost:5000/dhbdata')
+   async fetchDHBdata(){
+        await axios.get('http://localhost:5000/dhbdata')
         .then(res => {
             res.data.map(data => {
                 // console.log(data)
@@ -62,14 +63,16 @@ export default class Leaflet extends Component {
         this.map = L.map('map', {
             center: [-40.9006,174.886],
             zoom: 6,
-            zoomControl: false
+            zoomControl: true
         })
         // https://tiles.stadiamaps.com/tiles/alidade_smooth/{z}/{x}/{y}{r}.png
         // https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png
+        // https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}
         L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}', {
             detectRetina: true,
             maxZoom: 20,
-            maxNativeZoom: 17
+            maxNativeZoom: 17,
+            attribution: '&copy; <a href = https://koordinates.com/>Koordinates</a> | &copy; <a href=https://www.esri.com/en-us/home>Esri</a> | &copy; <a href=https://www.here.com/> HERE</a>| &copy; <a href=https://www.openstreetmap.org/copyright/> OpenStreetMap</a> contributors | &copy; GIS user community'
         }).addTo(this.map)
         geojson = L.geoJSON(statesData, {style: this.mapStyle,  onEachFeature: this.onEachFeature}).addTo(this.map)
     }
@@ -132,11 +135,12 @@ export default class Leaflet extends Component {
                 <div className='container-fluid'>
                     <div className='row clearfix'>
                          <div className='col-lg-12 col-md-12 col-sm-12 col-xs-12'>
-            <div className='card'>
+            
+                <div className='body'>
+                <div className='card'>
                 <div className='header'>
                 <h2>Cases by DHB</h2>
                 </div>
-                <div className='body'>
                     <div style={{position: 'sticky', overflow: 'hidden'}}>
                         {!this.state.name ? (
                             <div className='hover'>Touch or Hover over an area</div>

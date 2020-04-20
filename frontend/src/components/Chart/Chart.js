@@ -8,19 +8,22 @@ export class Chart extends Component {
 
         this.state = {
             chartData:{},
-            dailyCases: {}
+            dailyCases: {},
+            dhb:{}
         }      
         this.confirmedCasesHandler = this.confirmedCasesHandler.bind(this)
         this.deathandrecoveryRateHandler = this.deathandrecoveryRateHandler.bind(this)
+        this.dhbHandler = this.dhbHandler.bind(this)
     }
-    componentDidMount(){
+   async componentDidMount(){
      
-      this.confirmedCasesHandler()
-      this.deathandrecoveryRateHandler()
+      await this.confirmedCasesHandler()
+      await this.deathandrecoveryRateHandler()
+      await this.dhbHandler()
             
     }
-    confirmedCasesHandler(){
-        axios.get('http://localhost:5000/stats')
+    async confirmedCasesHandler(){
+        await axios.get('http://localhost:5000/stats')
         .then(res => {
         let dates = []
         let confirmedCases = []
@@ -46,13 +49,13 @@ export class Chart extends Component {
         })
     })
     }
-    deathandrecoveryRateHandler(){
-        axios.get('http://localhost:5000/recovery')
+   async deathandrecoveryRateHandler(){
+        await axios.get('http://localhost:5000/recovery')
         .then(res =>{
             const dates = []
             const recoveryCases = []
             const deathRate = []
-            console.log(res.data.totalRecoverydata.length)
+            // console.log(res.data.totalRecoverydata)
             for(let i = 0; i< res.data.totalRecoverydata.length;i++){
                 if(i % 2 === 0 ){
                     dates.push(res.data.totalRecoverydata[i])
@@ -60,6 +63,7 @@ export class Chart extends Component {
                     recoveryCases.push(res.data.totalRecoverydata[i])
                 }
             }
+            console.log(recoveryCases)
             for(let i = 0; i < res.data.totalDeathRate.length; i++){
                 deathRate.push(res.data.totalDeathRate[i])
             }
@@ -84,12 +88,81 @@ export class Chart extends Component {
         })
         })
     }
+    async dhbHandler(){
+        await axios.get('http://localhost:5000/dhbdata')
+        .then(res => {
+            // console.log(1, res.data)
+            const place = []
+            const cases = []
+            const deseased = []
+            const recovered = []
+            const active = []
+            for(let i = 0 ; i < res.data.length - 1; i++)
+            {
+                place.push(res.data[i].Place)
+                cases.push(res.data[i].total)
+                deseased.push(res.data[i].deceased)
+                recovered.push(res.data[i].recovered)
+                active.push(res.data[i].cases)
+            }
+            console.log( cases)
+            this.setState({
+               dhb: {
+                labels: place,
+                datasets:[
+                
+                {
+                    stack: 'stack1',
+                    label: 'Total cases',
+                    backgroundColor: "blue",
+                    
+                    fillOpacity: 0,
+                    borderColor: 'rgb(255,255,255)',
+                    data: cases
+            },
+            {
+                stack: 'stack1',
+                label: 'Total recovered',
+              
+                backgroundColor: "green",
+                borderColor: 'rgb(255,255,255)',
+                data: recovered
+        },
+        {
+            stack: 'stack1',
+            label: 'Active Cases',
+           
+            backgroundColor: 'rgb(222,207,0)',
+            borderColor: 'rgb(255,255,255)',
+            data: active
+    },
+        {
+            stack: 'stack1',
+            label: 'Total Death',
+            
+            backgroundColor: "red",
+            borderColor: 'rgb(255,255,255)',
+            data: deseased
+        }
+        
+                ],
+                options: {
+                    scales: {
+                        yAxes:[{stacked: true}]
+                    }
+                }
+                
+            }
+            })
+        })
+    }
     render() {
         return (
              <div>
             <div className='row clearfix'>
-            <ChartComponent name={<h4>Total Confirmed Cases</h4>} data = {this.state.chartData}/>
-            <ChartComponent name={<h4>Recovery rate vs Death rate</h4>} data = {this.state.dailyCases}/>               
+            <ChartComponent name={<h4>Total Confirmed Cases</h4>} data = {this.state.chartData} chartType='line'/>
+            <ChartComponent name={<h4>Recovery rate vs Death rate</h4>} data = {this.state.dailyCases} chartType='line'/>    
+            <ChartComponent name={<h4>Cases by DHB</h4>} data = {this.state.dhb} chartType='hbar'/>               
             </div>
           </div>
         )
@@ -118,3 +191,5 @@ export default Chart
 //                 ]
 //             }
 //         })
+
+ 

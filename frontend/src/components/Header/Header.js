@@ -67,6 +67,7 @@ export default function Header(props) {
                          </div>
                          {/* <div className='number count-to'>{props.data[8]}</div> */}
                          <div className='number count-to'>{TotaltoDate[4]}
+                        
                          (<i className="fas fa-arrow-up up-arrow"></i>{NewinLast[4]})
                          </div>
 
@@ -89,7 +90,9 @@ export default function Header(props) {
                          </div>
                          {/* <div className='number count-to'>{props.data[6]}</div> */}
                          <div className='number count-to'>{TotaltoDate[3]}
-                         (<i className="fas fa-arrow-up up-arrow"></i>{NewinLast[3]})
+                        ({NewinLast[3] > 0 &&  <i className="fas fa-arrow-up up-arrow">{NewinLast[3]}</i>
+                          || NewinLast[3]< 0 &&  <i className="fas fa-arrow-down down-arrow">{NewinLast[3]}</i>})
+                        
                          </div>
 
                     </div>
@@ -110,7 +113,9 @@ export default function Header(props) {
                          </div>
                          {/* <div className='number count-to'>{props.data[10]}</div> */}
                          <div className='number count-to'>{TotaltoDate[5]}
-                         (<i className="fas fa-arrow-up up-arrow"></i>{NewinLast[5]})
+                             ({NewinLast[5] > 0 && <i className="fas fa-arrow-up up-arrow">{NewinLast[5]}</i>
+                              || NewinLast[5] <= 0 && <i className="fas fa-arrow-down up-down">{NewinLast[5]}</i>})
+                         
                          </div>
 
                     </div>

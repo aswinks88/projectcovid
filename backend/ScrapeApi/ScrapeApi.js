@@ -2,10 +2,7 @@ import axios from 'axios'
 import cheerio from 'cheerio'
 import fs from 'fs'
 import Path from 'path'
-import papaParser from 'papaparse'
-import fileDownload from 'file-download'
-// import filesjson from '../../frontend/src/components/Maps/nz-district-data.json'
-// import filesjson from ''
+import https from 'https'
 const URL = {currentcases: 'https://www.health.govt.nz/our-work/diseases-and-conditions/covid-19-novel-coronavirus/covid-19-current-situation/covid-19-current-cases',
             currentcasesdetails:'https://www.health.govt.nz/our-work/diseases-and-conditions/covid-19-novel-coronavirus/covid-19-current-situation/covid-19-current-cases/covid-19-current-cases-details',
             githubCSSEGISandData:'https://github.com/CSSEGISandData/COVID-19/blob/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv',
@@ -32,8 +29,9 @@ export async function findCovid19TotalCases(ministryofHealthData,  currentcasesd
         downloadLink.push(anchorTag.attr('href'))
     })
 
-    const path = Path.resolve(__dirname, 'files', 'cases.csv')
+    const path = Path.resolve(__dirname, 'files', 'cases.xlsx')
     const url = `https://www.health.govt.nz${downloadLink[0]}`
+    // request.get(url).pipe(fs.createWriteStream(path))
     console.log(1, url)
     // papaParser.parse(url, {
     //     download:true,
@@ -41,17 +39,19 @@ export async function findCovid19TotalCases(ministryofHealthData,  currentcasesd
     //         console.log(res)
     //     }
     // })
-
+https.get(url, (response) => {
+    response.pipe(fs.createWriteStream(path))
+})
     // fileDownload(url, path, err => {
     //     if(err) throw err
     //     console.log('success')
     // })
-    await axios.get(url, {responseType: 'stream'})
-    .then(response => {
-        response.data.pipe(fs.createWriteStream(path))
-    }).catch(err => {
-        console.log(err)
-    })
+    // await axios.get(url, { responseType: 'stream'})
+    // .then(response => {
+    //     response.data.pipe(fs.createWriteStream(path))
+    // }).catch(err => {
+    //     console.log(err)
+    // })
     //Reading CSV file 
     // fs.createReadStream('./covidcase_list_15_april_2020.xlsx')
     // .pipe(csvParser())
@@ -106,7 +106,7 @@ export async function casesbyDHB(ministryofHealthData){
                 changes: $lastTwentyfourhrs.eq(i).text()
             }
             casesinDHB.push(DHBall)
-            // console.log(DHBall)
+            // console.log(casesinDHB)
         }
     })
     // const readGeojson = await fs.readFileSync('./ScrapeApi/nz1.json', 'utf8', (err, data) => {
