@@ -46,6 +46,8 @@ export default class Leaflet extends Component {
                 return data
             })
             // console.log(res.data)
+        }).catch(err => {
+            console.log(err)
         })
     }
 
@@ -138,9 +140,9 @@ export default class Leaflet extends Component {
             
                 <div className='body'>
                 <div className='card'>
-                <div className='header'>
+                {/* <div className='header'>
                 <h2>Cases by DHB</h2>
-                </div>
+                </div> */}
                     <div style={{position: 'sticky', overflow: 'hidden'}}>
                         {!this.state.name ? (
                             <div className='hover'>Touch or Hover over an area</div>

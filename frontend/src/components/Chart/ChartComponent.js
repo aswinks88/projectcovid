@@ -1,5 +1,5 @@
 import React from 'react'
-import {Bar, Line, HorizontalBar} from 'react-chartjs-2'
+import {Bar, Line, HorizontalBar, Pie} from 'react-chartjs-2'
 import './Graph.css'
 const ChartComponent = (props) => {
 
@@ -20,7 +20,7 @@ const ChartComponent = (props) => {
                                       data={props.data}
                                       width={765}
                                       height={300}
-                                      options={{ aspectRatio:2, maintainAspectRatio: false, responsive: true, }}
+                                      options={{ aspectRatio:1, maintainAspectRatio: false, responsive: true, }}
                                   /> ||
                                   props.chartType==='hbar' &&
                                   <HorizontalBar
@@ -28,7 +28,12 @@ const ChartComponent = (props) => {
                                       width={765}
                                       height={300}
                                       options={{ aspectRatio:2, maintainAspectRatio: false, responsive: true, }}
-                                  /> }
+                                  /> || props.chartType==='pie' && 
+                                  <Pie 
+                                      data={props.data}
+                                      width={765}
+                                      height={300}
+                                      options={{ aspectRatio:2, maintainAspectRatio: false, responsive: true, }}/>}
                                 </div>
                                 
                            </div>

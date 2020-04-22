@@ -9,19 +9,24 @@ export default class SummaryofCovid extends Component {
             this.state = {
                data: []
             }
-        
+        this.covidDataHandler = this.covidDataHandler.bind(this)
     }
     async componentDidMount(){
+       await this.covidDataHandler()
         
-        await axios.get('http://localhost:5000/')
-        .then(res => {
-            const stats = res.data
-            // console.log(stats)
-            this.setState({
-            data: stats
-        })
-    }).catch(err => console.log(err))
 
+}
+
+async covidDataHandler(){
+    await axios.get('http://localhost:5000/')
+    .then(res => {
+       
+        const stats = res.data.summary
+        this.setState({
+        data: stats
+    })
+    
+}).catch(err => console.log(err))
 }
     render() {
         return (

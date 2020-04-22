@@ -3,6 +3,10 @@ import cheerio from 'cheerio'
 import fs from 'fs'
 import Path from 'path'
 import https from 'https'
+import url from 'url'
+import xlsx from 'xlsx'
+import xlreader from 'read-excel-file/node'
+import xltojson from 'convert-excel-to-json'
 const URL = {currentcases: 'https://www.health.govt.nz/our-work/diseases-and-conditions/covid-19-novel-coronavirus/covid-19-current-situation/covid-19-current-cases',
             currentcasesdetails:'https://www.health.govt.nz/our-work/diseases-and-conditions/covid-19-novel-coronavirus/covid-19-current-situation/covid-19-current-cases/covid-19-current-cases-details',
             githubCSSEGISandData:'https://github.com/CSSEGISandData/COVID-19/blob/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv',
@@ -29,40 +33,53 @@ export async function findCovid19TotalCases(ministryofHealthData,  currentcasesd
         downloadLink.push(anchorTag.attr('href'))
     })
 
-    const path = Path.resolve(__dirname, 'files', 'cases.xlsx')
-    const url = `https://www.health.govt.nz${downloadLink[0]}`
+    const downloadUrl = `https://www.health.govt.nz${downloadLink[0]}`
     // request.get(url).pipe(fs.createWriteStream(path))
-    console.log(1, url)
-    // papaParser.parse(url, {
-    //     download:true,
-    //     complete: (res) => {
-    //         console.log(res)
+    const filename = url.parse(downloadUrl).pathname.split('/').pop()
+    const path = Path.resolve(__dirname, 'files', filename)
+    // const fileWrite = fs.createWriteStream(path)
+    // https.get(downloadUrl, res => {
+    //     res.on('data', data => {
+    //         fileWrite.write(data)
+    //     }).on('end', () => {
+    //         fileWrite.end()
+    //         console.log(filename + ' downloaded to ' + path)
+    //     })
+    // })
+
+    console.log(1, path)
+
+    //Reading XLSX file and converting to JSON
+    const fileResult = fs.readFileSync('./result.json', 'utf8', (err,res)=>{
+        if(err){
+            console.log(err)
+        } else {
+        return res
+        }
+    })
+    const parsedData = JSON.parse(fileResult)
+    console.log(parsedData.Probable[0].Sex)
+    // const jsonResult = xltojson({
+    //     sourceFile: path,
+    //     header: {
+    //         rows: 4
+    //     },
+    //     columnToKey: {
+    //         A: "Date of report",
+    //         B: "Sex",
+    //         C: "Age group",
+    //         D: "DHB",
+    //         E: "Overseas travel",
+    //         F: "Last country before return",
+    //         G: "Flight number",
+    //         H: "Flight departure date",
+    //         I: "Arrival date"
     //     }
     // })
-https.get(url, (response) => {
-    response.pipe(fs.createWriteStream(path))
-})
-    // fileDownload(url, path, err => {
-    //     if(err) throw err
-    //     console.log('success')
-    // })
-    // await axios.get(url, { responseType: 'stream'})
-    // .then(response => {
-    //     response.data.pipe(fs.createWriteStream(path))
-    // }).catch(err => {
-    //     console.log(err)
-    // })
-    //Reading CSV file 
-    // fs.createReadStream('./covidcase_list_15_april_2020.xlsx')
-    // .pipe(csvParser())
-    // .on('data', row => {
-    //     console.log(row)
-    // })
-    // .on('end',()=>{
-    //     console.log()
-    // })
-
-
+    // const arrayResult = []
+    // arrayResult.push(JSON.stringify(jsonResult).replace(/^\s+|\s+$|\s+(?=\s)/g, ""))
+    // console.log(arrayResult.length)
+    // fs.writeFileSync('./result.json', JSON.stringify(jsonResult), 'utf-8')
         $(summaryData).each((i, el) => {
             const $element = $(el)
             const summaryofCases = $element.find('tbody > tr > th')
@@ -79,7 +96,7 @@ https.get(url, (response) => {
             }
         })
 
-return summary
+return {summary,parsedData}
 
 }
 export async function casesbyDHB(ministryofHealthData){

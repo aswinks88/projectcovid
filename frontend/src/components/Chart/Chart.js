@@ -9,17 +9,20 @@ export class Chart extends Component {
         this.state = {
             chartData:{},
             dailyCases: {},
-            dhb:{}
+            dhb:{},
+            gender: {}
         }      
         this.confirmedCasesHandler = this.confirmedCasesHandler.bind(this)
         this.deathandrecoveryRateHandler = this.deathandrecoveryRateHandler.bind(this)
         this.dhbHandler = this.dhbHandler.bind(this)
+        this.confirmedAndProbableCaseHandler = this.confirmedAndProbableCaseHandler.bind(this)
     }
    async componentDidMount(){
      
       await this.confirmedCasesHandler()
       await this.deathandrecoveryRateHandler()
       await this.dhbHandler()
+      await this.confirmedAndProbableCaseHandler()
             
     }
     async confirmedCasesHandler(){
@@ -40,13 +43,20 @@ export class Chart extends Component {
                 datasets:[
                     {
                         label: 'Total confirmed cases of COVID-19',
+                        // backgroundColor: "rgb(0,139,139)",
+                        // borderColor: 'rgb(255,255,255)',
                         backgroundColor: "rgb(0,139,139)",
-                        borderColor: 'rgb(255,255,255)',
+                        borderColor: "rgb(0,139,139)",
+                        borderWidth: 1,
+                        fill: false,
+                        lineTension: 0 ,
                         data:confirmedCases
                     }
                 ]
             }
         })
+    }).catch(err => {
+        console.log(err)
     })
     }
    async deathandrecoveryRateHandler(){
@@ -74,18 +84,26 @@ export class Chart extends Component {
                     {
                         label: 'Recovery rate of COVID-19 cases',
                         backgroundColor: "green",
-                        borderColor: 'rgb(255,255,255)',
+                        borderColor: "green",
+                        borderWidth: 1,
+                        fill: false,
+                        lineTension: 0 ,
                         data:recoveryCases
                     },
                     {
                         label: 'Death rate of COVID-19 cases',
                         backgroundColor: "red",
-                        borderColor: 'rgb(255,255,255)',
+                        borderColor: "red",
+                        borderWidth: 1,
+                        fill: false,
+                        lineTension: 0 ,
                         data:deathRate
                     }
                 ]
             }
         })
+        }).catch(err => {
+            console.log(err)
         })
     }
     async dhbHandler(){
@@ -145,14 +163,50 @@ export class Chart extends Component {
             data: deseased
         }
         
-                ],
-                options: {
-                    scales: {
-                        yAxes:[{stacked: true}]
-                    }
-                }
-                
+                ]
             }
+            })
+        }).catch(err => {
+            console.log(err)
+        })
+    }
+    async confirmedAndProbableCaseHandler(){
+        await axios.get('http://localhost:5000/')
+        .then(res => {
+            // console.log(res.data.parsedData.Confirmed[0].Sex)
+            const male = []
+            const female = []
+            const others =[]
+            const gender=[]
+            
+            for(let i = 0; i<res.data.parsedData.Confirmed.length; i++){
+                // console.log(res.data.parsedData.Probable[0].Sex)
+                if(res.data.parsedData.Confirmed[i].Sex === 'Male'){
+                    male.push(res.data.parsedData.Confirmed[i].Sex)
+                } else if(res.data.parsedData.Confirmed[i].Sex === 'Female'){
+                    female.push(res.data.parsedData.Confirmed[i].Sex)
+                } else {
+                    others.push(res.data.parsedData.Confirmed[i].Sex)
+                }
+            }
+            for(let i=0; i<res.data.parsedData.Probable.length; i++){
+                if(res.data.parsedData.Probable[i].Sex === 'Male'){
+                    male.push(res.data.parsedData.Probable[i].Sex)
+                } else if(res.data.parsedData.Probable[i].Sex === 'Female'){
+                    female.push(res.data.parsedData.Probable[i].Sex)
+                } else {
+                    others.push(res.data.parsedData.Probable[i].Sex)
+                }
+            }
+           
+            this.setState({
+                gender: {
+                    labels: ['Male', 'Female','others'],
+                    datasets: [{
+                        backgroundColor: ['#ff6f69','#ffcc5c', '#88d8b0'],
+                        data: [male.length, female.length, others.length]
+                    }]
+                }
             })
         })
     }
@@ -162,7 +216,9 @@ export class Chart extends Component {
             <div className='row clearfix'>
             <ChartComponent name={<h4>Total Confirmed Cases</h4>} data = {this.state.chartData} chartType='line'/>
             <ChartComponent name={<h4>Recovery rate vs Death rate</h4>} data = {this.state.dailyCases} chartType='line'/>    
-            <ChartComponent name={<h4>Cases by DHB</h4>} data = {this.state.dhb} chartType='hbar'/>               
+            <ChartComponent name={<h4>Cases by DHB</h4>} data = {this.state.dhb} chartType='hbar'/>
+            <ChartComponent name={<h4>Gender</h4>} data = {this.state.gender} chartType='pie'/>               
+
             </div>
           </div>
         )
