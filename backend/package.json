@@ -24,6 +24,8 @@
     "json-format": "^1.0.1",
     "mongoose": "^5.9.7",
     "nodemon": "^2.0.2",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
     "read-excel-file": "^4.0.6",
     "request": "^2.88.2",
     "url": "^0.11.0",

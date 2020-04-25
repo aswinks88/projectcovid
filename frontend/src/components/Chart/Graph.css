@@ -15,6 +15,12 @@
     position: relative;
     border-bottom: 1px solid rgba(204, 204, 204, 0.35);
 }
+.card .header h4 {
+    margin: 0;
+    font-size: 18px;
+    font-weight: normal;
+    color: #111;
+}
 .card .body {
     font-size: 14px;
     color: #555;

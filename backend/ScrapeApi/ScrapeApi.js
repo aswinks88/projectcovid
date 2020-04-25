@@ -1,3 +1,4 @@
+import {useState} from 'react'
 import axios from 'axios'
 import cheerio from 'cheerio'
 import fs from 'fs'
@@ -21,6 +22,21 @@ export async function findCovid19TotalCases(ministryofHealthData,  currentcasesd
     const $ = cheerio.load(ministryofHealthData)
     const summaryData = $('.table-style-two').first()
     const summary = []
+    $(summaryData).each((i, el) => {
+        const $element = $(el)
+        const summaryofCases = $element.find('tbody > tr > th')
+        const $totalToDate = $element.find('tbody > tr > td:nth-child(2)')
+        const $newInLast = $element.find('tbody > tr > td:nth-child(3)')
+        for(let i=0; i < $totalToDate.length; i++){
+            
+            const summaryofTable = {
+                casesSummaryHead: summaryofCases.eq(i).text(),
+                TotaltoDate: $totalToDate.eq(i).text(),
+                last: $newInLast.eq(i).text()
+            }  
+        summary.push(summaryofTable)
+        }
+    })
 
  //scraping the download link from another page but from the same site
     const $$ = cheerio.load(currentcasesdetails)
@@ -34,7 +50,7 @@ export async function findCovid19TotalCases(ministryofHealthData,  currentcasesd
     })
 
     const downloadUrl = `https://www.health.govt.nz${downloadLink[0]}`
-    // request.get(url).pipe(fs.createWriteStream(path))
+
     const filename = url.parse(downloadUrl).pathname.split('/').pop()
     const path = Path.resolve(__dirname, 'files', filename)
     // const fileWrite = fs.createWriteStream(path)
@@ -47,18 +63,11 @@ export async function findCovid19TotalCases(ministryofHealthData,  currentcasesd
     //     })
     // })
 
-    console.log(1, path)
+    // console.log(1, path)
 
     //Reading XLSX file and converting to JSON
-    const fileResult = fs.readFileSync('./result.json', 'utf8', (err,res)=>{
-        if(err){
-            console.log(err)
-        } else {
-        return res
-        }
-    })
-    const parsedData = JSON.parse(fileResult)
-    console.log(parsedData.Probable[0].Sex)
+
+    // console.log(parsedData.Confirmed[0]['Age group'])  
     // const jsonResult = xltojson({
     //     sourceFile: path,
     //     header: {
@@ -80,23 +89,86 @@ export async function findCovid19TotalCases(ministryofHealthData,  currentcasesd
     // arrayResult.push(JSON.stringify(jsonResult).replace(/^\s+|\s+$|\s+(?=\s)/g, ""))
     // console.log(arrayResult.length)
     // fs.writeFileSync('./result.json', JSON.stringify(jsonResult), 'utf-8')
-        $(summaryData).each((i, el) => {
-            const $element = $(el)
-            const summaryofCases = $element.find('tbody > tr > th')
-            const $totalToDate = $element.find('tbody > tr > td:nth-child(2)')
-            const $newInLast = $element.find('tbody > tr > td:nth-child(3)')
-            for(let i=0; i < $totalToDate.length; i++){
-                
-                const summaryofTable = {
-                    casesSummaryHead: summaryofCases.eq(i).text(),
-                    TotaltoDate: $totalToDate.eq(i).text(),
-                    last: $newInLast.eq(i).text()
-                }  
-            summary.push(summaryofTable)
+    const fileResult = fs.readFileSync('./result.json', 'utf8', (err,res)=>{
+        if(err){
+            console.log(err)
+        } else {
+        return res
+        }
+    })
+    const parsedData = JSON.parse(fileResult)
+    const ageGroup = []
+    const result = []
+    for(let i=0;i<parsedData.Confirmed.length; i++){
+          
+        ageGroup.push(parsedData.Confirmed[i]['Age group'])
+        ageGroup.forEach((el) => {
+            if(!result.includes(el)){
+                result.push(el)
             }
         })
+    }
+    console.log(result.sort())
 
-return {summary,parsedData}
+    const filterByAge = []
+    for(let i = 0; i<parsedData.Confirmed.length; i++){
+        // if( parsedData.Confirmed[i]['Age group'] === '1 to 4' || parsedData.Confirmed[i]['Age group'] === '10 to 14'
+        // || parsedData.Confirmed[i]['Age group'] === '15 to 19'  || parsedData.Confirmed[i]['Age group'] === '20 to 29' 
+        // || parsedData.Confirmed[i]['Age group'] === '30 to 39'|| parsedData.Confirmed[i]['Age group'] === '40 to 49' 
+        // || parsedData.Confirmed[i]['Age group'] === '5 to 9'|| parsedData.Confirmed[i]['Age group'] === '50 to 59' 
+        // || parsedData.Confirmed[i]['Age group'] === '60 to 69' || parsedData.Confirmed[i]['Age group'] === '70+' 
+        // || parsedData.Confirmed[i]['Age group'] === '<1'){
+            if(parsedData.Confirmed[i].Sex === 'Male' || parsedData.Confirmed[i].Sex === undefined){
+                const confirmedMalegroup = {
+                    ageGroup: parsedData.Confirmed[i]['Age group'],
+                    gender: parsedData.Confirmed[i].Sex=== undefined ? 'undefined' : parsedData.Confirmed[i].Sex,
+                    overseasTravel: parsedData.Confirmed[i]['Overseas travel'],
+                    lastCountry: parsedData.Confirmed[i]['Last country before return']
+                }
+                filterByAge.push(confirmedMalegroup)
+            } else if(parsedData.Confirmed[i].Sex === 'Female'){
+                const confirmedFemalegroup = {
+                    ageGroup: parsedData.Confirmed[i]['Age group'],
+                    gender: parsedData.Confirmed[i].Sex === undefined ? 'undefined' : parsedData.Confirmed[i].Sex,
+                    overseasTravel: parsedData.Confirmed[i]['Overseas travel'],
+                    lastCountry: parsedData.Confirmed[i]['Last country before return']
+                }
+                filterByAge.push(confirmedFemalegroup)
+            } 
+        // }
+    }
+    for(let i = 0; i<parsedData.Probable.length; i++){
+        // if( parsedData.Probable[i]['Age group'] === '1 to 4' || parsedData.Probable[i]['Age group'] === '10 to 14'
+        // || parsedData.Probable[i]['Age group'] === '15 to 19'  || parsedData.Probable[i]['Age group'] === '20 to 29' 
+        // || parsedData.Probable[i]['Age group'] === '30 to 39'|| parsedData.Probable[i]['Age group'] === '40 to 49' 
+        // || parsedData.Probable[i]['Age group'] === '5 to 9'|| parsedData.Probable[i]['Age group'] === '50 to 59' 
+        // || parsedData.Probable[i]['Age group'] === '60 to 69' || parsedData.Probable[i]['Age group'] === '70+' 
+        // || parsedData.Probable[i]['Age group'] === '<1'){
+            if(parsedData.Probable[i].Sex === 'Male' || parsedData.Probable[i].Sex === undefined){
+                const ProbableMalegroup = {
+                    ageGroup: parsedData.Probable[i]['Age group'],
+                    gender: parsedData.Probable[i].Sex === undefined ? 'undefined' : parsedData.Probable[i].Sex,
+                    overseasTravel: parsedData.Probable[i]['Overseas travel'],
+                    lastCountry: parsedData.Probable[i]['Last country before return']
+                }
+                filterByAge.push(ProbableMalegroup)
+            } else if(parsedData.Probable[i].Sex === 'Female'){
+                const ProbableFemalegroup = {
+                    ageGroup: parsedData.Probable[i]['Age group'],
+                    gender: parsedData.Probable[i].Sex === undefined ? 'undefined' : parsedData.Probable[i].Sex,
+                    overseasTravel: parsedData.Probable[i]['Overseas travel'],
+                    lastCountry: parsedData.Probable[i]['Last country before return']
+                }
+                filterByAge.push(ProbableFemalegroup)
+            } 
+        // }
+       
+    }
+// if(parsedData.Confirmed[691].Sex === undefined)
+// {console.log(1)}
+    console.log(filterByAge.filter(fil => {return fil.gender === 'Female' && fil.ageGroup === '20 to 29'} ).length)
+    //  console.log(summary)
+return {summary,result,filterByAge}
 
 }
 export async function casesbyDHB(ministryofHealthData){

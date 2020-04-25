@@ -1,8 +1,8 @@
 import React, {useState,useEffect} from 'react'
-import './Header.css'
+import './Summary.css'
 // import Graph from '../Chart/Chart'
 
-export default function Header(props) {
+export default function Summary(props) {
      // const {Data, useData} = useState()
      // useData(props.data)
      // useEffect(() => {
@@ -91,7 +91,7 @@ export default function Header(props) {
                          {/* <div className='number count-to'>{props.data[6]}</div> */}
                          <div className='number count-to'>{TotaltoDate[3]}
                         ({NewinLast[3] > 0 &&  <i className="fas fa-arrow-up up-arrow">{NewinLast[3]}</i>
-                          || NewinLast[3]< 0 &&  <i className="fas fa-arrow-down down-arrow">{NewinLast[3]}</i>})
+                          || NewinLast[3]<= 0 &&  <i className="fas fa-arrow-down down-arrow">{NewinLast[3]}</i>})
                         
                          </div>
 

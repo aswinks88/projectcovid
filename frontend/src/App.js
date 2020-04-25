@@ -7,7 +7,6 @@ import '@fortawesome/fontawesome-free/css/solid.css'
 import SummaryofCovid from './components/SummaryofCovid/SummaryofCovid'
 import Maps from './components/Maps/Maps'
 import Chart from './components/Chart/Chart'
-import Header from './components/Header/Header'
 function App() {
   return (
     <div className='container'>

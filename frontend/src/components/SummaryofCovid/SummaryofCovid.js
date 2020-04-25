@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import {Card, CardDeck} from 'react-bootstrap'
 import axios from 'axios'
-import Header from '../Header/Header'
+import Summary from '../Summary/Summary'
 
 export default class SummaryofCovid extends Component {
     constructor(props){
@@ -31,7 +31,7 @@ async covidDataHandler(){
     render() {
         return (
        <div>
-            <Header data={this.state.data} />
+            <Summary data={this.state.data} />
            
        </div>
         )
