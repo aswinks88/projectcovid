@@ -12,15 +12,24 @@
   "dependencies": {
     "axios": "^0.19.2",
     "body-parser": "^1.19.0",
-    "chart.js": "^2.9.3",
     "cheerio": "^1.0.0-rc.3",
     "cheerio-tableparser": "^1.0.1",
+    "convert-excel-to-json": "^1.6.1",
     "cors": "^2.8.5",
+    "csv-parser": "^2.3.2",
     "dotenv": "^8.2.0",
     "esm": "^3.2.25",
     "express": "^4.17.1",
+    "http": "0.0.1-security",
     "json-format": "^1.0.1",
     "mongoose": "^5.9.7",
-    "nodemon": "^2.0.2"
+    "nodemon": "^2.0.2",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "read-excel-file": "^4.0.6",
+    "request": "^2.88.2",
+    "url": "^0.11.0",
+    "xlsx": "^0.15.6",
+    "xmlhttprequest": "^1.8.0"
   }
 }
