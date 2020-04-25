@@ -112,12 +112,6 @@ export async function findCovid19TotalCases(ministryofHealthData,  currentcasesd
 
     const filterByAge = []
     for(let i = 0; i<parsedData.Confirmed.length; i++){
-        // if( parsedData.Confirmed[i]['Age group'] === '1 to 4' || parsedData.Confirmed[i]['Age group'] === '10 to 14'
-        // || parsedData.Confirmed[i]['Age group'] === '15 to 19'  || parsedData.Confirmed[i]['Age group'] === '20 to 29' 
-        // || parsedData.Confirmed[i]['Age group'] === '30 to 39'|| parsedData.Confirmed[i]['Age group'] === '40 to 49' 
-        // || parsedData.Confirmed[i]['Age group'] === '5 to 9'|| parsedData.Confirmed[i]['Age group'] === '50 to 59' 
-        // || parsedData.Confirmed[i]['Age group'] === '60 to 69' || parsedData.Confirmed[i]['Age group'] === '70+' 
-        // || parsedData.Confirmed[i]['Age group'] === '<1'){
             if(parsedData.Confirmed[i].Sex === 'Male' || parsedData.Confirmed[i].Sex === undefined){
                 const confirmedMalegroup = {
                     ageGroup: parsedData.Confirmed[i]['Age group'],
@@ -138,12 +132,6 @@ export async function findCovid19TotalCases(ministryofHealthData,  currentcasesd
         // }
     }
     for(let i = 0; i<parsedData.Probable.length; i++){
-        // if( parsedData.Probable[i]['Age group'] === '1 to 4' || parsedData.Probable[i]['Age group'] === '10 to 14'
-        // || parsedData.Probable[i]['Age group'] === '15 to 19'  || parsedData.Probable[i]['Age group'] === '20 to 29' 
-        // || parsedData.Probable[i]['Age group'] === '30 to 39'|| parsedData.Probable[i]['Age group'] === '40 to 49' 
-        // || parsedData.Probable[i]['Age group'] === '5 to 9'|| parsedData.Probable[i]['Age group'] === '50 to 59' 
-        // || parsedData.Probable[i]['Age group'] === '60 to 69' || parsedData.Probable[i]['Age group'] === '70+' 
-        // || parsedData.Probable[i]['Age group'] === '<1'){
             if(parsedData.Probable[i].Sex === 'Male' || parsedData.Probable[i].Sex === undefined){
                 const ProbableMalegroup = {
                     ageGroup: parsedData.Probable[i]['Age group'],
@@ -164,10 +152,8 @@ export async function findCovid19TotalCases(ministryofHealthData,  currentcasesd
         // }
        
     }
-// if(parsedData.Confirmed[691].Sex === undefined)
-// {console.log(1)}
-    console.log(filterByAge.filter(fil => {return fil.gender === 'Female' && fil.ageGroup === '20 to 29'} ).length)
-    //  console.log(summary)
+
+    // console.log(filterByAge.filter(fil => {return fil.gender === 'Female' && fil.ageGroup === '20 to 29'} ).length)
 return {summary,result,filterByAge}
 
 }
