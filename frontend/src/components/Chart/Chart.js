@@ -266,7 +266,7 @@ export class Chart extends Component {
              <div>
             <div className='row clearfix'>
             <ChartComponent name='Total Confirmed Cases' data = {this.state.chartData} chartType='line'/>
-            <ChartComponent name='Recovery rate vs Death rate' data = {this.state.dailyCases} chartType='line'/>    
+            <ChartComponent name='Recovery vs Death rate' data = {this.state.dailyCases} chartType='line'/>    
             <ChartComponent name='Cases by DHB' data = {this.state.dhb} chartType='hbar'/>
             <ChartComponent name='Age group affected' data = {this.state.ageGroupData} chartType='hbar'/>
             <ChartComponent name='Gender' data = {this.state.gender} chartType='pie'/>               

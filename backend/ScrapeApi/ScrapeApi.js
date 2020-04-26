@@ -53,19 +53,28 @@ export async function findCovid19TotalCases(ministryofHealthData,  currentcasesd
 
     const filename = url.parse(downloadUrl).pathname.split('/').pop()
     const path = Path.resolve(__dirname, 'files', filename)
-    // const fileWrite = fs.createWriteStream(path)
-    // https.get(downloadUrl, res => {
-    //     res.on('data', data => {
-    //         fileWrite.write(data)
-    //     }).on('end', () => {
-    //         fileWrite.end()
-    //         console.log(filename + ' downloaded to ' + path)
-    //     })
-    // })
+    const pathtoFiles = Path.join(__dirname, 'files')
+     fs.readdir(pathtoFiles,(err, existingfile) => {
+        
+          if(filename === existingfile[0]){
+            console.log('file exist')
+          } 
+          else {
+            fs.unlink(pathtoFiles +`\\` + existingfile[0])
+            const fileWrite = fs.createWriteStream(path)
+            https.get(downloadUrl, res => {
+                res.on('data', data => {
+                    fileWrite.write(data)
+                }).on('end', () => {
+                    fileWrite.end()
+                    console.log(filename + ' downloaded to ' + path)
+                })
+            })
+          }
+    })
+ 
 
-    // console.log(1, path)
-
-    //Reading XLSX file and converting to JSON
+    //Reading XLSX file and convert to JSON
 
     // console.log(parsedData.Confirmed[0]['Age group'])  
     // const jsonResult = xltojson({
@@ -85,11 +94,12 @@ export async function findCovid19TotalCases(ministryofHealthData,  currentcasesd
     //         I: "Arrival date"
     //     }
     // })
+
     // const arrayResult = []
     // arrayResult.push(JSON.stringify(jsonResult).replace(/^\s+|\s+$|\s+(?=\s)/g, ""))
     // console.log(arrayResult.length)
-    // fs.writeFileSync('./result.json', JSON.stringify(jsonResult), 'utf-8')
-    const fileResult = fs.readFileSync('./result.json', 'utf8', (err,res)=>{
+    // fs.writeFileSync(pathtoFiles + `\\` + 'result.json', JSON.stringify(jsonResult), 'utf-8')
+    const fileResult = await fs.readFileSync(pathtoFiles + `\\` + 'result.json', 'utf8', (err,res)=>{
         if(err){
             console.log(err)
         } else {
@@ -108,7 +118,7 @@ export async function findCovid19TotalCases(ministryofHealthData,  currentcasesd
             }
         })
     }
-    console.log(result.sort())
+    // console.log(result.sort())
 
     const filterByAge = []
     for(let i = 0; i<parsedData.Confirmed.length; i++){
@@ -129,7 +139,6 @@ export async function findCovid19TotalCases(ministryofHealthData,  currentcasesd
                 }
                 filterByAge.push(confirmedFemalegroup)
             } 
-        // }
     }
     for(let i = 0; i<parsedData.Probable.length; i++){
             if(parsedData.Probable[i].Sex === 'Male' || parsedData.Probable[i].Sex === undefined){
@@ -149,7 +158,6 @@ export async function findCovid19TotalCases(ministryofHealthData,  currentcasesd
                 }
                 filterByAge.push(ProbableFemalegroup)
             } 
-        // }
        
     }
 
