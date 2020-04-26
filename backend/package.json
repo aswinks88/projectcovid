@@ -4,8 +4,9 @@
   "description": "A covid tracker for New Zealand",
   "main": "server.js",
   "scripts": {
-    "dev": "nodemon -r esm server.js",
-    "start": "nodemon -r esm server.js"
+    "server": "nodemon -r esm server.js",
+    "dev": "concurrently \"npm run server\" \"cd ../frontend && npm start\" ",
+    "start": "concurrently \"npm run server\" \"cd ../frontend && npm start\" "
   },
   "author": "Aswin",
   "license": "ISC",
@@ -14,6 +15,7 @@
     "body-parser": "^1.19.0",
     "cheerio": "^1.0.0-rc.3",
     "cheerio-tableparser": "^1.0.1",
+    "concurrently": "^5.2.0",
     "convert-excel-to-json": "^1.6.1",
     "cors": "^2.8.5",
     "csv-parser": "^2.3.2",
