@@ -18,7 +18,7 @@ app.use(cors())
 app.use(express.json())
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended: true}))
-app.use(express.static(path.join(__dirname, 'frontend/build')))
+
 // mongoose.connect(uri, {useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true})
 // .catch((err => {
 //     console.log(err)
@@ -32,6 +32,12 @@ app.use('/', confirmedRoute)
 app.use('/stats',  confirmedRoute)
 app.use('/dhbdata',  confirmedRoute)
 app.use('/recovery',  confirmedRoute)
+if(process.env.NODE_ENV === 'production'){
+    app.use(express.static(path.join(__dirname, 'frontend/build')))
+    app.get('*', (req,res) => {
+        res.sendFile(path.resolve(__dirname, 'frontend','build','index.html'))
+    })
+}
 app.listen(port, () =>{
     console.log(`server is running on port: http://localhost:${port}`)
 })
