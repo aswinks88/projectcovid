@@ -3,6 +3,7 @@ import express from 'express'
 import cors from 'cors'
 import bodyParser from 'body-parser'
 import confirmedRoute from './Routes/CovidNzData.route'
+import path from 'path'
 // import Stats from './Routes/CovidNzData.route'
 // import Dhbdata from './Routes/CovidNzData.route'
 // import recoveryDataCount from './Routes/CovidNzData.route'
@@ -17,7 +18,7 @@ app.use(cors())
 app.use(express.json())
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended: true}))
-
+app.use(express.static(path.join(__dirname, 'frontend/build')))
 // mongoose.connect(uri, {useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true})
 // .catch((err => {
 //     console.log(err)

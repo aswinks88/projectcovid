@@ -31,26 +31,13 @@ export default class Leaflet extends Component {
         }
         this.mapStyle = this.mapStyle.bind(this)
         this.getColor = this.getColor.bind(this)
-        this.fetchDHBdata = this.fetchDHBdata.bind(this)
         
         this.resetHighlight = this.resetHighlight.bind(this)
         this.zoomToFeature =this.zoomToFeature.bind(this)
         this.highlightFeature = this.highlightFeature.bind(this)
         this.onEachFeature = this.onEachFeature.bind(this)   
     }
-   async fetchDHBdata(){
-        await axios.get('http://localhost:5000/dhbdata')
-        .then(res => {
-            res.data.map(data => {
-                // console.log(data)
-                return data
-            })
-            // console.log(res.data)
-        }).catch(err => {
-            console.log(err)
-        })
-    }
-
+  
     getColor(d){
         return d > 150  ?  cases_150:
         d > 100  ?  cases_100 :
@@ -61,7 +48,6 @@ export default class Leaflet extends Component {
     }
     componentDidMount(){
 
-        this.fetchDHBdata()
         this.map = L.map('map', {
             center: [-40.9006,174.886],
             zoom: 6,
