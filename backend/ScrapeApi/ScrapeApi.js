@@ -58,9 +58,10 @@ export async function findCovid19TotalCases(ministryofHealthData,  currentcasesd
         
           if(filename === existingfile[0]){
             console.log('file exist')
+            console.log(pathtoFiles + '/result.json')
           } 
           else {
-            fs.unlink(pathtoFiles +`\\` + existingfile[0])
+            fs.unlinkSync(pathtoFiles + `/${existingfile[0]}`)
             const fileWrite = fs.createWriteStream(path)
             https.get(downloadUrl, res => {
                 res.on('data', data => {
@@ -99,7 +100,8 @@ export async function findCovid19TotalCases(ministryofHealthData,  currentcasesd
     // arrayResult.push(JSON.stringify(jsonResult).replace(/^\s+|\s+$|\s+(?=\s)/g, ""))
     // console.log(arrayResult.length)
     // fs.writeFileSync(pathtoFiles + `\\` + 'result.json', JSON.stringify(jsonResult), 'utf-8')
-    const fileResult = await fs.readFileSync(pathtoFiles + `\\` + 'result.json', 'utf8', (err,res)=>{
+    
+    const fileResult = await fs.readFileSync(pathtoFiles + '/result.json', 'utf8', (err,res)=>{
         if(err){
             console.log(err)
         } else {
