@@ -1,24 +1,32 @@
-import {useState} from 'react'
-import axios from 'axios'
-import cheerio from 'cheerio'
-import fs from 'fs'
-import Path from 'path'
-import https from 'https'
-import url from 'url'
-import xlsx from 'xlsx'
-import xlreader from 'read-excel-file/node'
-import xltojson from 'convert-excel-to-json'
+const axios = require('axios')
+const cheerio = require('cheerio')
+const fs = require('fs')
+const Path = require('path')
+const https = require('https')
+const url = require('url')
+const xlreader = require('read-excel-file/node')
+const xltojson = require('convert-excel-to-json')
+
+// import axios from 'axios'
+// import cheerio from 'cheerio'
+// import fs from 'fs'
+// import Path from 'path'
+// import https from 'https'
+// import url from 'url'
+// import xlreader from 'read-excel-file/node'
+// import xltojson from 'convert-excel-to-json'
+
 const URL = {currentcases: 'https://www.health.govt.nz/our-work/diseases-and-conditions/covid-19-novel-coronavirus/covid-19-current-situation/covid-19-current-cases',
             currentcasesdetails:'https://www.health.govt.nz/our-work/diseases-and-conditions/covid-19-novel-coronavirus/covid-19-current-situation/covid-19-current-cases/covid-19-current-cases-details',
             githubCSSEGISandData:'https://github.com/CSSEGISandData/COVID-19/blob/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv',
             recoveryDataCSSEGIS: 'https://github.com/CSSEGISandData/COVID-19/blob/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_recovered_global.csv',
             deathRateCSSEGIS: 'https://github.com/CSSEGISandData/COVID-19/blob/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_deaths_global.csv'}
-export async function getHTML(url){
+async function getHTML(url){
     const {data: html} = await axios.get(url)
     return html
 }
 
-export async function findCovid19TotalCases(ministryofHealthData,  currentcasesdetails){
+async function findCovid19TotalCases(ministryofHealthData,  currentcasesdetails){
     const $ = cheerio.load(ministryofHealthData)
     const summaryData = $('.table-style-two').first()
     const summary = []
@@ -167,7 +175,7 @@ export async function findCovid19TotalCases(ministryofHealthData,  currentcasesd
 return {summary,result,filterByAge}
 
 }
-export async function casesbyDHB(ministryofHealthData){
+async function casesbyDHB(ministryofHealthData){
     const $ = cheerio.load(ministryofHealthData)
     const casesbyDHB = $('.table-style-two').eq(1)
     const casesinDHB = []
@@ -224,7 +232,7 @@ export async function casesbyDHB(ministryofHealthData){
 return casesinDHB
 
 }
-export async function findCovidDataOvertheTime(githubData){
+ async function findCovidDataOvertheTime(githubData){
     const $ = cheerio.load(githubData)
     const totalcasesOvertimeNumber = $('#LC172')
     const totalcasesOvertimeDate = $('#LC1')
@@ -255,7 +263,7 @@ export async function findCovidDataOvertheTime(githubData){
     return totalConfirmedCases
 }
 
-export async function fetchRecoveryData(csseDatalink, deathRateLink){
+ async function fetchRecoveryData(csseDatalink, deathRateLink){
     //loading recovery rate URL
 const $ = cheerio.load(csseDatalink)
 const recoveryData = $('#LC169')
@@ -304,28 +312,29 @@ return  {totalRecoverydata,
 
 
 
-export async function covid19TotalCount(){
+ async function covid19TotalCount(){
     const ministryofHealthData = await getHTML(URL.currentcases)
     const currentcasesdetails = await getHTML(URL.currentcasesdetails)
     const totalCases = await findCovid19TotalCases(ministryofHealthData,  currentcasesdetails)
     return totalCases
 }
-export async function TotalCasesbyDHB(){
+ async function TotalCasesbyDHB(){
     const ministryofHealthData = await getHTML(URL.currentcases)
     const totalCasesbyDHB = await casesbyDHB(ministryofHealthData)
     return totalCasesbyDHB
 }
 
-export async function covid19TotalOverTime(){
+ async function covid19TotalOverTime(){
     
     const githubData = await getHTML(URL.githubCSSEGISandData)
     const casesOverTime = await findCovidDataOvertheTime(githubData)
     return casesOverTime
 }
 
-export async function recoveryDataCount(){
+ async function recoveryDataCount(){
     const recoveryDatagithub = await getHTML(URL.recoveryDataCSSEGIS)
     const deathRate = await getHTML(URL.deathRateCSSEGIS)
     const recoveryResults = await fetchRecoveryData(recoveryDatagithub, deathRate)
     return recoveryResults
 }
+module.exports = {covid19TotalCount,TotalCasesbyDHB,covid19TotalOverTime,recoveryDataCount}

@@ -1,9 +1,14 @@
-import express from 'express'
-// import mongoose from 'mongoose'
-import cors from 'cors'
-import bodyParser from 'body-parser'
-import confirmedRoute from './Routes/CovidNzData.route'
-import path from 'path'
+const express = require('express')
+const cors = require('cors')
+const bodyParser = require('body-parser')
+const confirmedRoute = require('./Routes/CovidNzData.route')
+const path = require('path')
+// import express from 'express'
+// // import mongoose from 'mongoose'
+// import cors from 'cors'
+// import bodyParser from 'body-parser'
+// import confirmedRoute from './Routes/CovidNzData.route'
+// import path from 'path'
 // import Stats from './Routes/CovidNzData.route'
 // import Dhbdata from './Routes/CovidNzData.route'
 // import recoveryDataCount from './Routes/CovidNzData.route'
@@ -33,12 +38,16 @@ app.use('/stats',  confirmedRoute)
 app.use('/dhbdata',  confirmedRoute)
 app.use('/recovery',  confirmedRoute)
 if(process.env.NODE_ENV === 'production'){
-    app.use(express.static(path.join(__dirname, 'frontend/build')))
+    app.use(express.static(path.join(__dirname, '/build')))
     app.get('*', (req,res) => {
-        res.sendFile(path.resolve(__dirname, 'frontend','build','index.html'))
+        res.sendFile(path.resolve(__dirname, 'build','index.html'))
     })
+    console.log('production mode')
+
 }
+
 app.listen(port, () =>{
+    console.log(path.resolve(__dirname,'build','index.html'))
     console.log(`server is running on port: http://localhost:${port}`)
 })
 
