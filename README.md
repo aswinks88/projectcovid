@@ -1,4 +1,4 @@
-Demo- work in progress version(Alpha) version - http://www.nzcovid19.site/
+Demo- work in progress version(Alpha) - http://www.nzcovid19.site/
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
