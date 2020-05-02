@@ -171,7 +171,7 @@ export class Chart extends Component {
         })
     }
     async totalConfirmedCaseGenderHandler(){
-        await axios.get('http://localhost:5000/')
+        await axios.get('http://localhost:5000/agegroup-gender-affected')
         .then(async res => {
             // console.log(res.data.parsedData.Confirmed[0].Sex)
             const male =[]
@@ -223,7 +223,7 @@ export class Chart extends Component {
                 })
             this.setState({
                 gender: {
-                    labels: [`Male(${this.state.genderRatio.male}%) `,` Female(${this.state.genderRatio.female}%)`,`Unknown(${this.state.genderRatio.others}%)`],
+                    labels: [`Male(${this.state.genderRatio.male}%) `,` Female(${this.state.genderRatio.female}%)`,`Others(${this.state.genderRatio.others}%)`],
                     datasets: [{
                         backgroundColor: ['#ff6f69','#ffcc5c', '#88d8b0'],
                         data: [male.length, female.length, others.length]
@@ -250,7 +250,7 @@ export class Chart extends Component {
                     
                     {
                         stack: 'stack1',
-                        label: 'Unknown',
+                        label: 'Others',
                         backgroundColor: "#74c9c1",
                         borderColor: '#74c9c1',
                         data: genderAgeUnknown

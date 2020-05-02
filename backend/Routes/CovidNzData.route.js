@@ -1,7 +1,11 @@
 const router = require('express').Router()
 const Nzdata = require('../Models/CovidNzData.model')
-const {covid19TotalCount, covid19TotalOverTime, TotalCasesbyDHB, recoveryDataCount} = require('../ScrapeApi/ScrapeApi')
-const {ManageDb} = require('../db/db')
+const {covid19TotalCount, 
+    covid19TotalOverTime, 
+    TotalCasesbyDHB, 
+    recoveryDataCount, 
+    genderAffected} = require('../ScrapeApi/ScrapeApi')
+// const {ManageDb} = require('../db/db')
 
 
 router.route('/').get(async (req, res) => {
@@ -25,6 +29,10 @@ router.route('/stats').get(async(req, res)=>{
 router.route('/recovery').get(async(req, res) => {
     const recoveryData = await recoveryDataCount()
     return res.json(recoveryData)
+})
+router.route('/agegroup-gender-affected').get(async(req, res) => {
+    const genderData = await genderAffected()
+    return res.json(genderData)
 })
 module.exports = router
 

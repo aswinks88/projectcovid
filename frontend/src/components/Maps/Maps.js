@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import L from 'leaflet'
+import {Map, TileLayer} from 'react-leaflet'
 import 'leaflet/dist/leaflet.css'
 import axios from 'axios'
 // import {GeoJSON} from 'react-leaflet'
@@ -53,9 +54,7 @@ export default class Leaflet extends Component {
             zoom: 6,
             zoomControl: true
         })
-        // https://tiles.stadiamaps.com/tiles/alidade_smooth/{z}/{x}/{y}{r}.png
-        // https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png
-        // https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}
+
         L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}', {
             detectRetina: true,
             maxZoom: 20,
@@ -124,12 +123,14 @@ export default class Leaflet extends Component {
                     <div className='row clearfix'>
                          <div className='col-lg-12 col-md-12 col-sm-12 col-xs-12'>
             
-                <div className='body'>
+               
                 <div className='card'>
+                {/* <div className='body'> */}
                 {/* <div className='header'>
                 <h2>Cases by DHB</h2>
                 </div> */}
                     <div style={{position: 'sticky', overflow: 'hidden'}}>
+                    
                         {!this.state.name ? (
                             <div className='hover'>Touch or Hover over an area</div>
                         ) : (
@@ -152,7 +153,7 @@ export default class Leaflet extends Component {
                     <div style={{width:'100%', height:'500px'}} id='map'></div>
                     </div>
                    
-                </div>
+                {/* </div> */}
             </div>
 
             </div>

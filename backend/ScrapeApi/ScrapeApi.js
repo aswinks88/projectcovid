@@ -6,7 +6,7 @@ const https = require('https')
 const url = require('url')
 const xlreader = require('read-excel-file/node')
 const xltojson = require('convert-excel-to-json')
-
+const Promise = require('promise')
 // import axios from 'axios'
 // import cheerio from 'cheerio'
 // import fs from 'fs'
@@ -26,7 +26,167 @@ async function getHTML(url){
     return html
 }
 
-async function findCovid19TotalCases(ministryofHealthData,  currentcasesdetails){
+async function ageGroupGenderaffected(currentcasesdetails){
+   
+    const $$ = cheerio.load(currentcasesdetails)
+    const totalCasesPage = $$('.field-item')
+    const downloadLink = []
+
+    $$(totalCasesPage).each((i,el)=>{
+        const pageContent = $$(el)
+        const anchorTag = pageContent.find('ul').eq(1).find('li > a')
+        downloadLink.push(anchorTag.attr('href'))
+    })
+    // console.log(downloadLink[0])
+   
+    // console.log(pathtoJsonResult + '/result.json')
+    const downloadUrl = `https://www.health.govt.nz${downloadLink[0]}`
+    const filename = url.parse(downloadUrl).pathname.split('/').pop()
+    const path = Path.resolve(__dirname, 'files', filename)
+    const pathtoJsonResult = Path.join(__dirname, 'files')
+    //waiting for this to be done until we move on and call this
+    
+    fs.readdir(pathtoJsonResult, (err, fnameEx) =>{
+      
+           return console.log(fnameEx)
+      
+    })
+ 
+    
+     fs.readdir(pathtoJsonResult,async (err, existingfile) => {
+          if(filename === existingfile[0]){
+            console.log('file exist')
+          } else if(!existingfile[0] || filename !== existingfile[0]){
+            //   console.log('no file downloaded')
+             fs.unlinkSync(pathtoJsonResult + `/${existingfile[0]}`)
+              const fileWrite =  fs.createWriteStream(path)
+              https.get(downloadUrl, res => {
+                res.on('data', data => {
+                    fileWrite.write(data)
+                }).on('end', () => {
+                    fileWrite.end()
+                    console.log(filename + ' downloaded to ' + path)
+                })
+                 
+           }).on('error', err => {
+               console.log(err)
+           })
+          }
+          else {
+            
+          
+           
+          }
+    })   
+    console.log('age group affected function')
+    console.log(path)
+    //  console.log(readDirect)
+    return path
+    // await convertXLtoJSON(path,pathtoJsonResult)
+    
+    // const fileResult = await fs.readFileSync(pathtoJsonResult + '/result.json', 'utf8', (err,res)=>{
+    //     if(err){
+    //         console.log(err)
+    //     } else {
+    //     return res
+    //     }
+    // })
+    // const parsedData = JSON.parse(fileResult)
+
+    // })
+}
+async function convertXLtoJSON(fileSourcePath) { 
+    console.log('Convert xl to json function')
+    const jsonResult = xltojson({
+        sourceFile: fileSourcePath,
+        header: {
+            rows: 4
+        },
+        columnToKey: {
+            A: "Date of report",
+            B: "Sex",
+            C: "Age group",
+            D: "DHB",
+            E: "Overseas travel",
+            F: "Last country before return",
+            G: "Flight number",
+            H: "Flight departure date",
+            I: "Arrival date"
+        }
+    })
+
+    // const arrayResult = []
+    // arrayResult.push(JSON.stringify(jsonResult).replace(/^\s+|\s+$|\s+(?=\s)/g, ""))
+    // console.log(arrayResult.length)
+    // fs.writeFileSync(pathtoJsonResult + `\\` + 'result.json', JSON.stringify(jsonResult), 'utf-8')
+    // console.log(jsonResult)
+    return jsonResult
+}
+async function genderData(xltojsonresult){
+    console.log(JSON.stringify(xltojsonresult.Confirmed.length))
+    const parsedData  = xltojsonresult
+    const ageGroup = []
+    const result = []
+    const filterByAge = []
+        for(let i=0;i<parsedData.Confirmed.length; i++){
+          
+            ageGroup.push(parsedData.Confirmed[i]['Age group'])
+            ageGroup.forEach((el) => {
+                if(!result.includes(el)){
+                    result.push(el)
+                }
+            })
+        }
+        // console.log(result.sort())
+    
+        for(let i = 0; i<parsedData.Confirmed.length; i++){
+                if(parsedData.Confirmed[i].Sex === 'Male' || parsedData.Confirmed[i].Sex === undefined){
+                    const confirmedMalegroup = {
+                        ageGroup: parsedData.Confirmed[i]['Age group'],
+                        gender: parsedData.Confirmed[i].Sex=== undefined ? 'undefined' : parsedData.Confirmed[i].Sex,
+                        overseasTravel: parsedData.Confirmed[i]['Overseas travel'],
+                        lastCountry: parsedData.Confirmed[i]['Last country before return']
+                    }
+                    filterByAge.push(confirmedMalegroup)
+                } else if(parsedData.Confirmed[i].Sex === 'Female'){
+                    const confirmedFemalegroup = {
+                        ageGroup: parsedData.Confirmed[i]['Age group'],
+                        gender: parsedData.Confirmed[i].Sex === undefined ? 'undefined' : parsedData.Confirmed[i].Sex,
+                        overseasTravel: parsedData.Confirmed[i]['Overseas travel'],
+                        lastCountry: parsedData.Confirmed[i]['Last country before return']
+                    }
+                    filterByAge.push(confirmedFemalegroup)
+                } 
+        }
+        for(let i = 0; i<parsedData.Probable.length; i++){
+                if(parsedData.Probable[i].Sex === 'Male' || parsedData.Probable[i].Sex === undefined){
+                    const ProbableMalegroup = {
+                        ageGroup: parsedData.Probable[i]['Age group'],
+                        gender: parsedData.Probable[i].Sex === undefined ? 'undefined' : parsedData.Probable[i].Sex,
+                        overseasTravel: parsedData.Probable[i]['Overseas travel'],
+                        lastCountry: parsedData.Probable[i]['Last country before return']
+                    }
+                    filterByAge.push(ProbableMalegroup)
+                } else if(parsedData.Probable[i].Sex === 'Female'){
+                    const ProbableFemalegroup = {
+                        ageGroup: parsedData.Probable[i]['Age group'],
+                        gender: parsedData.Probable[i].Sex === undefined ? 'undefined' : parsedData.Probable[i].Sex,
+                        overseasTravel: parsedData.Probable[i]['Overseas travel'],
+                        lastCountry: parsedData.Probable[i]['Last country before return']
+                    }
+                    filterByAge.push(ProbableFemalegroup)
+                } 
+           
+        }
+    // }
+    // console.log(parsedData)
+    console.log('gender data function')
+
+    return {result,filterByAge}
+   
+}
+
+async function findCovid19TotalCases(ministryofHealthData){
     const $ = cheerio.load(ministryofHealthData)
     const summaryData = $('.table-style-two').first()
     const summary = []
@@ -46,134 +206,10 @@ async function findCovid19TotalCases(ministryofHealthData,  currentcasesdetails)
         }
     })
 
- //scraping the download link from another page but from the same site
-    const $$ = cheerio.load(currentcasesdetails)
-    const totalCasesPage = $$('.field-item')
-    const downloadLink = []
-
-    $$(totalCasesPage).each((i,el)=>{
-        const pageContent = $$(el)
-        const anchorTag = pageContent.find('ul').eq(1).find('li > a')
-        downloadLink.push(anchorTag.attr('href'))
-    })
-
-    const downloadUrl = `https://www.health.govt.nz${downloadLink[0]}`
-
-    const filename = url.parse(downloadUrl).pathname.split('/').pop()
-    const path = Path.resolve(__dirname, 'files', filename)
-    const pathtoFiles = Path.join(__dirname, 'files')
-     fs.readdir(pathtoFiles,(err, existingfile) => {
-        
-          if(filename === existingfile[0]){
-            console.log('file exist')
-            console.log(pathtoFiles + '/result.json')
-          } 
-          else {
-            fs.unlinkSync(pathtoFiles + `/${existingfile[0]}`)
-            const fileWrite = fs.createWriteStream(path)
-            https.get(downloadUrl, res => {
-                res.on('data', data => {
-                    fileWrite.write(data)
-                }).on('end', () => {
-                    fileWrite.end()
-                    console.log(filename + ' downloaded to ' + path)
-                })
-            })
-          }
-    })
- 
-
-    //Reading XLSX file and convert to JSON
-
-    // console.log(parsedData.Confirmed[0]['Age group'])  
-    // const jsonResult = xltojson({
-    //     sourceFile: path,
-    //     header: {
-    //         rows: 4
-    //     },
-    //     columnToKey: {
-    //         A: "Date of report",
-    //         B: "Sex",
-    //         C: "Age group",
-    //         D: "DHB",
-    //         E: "Overseas travel",
-    //         F: "Last country before return",
-    //         G: "Flight number",
-    //         H: "Flight departure date",
-    //         I: "Arrival date"
-    //     }
-    // })
-
-    // const arrayResult = []
-    // arrayResult.push(JSON.stringify(jsonResult).replace(/^\s+|\s+$|\s+(?=\s)/g, ""))
-    // console.log(arrayResult.length)
-    // fs.writeFileSync(pathtoFiles + `\\` + 'result.json', JSON.stringify(jsonResult), 'utf-8')
-    
-    const fileResult = await fs.readFileSync(pathtoFiles + '/result.json', 'utf8', (err,res)=>{
-        if(err){
-            console.log(err)
-        } else {
-        return res
-        }
-    })
-    const parsedData = JSON.parse(fileResult)
-    const ageGroup = []
-    const result = []
-    for(let i=0;i<parsedData.Confirmed.length; i++){
-          
-        ageGroup.push(parsedData.Confirmed[i]['Age group'])
-        ageGroup.forEach((el) => {
-            if(!result.includes(el)){
-                result.push(el)
-            }
-        })
-    }
-    // console.log(result.sort())
-
-    const filterByAge = []
-    for(let i = 0; i<parsedData.Confirmed.length; i++){
-            if(parsedData.Confirmed[i].Sex === 'Male' || parsedData.Confirmed[i].Sex === undefined){
-                const confirmedMalegroup = {
-                    ageGroup: parsedData.Confirmed[i]['Age group'],
-                    gender: parsedData.Confirmed[i].Sex=== undefined ? 'undefined' : parsedData.Confirmed[i].Sex,
-                    overseasTravel: parsedData.Confirmed[i]['Overseas travel'],
-                    lastCountry: parsedData.Confirmed[i]['Last country before return']
-                }
-                filterByAge.push(confirmedMalegroup)
-            } else if(parsedData.Confirmed[i].Sex === 'Female'){
-                const confirmedFemalegroup = {
-                    ageGroup: parsedData.Confirmed[i]['Age group'],
-                    gender: parsedData.Confirmed[i].Sex === undefined ? 'undefined' : parsedData.Confirmed[i].Sex,
-                    overseasTravel: parsedData.Confirmed[i]['Overseas travel'],
-                    lastCountry: parsedData.Confirmed[i]['Last country before return']
-                }
-                filterByAge.push(confirmedFemalegroup)
-            } 
-    }
-    for(let i = 0; i<parsedData.Probable.length; i++){
-            if(parsedData.Probable[i].Sex === 'Male' || parsedData.Probable[i].Sex === undefined){
-                const ProbableMalegroup = {
-                    ageGroup: parsedData.Probable[i]['Age group'],
-                    gender: parsedData.Probable[i].Sex === undefined ? 'undefined' : parsedData.Probable[i].Sex,
-                    overseasTravel: parsedData.Probable[i]['Overseas travel'],
-                    lastCountry: parsedData.Probable[i]['Last country before return']
-                }
-                filterByAge.push(ProbableMalegroup)
-            } else if(parsedData.Probable[i].Sex === 'Female'){
-                const ProbableFemalegroup = {
-                    ageGroup: parsedData.Probable[i]['Age group'],
-                    gender: parsedData.Probable[i].Sex === undefined ? 'undefined' : parsedData.Probable[i].Sex,
-                    overseasTravel: parsedData.Probable[i]['Overseas travel'],
-                    lastCountry: parsedData.Probable[i]['Last country before return']
-                }
-                filterByAge.push(ProbableFemalegroup)
-            } 
-       
-    }
-
+ //scraping the download link from another page but from the same site 
+    // JSON.parse(await convertXLtoJSON(path))
     // console.log(filterByAge.filter(fil => {return fil.gender === 'Female' && fil.ageGroup === '20 to 29'} ).length)
-return {summary,result,filterByAge}
-
+return summary
 }
 async function casesbyDHB(ministryofHealthData){
     const $ = cheerio.load(ministryofHealthData)
@@ -308,19 +344,19 @@ return  {totalRecoverydata,
     totalDeathRate}
 }
 
-
-
-
-
  async function covid19TotalCount(){
     const ministryofHealthData = await getHTML(URL.currentcases)
-    const currentcasesdetails = await getHTML(URL.currentcasesdetails)
-    const totalCases = await findCovid19TotalCases(ministryofHealthData,  currentcasesdetails)
+  
+    const totalCases = await findCovid19TotalCases(ministryofHealthData)
+    console.log(1)
+
     return totalCases
 }
  async function TotalCasesbyDHB(){
     const ministryofHealthData = await getHTML(URL.currentcases)
     const totalCasesbyDHB = await casesbyDHB(ministryofHealthData)
+    console.log(2)
+
     return totalCasesbyDHB
 }
 
@@ -328,6 +364,8 @@ return  {totalRecoverydata,
     
     const githubData = await getHTML(URL.githubCSSEGISandData)
     const casesOverTime = await findCovidDataOvertheTime(githubData)
+    console.log(3)
+
     return casesOverTime
 }
 
@@ -335,6 +373,16 @@ return  {totalRecoverydata,
     const recoveryDatagithub = await getHTML(URL.recoveryDataCSSEGIS)
     const deathRate = await getHTML(URL.deathRateCSSEGIS)
     const recoveryResults = await fetchRecoveryData(recoveryDatagithub, deathRate)
+    console.log(4)
     return recoveryResults
 }
-module.exports = {covid19TotalCount,TotalCasesbyDHB,covid19TotalOverTime,recoveryDataCount}
+async function genderAffected(){
+    // 
+    const currentcasesdetails = await getHTML(URL.currentcasesdetails)
+    const totalAffected = await ageGroupGenderaffected(currentcasesdetails)
+    await new Promise (wait => setTimeout(wait, 5000))
+    const covertXLtoJson = await convertXLtoJSON(totalAffected)
+    const jsonResult = await genderData(covertXLtoJson)
+    return jsonResult
+}
+module.exports = {covid19TotalCount,TotalCasesbyDHB,covid19TotalOverTime,recoveryDataCount,genderAffected}

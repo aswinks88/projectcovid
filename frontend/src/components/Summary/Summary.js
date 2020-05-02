@@ -8,6 +8,7 @@ export default function Summary(props) {
      // useEffect(() => {
      //      console.log(Data)
      // })
+     console.log(`its props data ${props}`)
     const TotaltoDate = props.data.map((el) => {
           return el.TotaltoDate
      })
