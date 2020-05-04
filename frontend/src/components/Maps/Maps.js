@@ -9,6 +9,7 @@ import axios from 'axios'
 import statesData from './nz1.json'
 import './Maps.css'
 let geojson
+let layer
 var info = L.control()
 const cases_150 = "#188977"
 const cases_100 = "#56B870"
@@ -58,7 +59,9 @@ export default class Leaflet extends Component {
         L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}', {
             detectRetina: true,
             maxZoom: 20,
+            tileSize: 512,
             maxNativeZoom: 17,
+            zoomOffset: -1,
             attribution: '&copy; <a href = https://koordinates.com/>Koordinates</a> | &copy; <a href=https://www.esri.com/en-us/home>Esri</a> | &copy; <a href=https://www.here.com/> HERE</a>| &copy; <a href=https://www.openstreetmap.org/copyright/> OpenStreetMap</a> contributors | &copy; GIS user community'
         }).addTo(this.map)
         geojson = L.geoJSON(statesData, {style: this.mapStyle,  onEachFeature: this.onEachFeature}).addTo(this.map)
@@ -77,7 +80,8 @@ export default class Leaflet extends Component {
     }
     
    highlightFeature(e) {
-        var layer = e.target;
+      
+        layer = e.target;
         // console.log(layer.feature.properties)
         this.setState({
             name: layer.feature.properties.NAME,
@@ -106,29 +110,51 @@ export default class Leaflet extends Component {
         })
     }
     zoomToFeature(e) {
-        this.map.fitBounds(e.target.getBounds());
+        this.map.fitBounds(e.target.getBounds())
+        // this.map.fireEvent('click', )
+        if(layer){
+       this.resetHighlight(layer)
+        console.log('adsada')
+        }
+        // console.log(e.target)
+         layer = e.target;
+        this.setState({
+            name: layer.feature.properties.NAME,
+            active: layer.feature.properties.active,
+            recovered: layer.feature.properties.recovered,
+            total: layer.feature.properties.total,
+            deceased:  layer.feature.properties.deceased,
+            changes: layer.feature.properties.changes
+        })
+        layer.setStyle({
+            weight: 5,
+            color: '#666',
+            dashArray: '',
+            fillOpacity: 0.7
+        });
+    
+        if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
+            layer.bringToFront();
+        } 
+        // this.resetHighlight(e)
     }
     onEachFeature(feature, layer) {
         layer.on({
             mouseover: this.highlightFeature,
             mouseout: this.resetHighlight,
-            click: this.zoomToFeature
-        });
+            click: this.zoomToFeature           
+        })
     }
-  
+    
     render(){
         return (
            
-                <div className='container-fluid'>
-                    <div className='row clearfix'>
+                <div className='container'>
+                    <div className='row'>
                          <div className='col-lg-12 col-md-12 col-sm-12 col-xs-12'>
             
                
                 <div className='card'>
-                {/* <div className='body'> */}
-                {/* <div className='header'>
-                <h2>Cases by DHB</h2>
-                </div> */}
                     <div style={{position: 'sticky', overflow: 'hidden'}}>
                     
                         {!this.state.name ? (
@@ -149,10 +175,9 @@ export default class Leaflet extends Component {
                             <div style={{"--color": cases_40}}>40+</div>
                             <div style={{"--color": cases_15}}>15+</div>
                             <div style={{"--color": cases_0}}>0+</div>
+                    </div>          
+                    <div id="map"></div>
                     </div>
-                    <div style={{width:'100%', height:'500px'}} id='map'></div>
-                    </div>
-                   
                 {/* </div> */}
             </div>
 

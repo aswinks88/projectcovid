@@ -82,18 +82,6 @@ async function ageGroupGenderaffected(currentcasesdetails){
     console.log(path)
     //  console.log(readDirect)
     return path
-    // await convertXLtoJSON(path,pathtoJsonResult)
-    
-    // const fileResult = await fs.readFileSync(pathtoJsonResult + '/result.json', 'utf8', (err,res)=>{
-    //     if(err){
-    //         console.log(err)
-    //     } else {
-    //     return res
-    //     }
-    // })
-    // const parsedData = JSON.parse(fileResult)
-
-    // })
 }
 async function convertXLtoJSON(fileSourcePath) { 
     console.log('Convert xl to json function')
@@ -114,12 +102,6 @@ async function convertXLtoJSON(fileSourcePath) {
             I: "Arrival date"
         }
     })
-
-    // const arrayResult = []
-    // arrayResult.push(JSON.stringify(jsonResult).replace(/^\s+|\s+$|\s+(?=\s)/g, ""))
-    // console.log(arrayResult.length)
-    // fs.writeFileSync(pathtoJsonResult + `\\` + 'result.json', JSON.stringify(jsonResult), 'utf-8')
-    // console.log(jsonResult)
     return jsonResult
 }
 async function genderData(xltojsonresult){
@@ -207,8 +189,6 @@ async function findCovid19TotalCases(ministryofHealthData){
     })
 
  //scraping the download link from another page but from the same site 
-    // JSON.parse(await convertXLtoJSON(path))
-    // console.log(filterByAge.filter(fil => {return fil.gender === 'Female' && fil.ageGroup === '20 to 29'} ).length)
 return summary
 }
 async function casesbyDHB(ministryofHealthData){
@@ -227,7 +207,7 @@ async function casesbyDHB(ministryofHealthData){
         // console.log($dhbName.text())
         for(let i = 0; i < $dhbName.length; i++){
             const DHBall = {
-                Place: $dhbName.eq(i).text(),
+                Place: $dhbName.eq(i).text().normalize('NFKD').replace(/[^\w\s.-_\/]/g, ''),
                 cases: $numofActiveCases.eq(i).text(),
                 recovered: $numofRecoveredCases.eq(i).text(),
                 deceased:  $numofDeceased.eq(i).text(),
@@ -237,7 +217,15 @@ async function casesbyDHB(ministryofHealthData){
             casesinDHB.push(DHBall)
             // console.log(casesinDHB)
         }
+    console.log($numofDeceased.eq(i).text())
+
     })
+    // console.log(casesinDHB[17].Place)
+    // console.log(casesinDHB[5].Place)
+    for(let j = 0; j< casesinDHB.length; j++){
+        console.log(casesinDHB[j].deceased === undefined ? 'empty': casesinDHB[j].deceased)
+    }
+
     // const readGeojson = await fs.readFileSync('./ScrapeApi/nz1.json', 'utf8', (err, data) => {
     //     if(err){
     //         console.log(err)
@@ -255,7 +243,7 @@ async function casesbyDHB(ministryofHealthData){
 
     //         parsedJsonData[i].properties.active = casesinDHB[j].cases
     //         parsedJsonData[i].properties.recovered = casesinDHB[j].recovered
-    //         parsedJsonData[i].properties.deceased = casesinDHB[j].deceased
+    //         parsedJsonData[i].properties.deceased = casesinDHB[j].deceased 
     //         parsedJsonData[i].properties.total = casesinDHB[j].total
     //         parsedJsonData[i].properties.changes = casesinDHB[j].changes
     //                 fs.writeFile('../frontend/src/components/Maps/nz1.json',  JSON.stringify(parsedJsonData), (err) =>{

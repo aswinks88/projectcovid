@@ -64,6 +64,15 @@
     margin-right: 5px;
     background-color: var(--color);
   }
+  #map{
+    width: 100%;
+    position: inherit;
+    height: 500px;
+    margin:0;
+    padding:0; 
+    border: 1px solid black;
+    /* border-radius: 8px; */
+  }
   /* @media screen and (max-width: 782px){
     .info {
       position: absolute;
