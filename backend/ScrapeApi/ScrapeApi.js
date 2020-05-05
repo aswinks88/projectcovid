@@ -226,33 +226,33 @@ async function casesbyDHB(ministryofHealthData){
         console.log(casesinDHB[j].deceased === undefined ? 'empty': casesinDHB[j].deceased)
     }
 
-    // const readGeojson = await fs.readFileSync('./ScrapeApi/nz1.json', 'utf8', (err, data) => {
-    //     if(err){
-    //         console.log(err)
-    //     }
-    //     else{
-    //         return data
-    //     }
-    // })
-    // let parsedJsonData = JSON.parse(readGeojson)
-    // console.log(parsedJsonData[0].properties.NAME)
-    // for(let i = 0; i< parsedJsonData.length; i++){ 
-    //     for(let j = 0; j< casesinDHB.length; j++){
-    //         if(parsedJsonData[i].properties.NAME === casesinDHB[j].Place){
-    //         // console.log(parsedJsonData.features[i].properties.NAME, casesinDHB[j].Place, parsedJsonData.features[i].properties.DHB12)
+    const readGeojson = await fs.readFileSync('./ScrapeApi/nz1.json', 'utf8', (err, data) => {
+        if(err){
+            console.log(err)
+        }
+        else{
+            return data
+        }
+    })
+    let parsedJsonData = JSON.parse(readGeojson)
+    console.log(parsedJsonData[0].properties.NAME)
+    for(let i = 0; i< parsedJsonData.length; i++){ 
+        for(let j = 0; j< casesinDHB.length; j++){
+            if(parsedJsonData[i].properties.NAME === casesinDHB[j].Place){
+            // console.log(parsedJsonData.features[i].properties.NAME, casesinDHB[j].Place, parsedJsonData.features[i].properties.DHB12)
 
-    //         parsedJsonData[i].properties.active = casesinDHB[j].cases
-    //         parsedJsonData[i].properties.recovered = casesinDHB[j].recovered
-    //         parsedJsonData[i].properties.deceased = casesinDHB[j].deceased 
-    //         parsedJsonData[i].properties.total = casesinDHB[j].total
-    //         parsedJsonData[i].properties.changes = casesinDHB[j].changes
-    //                 fs.writeFile('../frontend/src/components/Maps/nz1.json',  JSON.stringify(parsedJsonData), (err) =>{
-    //                     console.log(err)
-    //                 }) 
+            parsedJsonData[i].properties.active = casesinDHB[j].cases
+            parsedJsonData[i].properties.recovered = casesinDHB[j].recovered
+            parsedJsonData[i].properties.deceased = casesinDHB[j].deceased 
+            parsedJsonData[i].properties.total = casesinDHB[j].total
+            parsedJsonData[i].properties.changes = casesinDHB[j].changes
+                    fs.writeFile('../frontend/src/components/Maps/nz1.json',  JSON.stringify(parsedJsonData), (err) =>{
+                        console.log(err)
+                    }) 
                 
-    //         } 
-    //     }   
-    // } 
+            } 
+        }   
+    } 
 return casesinDHB
 
 }

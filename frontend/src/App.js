@@ -7,14 +7,18 @@ import '@fortawesome/fontawesome-free/css/solid.css'
 import SummaryofCovid from './components/SummaryofCovid/SummaryofCovid'
 import Maps from './components/Maps/Maps'
 import Chart from './components/Chart/Chart'
+import Footer from './components/Footer/Footer'
+import Header from './components/Header/Header'
 function App() {
   return (
     <div className='container'>
       {/* <Header /> */}
     {/* <p className='navbar-brand'>Covid Tracker</p> */}
+      <Header />
       <SummaryofCovid />
       <Maps />
       <Chart />
+      <Footer />
     </div>
   );
 }

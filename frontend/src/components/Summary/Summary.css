@@ -1,20 +1,4 @@
-.navbar{
-    border-radius: 0px;
-    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.3);
-    border: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: 12;
-    width: 100%;
-}
-.navbar-header{
-    padding: 10px 7px;
-}
-.navbar-header h2{
-    /* font-size: 30px; */
-    text-align: center;
-}
+
 section.content{
     margin: 100px 15px 15px 0px;
     -moz-transition: 0.5s;
@@ -22,21 +6,14 @@ section.content{
     -webkit-transition: 0.5s;
     transition: 0.5s;
 }
-/* .ls-closed section.content {
-    margin-left: 15px;
-} */
-.container-fluid{
-    padding-right: 15px;
-    padding-left: 15px;
-    margin-right: auto;
-    margin-left: auto;
-}
+
 .row{
     margin-right: -15px;
     margin-left: -15px;
 }
 .block-header{
     margin-bottom: 15px;
+    margin-top: 15px;
 }
 
 .info-box{

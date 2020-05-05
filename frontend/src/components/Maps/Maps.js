@@ -1,7 +1,9 @@
 import React, { Component } from 'react'
-import L from 'leaflet'
+import * as L from 'leaflet'
 import {Map, TileLayer} from 'react-leaflet'
 import 'leaflet/dist/leaflet.css'
+import { GestureHandling } from 'leaflet-gesture-handling'
+import 'leaflet-gesture-handling/dist/leaflet-gesture-handling.css'
 import axios from 'axios'
 // import {GeoJSON} from 'react-leaflet'
 // import statesData from './nz-district'
@@ -10,6 +12,8 @@ import statesData from './nz1.json'
 import './Maps.css'
 let geojson
 let layer
+let ctrlPressed 
+
 var info = L.control()
 const cases_150 = "#188977"
 const cases_100 = "#56B870"
@@ -49,13 +53,23 @@ export default class Leaflet extends Component {
         cases_0
     }
     componentDidMount(){
-
+        // L.Map.addInitHook("addHandler", "gestureHandling", GestureHandling)
         this.map = L.map('map', {
             center: [-40.9006,174.886],
             zoom: 6,
-            zoomControl: true
+            zoomControl: true,
+            scrollWheelZoom: false,
+            gestureHandling: true,
+            gestureHandlingText:{
+                text: {
+                    touch: 'Use two fingers to move the map',
+                    scroll: 'Use ctrl + scroll to zoom the map'
+                }
+            },
+            dragging: false,
+            tap: false
+            
         })
-
         L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}', {
             detectRetina: true,
             maxZoom: 20,
@@ -65,6 +79,24 @@ export default class Leaflet extends Component {
             attribution: '&copy; <a href = https://koordinates.com/>Koordinates</a> | &copy; <a href=https://www.esri.com/en-us/home>Esri</a> | &copy; <a href=https://www.here.com/> HERE</a>| &copy; <a href=https://www.openstreetmap.org/copyright/> OpenStreetMap</a> contributors | &copy; GIS user community'
         }).addTo(this.map)
         geojson = L.geoJSON(statesData, {style: this.mapStyle,  onEachFeature: this.onEachFeature}).addTo(this.map)
+        
+        //as this.map.on('click', () => {this.map.scrollWheelZoom.enable()})
+        this.map.on('mouseout', () => {this.map.scrollWheelZoom.disable()})
+        
+        document.addEventListener('keydown', (event) => {
+            if(event.which === 17){
+            // ctrlPressed  = true
+            console.log('yes')
+            this.map.scrollWheelZoom.enable()
+            }      
+        })
+        document.addEventListener('keyup', () => {
+            // ctrlPressed  = false
+            console.log('no')
+
+            this.map.scrollWheelZoom.disable()
+        })
+       
     }
 
     mapStyle(feature){
@@ -156,9 +188,9 @@ export default class Leaflet extends Component {
                
                 <div className='card'>
                     <div style={{position: 'sticky', overflow: 'hidden'}}>
-                    
                         {!this.state.name ? (
-                            <div className='hover'>Touch or Hover over an area</div>
+                        
+                        <div className='hover'>Touch or Hover over an area</div>
                         ) : (
                                 <div className='info'>
                                 <strong>DHB: {this.state.name}</strong>

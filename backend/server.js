@@ -12,12 +12,13 @@ app.use(cors())
 app.use(express.json())
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended: true}))
-app.use(express.static(path.join(__dirname, 'frontend/build')))
 app.use('/', confirmedRoute)
 app.use('/stats',  confirmedRoute)
 app.use('/dhbdata',  confirmedRoute)
 app.use('/recovery',  confirmedRoute)
 app.use('/agegroup-gender-affected', confirmedRoute)
+app.use(express.static(path.join(__dirname, 'frontend/build')))
+
 // if(process.env.NODE_ENV === 'production'){
 //     app.use(express.static(path.join(__dirname, 'frontend/build')))
 //     app.get('*', (req,res) => {

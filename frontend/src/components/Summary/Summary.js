@@ -19,13 +19,7 @@ export default function Summary(props) {
      // console.log(TotaltoDate)
     return (
          <div>
-         <nav className='navbar' style={{backgroundColor: 'red', color: 'white'}}>
-               <div className='container-fluid'>
-                    <div className='navbar-header'>
-                         <h2>Covid-19 Tracker</h2>
-                    </div>
-               </div>
-          </nav>
+        
           <section className='content'>
           <div className='container-fluid'>
                <div className='block-header'>
@@ -43,10 +37,11 @@ export default function Summary(props) {
                          Confirmed cases
                          </div>
                          <div className='number count-to'>{TotaltoDate[2]}
-                              (<i className="fas fa-arrow-up up-arrow"></i>{NewinLast[2]})</div>
-                         {/* <div className='number count-to'>{TotaltoDate[2]}</div> */}
-                         
-
+                              (
+                                   {NewinLast[2] > 0 &&  <i className="fas fa-arrow-up up-arrow">{NewinLast[2]}</i>
+                          || NewinLast[2]<= 0 &&  <i className="fas fa-arrow-down down-arrow">{NewinLast[2]}</i>}
+                              )
+                             </div>
                     </div>
                     {/* <div className='up-arrow'>
                          <i className="fas fa-arrow-up"></i>
