@@ -7,14 +7,6 @@ const url = require('url')
 const xlreader = require('read-excel-file/node')
 const xltojson = require('convert-excel-to-json')
 const Promise = require('promise')
-// import axios from 'axios'
-// import cheerio from 'cheerio'
-// import fs from 'fs'
-// import Path from 'path'
-// import https from 'https'
-// import url from 'url'
-// import xlreader from 'read-excel-file/node'
-// import xltojson from 'convert-excel-to-json'
 
 const URL = {currentcases: 'https://www.health.govt.nz/our-work/diseases-and-conditions/covid-19-novel-coronavirus/covid-19-current-situation/covid-19-current-cases',
             currentcasesdetails:'https://www.health.govt.nz/our-work/diseases-and-conditions/covid-19-novel-coronavirus/covid-19-current-situation/covid-19-current-cases/covid-19-current-cases-details',
@@ -37,27 +29,16 @@ async function ageGroupGenderaffected(currentcasesdetails){
         const anchorTag = pageContent.find('ul').eq(1).find('li > a')
         downloadLink.push(anchorTag.attr('href'))
     })
-    // console.log(downloadLink[0])
-   
-    // console.log(pathtoJsonResult + '/result.json')
+
     const downloadUrl = `https://www.health.govt.nz${downloadLink[0]}`
     const filename = url.parse(downloadUrl).pathname.split('/').pop()
     const path = Path.resolve(__dirname, 'files', filename)
     const pathtoJsonResult = Path.join(__dirname, 'files')
-    //waiting for this to be done until we move on and call this
-    
-    fs.readdir(pathtoJsonResult, (err, fnameEx) =>{
-      
-           return console.log(fnameEx)
-      
-    })
- 
-    
+    //waiting for this to be done until we move on and call this  
      fs.readdir(pathtoJsonResult,async (err, existingfile) => {
           if(filename === existingfile[0]){
             console.log('file exist')
           } else if(!existingfile[0] || filename !== existingfile[0]){
-            //   console.log('no file downloaded')
              fs.unlinkSync(pathtoJsonResult + `/${existingfile[0]}`)
               const fileWrite =  fs.createWriteStream(path)
               https.get(downloadUrl, res => {
@@ -72,19 +53,10 @@ async function ageGroupGenderaffected(currentcasesdetails){
                console.log(err)
            })
           }
-          else {
-            
-          
-           
-          }
     })   
-    console.log('age group affected function')
-    console.log(path)
-    //  console.log(readDirect)
     return path
 }
 async function convertXLtoJSON(fileSourcePath) { 
-    console.log('Convert xl to json function')
     const jsonResult = xltojson({
         sourceFile: fileSourcePath,
         header: {
@@ -105,7 +77,6 @@ async function convertXLtoJSON(fileSourcePath) {
     return jsonResult
 }
 async function genderData(xltojsonresult){
-    console.log(JSON.stringify(xltojsonresult.Confirmed.length))
     const parsedData  = xltojsonresult
     const ageGroup = []
     const result = []
@@ -119,8 +90,6 @@ async function genderData(xltojsonresult){
                 }
             })
         }
-        // console.log(result.sort())
-    
         for(let i = 0; i<parsedData.Confirmed.length; i++){
                 if(parsedData.Confirmed[i].Sex === 'Male' || parsedData.Confirmed[i].Sex === undefined){
                     const confirmedMalegroup = {
@@ -160,12 +129,7 @@ async function genderData(xltojsonresult){
                 } 
            
         }
-    // }
-    // console.log(parsedData)
-    console.log('gender data function')
-
-    return {result,filterByAge}
-   
+    return {result,filterByAge}  
 }
 
 async function findCovid19TotalCases(ministryofHealthData){
@@ -204,7 +168,6 @@ async function casesbyDHB(ministryofHealthData){
         const $numofDeceased = $DhbElement.find('tbody > tr > td:nth-child(4)')
         const $totalCases = $DhbElement.find('tbody > tr > td:nth-child(5)')
         const $lastTwentyfourhrs = $DhbElement.find('tbody > tr > td:nth-child(6)')
-        // console.log($dhbName.text())
         for(let i = 0; i < $dhbName.length; i++){
             const DHBall = {
                 Place: $dhbName.eq(i).text().normalize('NFKD').replace(/[^\w\s.-_\/]/g, ''),
@@ -215,17 +178,8 @@ async function casesbyDHB(ministryofHealthData){
                 changes: $lastTwentyfourhrs.eq(i).text()
             }
             casesinDHB.push(DHBall)
-            // console.log(casesinDHB)
         }
-    console.log($numofDeceased.eq(i).text())
-
     })
-    // console.log(casesinDHB[17].Place)
-    // console.log(casesinDHB[5].Place)
-    for(let j = 0; j< casesinDHB.length; j++){
-        console.log(casesinDHB[j].deceased === undefined ? 'empty': casesinDHB[j].deceased)
-    }
-
     const readGeojson = await fs.readFileSync('./ScrapeApi/nz1.json', 'utf8', (err, data) => {
         if(err){
             console.log(err)
@@ -235,12 +189,9 @@ async function casesbyDHB(ministryofHealthData){
         }
     })
     let parsedJsonData = JSON.parse(readGeojson)
-    console.log(parsedJsonData[0].properties.NAME)
     for(let i = 0; i< parsedJsonData.length; i++){ 
         for(let j = 0; j< casesinDHB.length; j++){
             if(parsedJsonData[i].properties.NAME === casesinDHB[j].Place){
-            // console.log(parsedJsonData.features[i].properties.NAME, casesinDHB[j].Place, parsedJsonData.features[i].properties.DHB12)
-
             parsedJsonData[i].properties.active = casesinDHB[j].cases
             parsedJsonData[i].properties.recovered = casesinDHB[j].recovered
             parsedJsonData[i].properties.deceased = casesinDHB[j].deceased 
@@ -309,7 +260,6 @@ recoveryDates.each((i, el) => {
 
 //loading death rate URL
 const $$ = cheerio.load(deathRateLink)
-// const deathRatedate = $$('#LC1')
 const deathCases = $$('#LC172')
 const totalDeathRate = []
 const dailyDeathrate = []
@@ -318,33 +268,25 @@ deathCases.each((i, el) => {
         dailyDeathrate.push($$(el).text())
     })
 })
-// console.log(dailyDeathrate)
+
 for(let i =60; i<recoveryCases.length; i++){
     totalRecoverydata.push(dates[i - 1], recoveryCases[i])
 }
 for(let i =60; i<dailyDeathrate.length; i++){
     totalDeathRate.push(dailyDeathrate[i])
 }
-
-
-// console.log(totalRecoverydata.html())
 return  {totalRecoverydata,
     totalDeathRate}
 }
 
  async function covid19TotalCount(){
     const ministryofHealthData = await getHTML(URL.currentcases)
-  
     const totalCases = await findCovid19TotalCases(ministryofHealthData)
-    console.log(1)
-
     return totalCases
 }
  async function TotalCasesbyDHB(){
     const ministryofHealthData = await getHTML(URL.currentcases)
     const totalCasesbyDHB = await casesbyDHB(ministryofHealthData)
-    console.log(2)
-
     return totalCasesbyDHB
 }
 
@@ -352,8 +294,6 @@ return  {totalRecoverydata,
     
     const githubData = await getHTML(URL.githubCSSEGISandData)
     const casesOverTime = await findCovidDataOvertheTime(githubData)
-    console.log(3)
-
     return casesOverTime
 }
 
@@ -361,7 +301,6 @@ return  {totalRecoverydata,
     const recoveryDatagithub = await getHTML(URL.recoveryDataCSSEGIS)
     const deathRate = await getHTML(URL.deathRateCSSEGIS)
     const recoveryResults = await fetchRecoveryData(recoveryDatagithub, deathRate)
-    console.log(4)
     return recoveryResults
 }
 async function genderAffected(){
