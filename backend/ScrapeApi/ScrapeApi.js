@@ -229,8 +229,11 @@ return casesinDHB
     for(let i = 40 ; i< cases.length; i++){
         totalConfirmedCases.push(dates[i - 1], cases[i])  
     }
+    //data from csse john hopkin university show 102 instead of 66 cases on 22/03/2020.
+    // So we have to make sure the wrong data is replaced with the correct one
     totalConfirmedCases.filter(filterDate => {
         if(filterDate === '3/22/20'){
+            
            const index =  totalConfirmedCases.indexOf('102')
            totalConfirmedCases[index] = '66'
         }

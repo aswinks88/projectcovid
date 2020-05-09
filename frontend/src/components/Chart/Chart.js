@@ -39,6 +39,9 @@ export class Chart extends Component {
                 confirmedCases.push(res.data[i])
             }
         }
+        // onClick = () => {
+        //     if()
+        // }
         this.setState({
             chartData:{
                 labels: dates,
@@ -263,14 +266,92 @@ export class Chart extends Component {
     }
     render() {
         return (
-             <div>
-            <div className='row clearfix'>
-            <ChartComponent name='Total Confirmed Cases' data = {this.state.chartData} chartType='line'/>
-            <ChartComponent name='Recovery vs Death rate' data = {this.state.dailyCases} chartType='line'/>    
-            <ChartComponent name='Cases by DHB' data = {this.state.dhb} chartType='hbar'/>
-            <ChartComponent name='Age group affected' data = {this.state.ageGroupData} chartType='hbar'/>
-            <ChartComponent name='Gender' data = {this.state.gender} chartType='pie'/>               
+            <div>
+            <div className='row clearfix'> 
+             <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
+            
+                    <div className='card'>
+                           <div className='header'>
+                                <div className='row clearfix'>
+                                     <div className='col-lg-6 col-md-12 col-sm-6'>
+                                         <h4> Total Confirmed Cases</h4>
+                                     </div>
+                                </div>
+                           </div>
+                 <div className='body'>
+                        <ChartComponent data = {this.state.chartData} chartType='line'/>
+                 </div>
+                    </div>
+                      
+                 </div>
+                 <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
+            
+                    <div className='card'>
+                           <div className='header'>
+                                <div className='row clearfix'>
+                                     <div className='col-lg-6 col-md-12 col-sm-6'>
+                                         <h4> Recovery vs Death rate</h4>
+                                     </div>
+                                </div>
+                           </div>
+                 <div className='body'>
+                 <ChartComponent data = {this.state.dailyCases} chartType='line'/>    
+                 </div>
+                </div>
+                 </div>
+                 <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
+            
+                    <div className='card'>
+                           <div className='header'>
+                                <div className='row clearfix'>
+                                     <div className='col-lg-6 col-md-12 col-sm-6'>
+                                         <h4> Cases by DHB</h4>
+                                     </div>
+                                </div>
+                           </div>
+                 <div className='body'>
+                 <ChartComponent data = {this.state.dhb} chartType='hbar'/>
 
+                 </div>
+                </div>
+                 </div>
+                 <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
+            
+                    <div className='card'>
+                           <div className='header'>
+                                <div className='row clearfix'>
+                                     <div className='col-lg-6 col-md-12 col-sm-6'>
+                                         <h4> Age group affected</h4>
+                                     </div>
+                                </div>
+                           </div>
+                 <div className='body'>
+                 <ChartComponent data = {this.state.ageGroupData} chartType='hbar'/>
+
+
+                 </div>
+                </div>
+                 </div>
+                 <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
+            
+                    <div className='card'>
+                           <div className='header'>
+                                <div className='row clearfix'>
+                                     <div className='col-lg-6 col-md-12 col-sm-6'>
+                                         <h4> Gender</h4>
+                                     </div>
+                                </div>
+                           </div>
+                 <div className='body'>
+                 <ChartComponent data = {this.state.gender} chartType='pie'/>     
+
+
+                 </div>
+                </div>
+                 </div>
+                 
+           
+                     
             </div>
           </div>
         )

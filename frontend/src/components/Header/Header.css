@@ -11,7 +11,7 @@
 .navbar-header{
     padding: 10px 7px;
 }
-.navbar-header h2{
+.navbar-header {
     /* font-size: 30px; */
-    text-align: center;
+    text-align: left;
 }
