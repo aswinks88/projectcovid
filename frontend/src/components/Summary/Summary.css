@@ -1,19 +1,13 @@
-.card {
-    background: #fff;
-    min-height: 50px;
+.top {
+    background-color: rgb(255, 255, 255);
+    border-radius: 10px;
+    margin-top: 0;
+    margin-bottom: 10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border: 2px solid #dee2e6;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-    position: relative;
-    margin-bottom: 30px;
-    -webkit-border-radius: 2px;
-    -moz-border-radius: 2px;
-    -ms-border-radius: 2px;
-    border-radius: 2px;
 }
-/* .card .body ul {
-    margin: 0;
-    padding: 0;
-    list-style: none;
-} */
 section.content{
     margin: 100px 15px 15px 0px;
     -moz-transition: 0.5s;
@@ -21,126 +15,47 @@ section.content{
     -webkit-transition: 0.5s;
     transition: 0.5s;
 }
-
+.top h2 {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    font-size: 28px;
+    text-align: center;
+}
 .row{
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
     margin-right: -15px;
     margin-left: -15px;
 }
-.block-header{
-    margin-bottom: 15px;
-    margin-top: 15px;
+.text-center {
+    text-align: center!important;
 }
-
-.info-box{
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-    height: 80px;
-    display: flex;
-    cursor: default;
-    background-color: #fff;
-    position: relative;
-    overflow: hidden;
-    margin-bottom: 30px;
+p {
+    margin-top: 0;
+    margin-bottom: 1rem;
 }
-.info-box .icon{
-    display: inline-block;
-    text-align: center;
-    background-color: rgba(0, 0, 0, 0.12);
-    width: 80px;
+.top .stats p.cases {
+    font-size: 22px;
+    font-weight: 500;
 }
-.info-box .icon i{
-    color: white;
-    font-size: 50px;
-    line-height: 80px;
-    }
-
-.up-arrow{
-    display: inline-block;
-    text-align: center;
-    /* background-color: rgba(0, 0, 0, 0.12); */
-    font-size: 15px;
-    /* color: red; */
+.top .stats .diff {
+    position: absolute;
+    top: 27px;
+    left: 50%;
+    margin-left: -50%;
+    width: 100%;
+    color: red;
 }
-/* .info-box .up-arrow i{
-    color: white;
-    font-size: 15px;
-    line-height: 80px;
-    } */
-/* .down-arrow{
-    color: white;
-    font-size: 35px;
-    line-height:80px;
-   display: inline-block;
-   margin-left: 70px;
-} */
-.info-box .content{
-    display: inline-block;
-    padding: 7px 10px;
+.red.cases {
+    color: red;
 }
-.info-box .content .text{
-    font-size: 15px;
-    margin-top: 11px;
-    color: white !important;
+.stats .recovered.green{
+    color: green;
 }
-.info-box .content .number{
-    font-weight: normal;
-    font-size: 26px;
-    margin-top: -4px;
-    color: white !important;
+.stats .hospital.green{
+    color: green;
 }
-
-.bg-orange{
-    background-color: #FF9800;
-    color: white;
-}
-i{
-    color: rgb(255, 255, 255);
-    font-size: 20px;
-    /* line-height: 80px; */
-    }
-    img{
-        color: rgb(255, 255, 255);
-        font-size: 20px;
-    }
-  
-span {
-    color: rgb(255, 255, 255);
-    font-size: 15px;
-    /* line-height: 80px;   */
-}
-.stat-list{
-    list-style: none;
-    padding-left: 0;
-    margin-top: 40px;
-}
-.bg-cyan{
-    background-color: #00BCD4 !important;
-}
-.bg-teal{
-    background-color: #009688 !important;
-}
-.bg-pink {
-    background-color: #ED4F46 !important;
-}
-.bg-card-color{
-    background-color:white !important;
-    color: black
-}
-.font-weight-bold{
-    /* margin-bottom: -35px; */
-    text-align: center;
-    color: white;
-    font-size: 30px;
-}
-ul{
-    margin-bottom: 10px;
-}
-.death-rate{
-    color: white;
-    font-size: 50px;
-    text-align: center;
-}
-.stat-list li {
-    padding: 16px 0 0 0;
-    color: white;
-    /* font-size: 20px; */
+.stats .hosup{
+    color: red;
 }

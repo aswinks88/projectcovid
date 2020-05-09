@@ -1,13 +1,8 @@
 import React, { Component } from 'react'
 import * as L from 'leaflet'
-import {Map, TileLayer} from 'react-leaflet'
 import 'leaflet/dist/leaflet.css'
 import { GestureHandling } from 'leaflet-gesture-handling'
 import 'leaflet-gesture-handling/dist/leaflet-gesture-handling.css'
-import axios from 'axios'
-// import {GeoJSON} from 'react-leaflet'
-// import statesData from './nz-district'
-// import statesData from './nz-district-data.json'
 import statesData from './nz1.json'
 import './Maps.css'
 let geojson
@@ -182,11 +177,11 @@ export default class Leaflet extends Component {
         return (
            
                 <div className='container'>
-                    <div className='row'>
+                    <div className='row clearfix'>
                          <div className='col-lg-12 col-md-12 col-sm-12 col-xs-12'>
             
                
-                <div className='card'>
+                <div className='card maps'>
                     <div style={{position: 'sticky', overflow: 'hidden'}}>
                         {!this.state.name ? (
                         

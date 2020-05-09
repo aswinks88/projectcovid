@@ -268,7 +268,7 @@ export class Chart extends Component {
         return (
             <div>
             <div className='row clearfix'> 
-             <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
+             <div className='col-xs-12 col-sm-12 col-md-12 col-lg-12 '>
             
                     <div className='card'>
                            <div className='header'>
@@ -284,7 +284,7 @@ export class Chart extends Component {
                     </div>
                       
                  </div>
-                 <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
+                 <div className='col-xs-12 col-sm-12 col-md-12 col-lg-12  '>
             
                     <div className='card'>
                            <div className='header'>
@@ -299,7 +299,7 @@ export class Chart extends Component {
                  </div>
                 </div>
                  </div>
-                 <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
+                 <div className='col-xs-12 col-sm-12 col-md-12 col-lg-12  '>
             
                     <div className='card'>
                            <div className='header'>

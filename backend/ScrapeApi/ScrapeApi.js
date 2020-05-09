@@ -151,8 +151,6 @@ async function findCovid19TotalCases(ministryofHealthData){
         summary.push(summaryofTable)
         }
     })
-
- //scraping the download link from another page but from the same site 
 return summary
 }
 async function casesbyDHB(ministryofHealthData){
@@ -224,12 +222,12 @@ return casesinDHB
             cases.push($(el).text().replace(/^\s+|\s+$|\s+(?=\s)/g, ""))
         })
     })
-    //here variable i is initialised to 40 in order to move 40 places in the data table so that we can scrape the data
+    //here variable i is initialised to 40 in order to move 40 places in the data table so that we can push the data
     // from 26/02/20 2 days before the first case registered in NZ.
     for(let i = 40 ; i< cases.length; i++){
         totalConfirmedCases.push(dates[i - 1], cases[i])  
     }
-    //data from csse john hopkin university show 102 instead of 66 cases on 22/03/2020.
+    //data from csse john hopkin university shows 102 instead of 66 cases on 22/03/2020.
     // So we have to make sure the wrong data is replaced with the correct one
     totalConfirmedCases.filter(filterDate => {
         if(filterDate === '3/22/20'){

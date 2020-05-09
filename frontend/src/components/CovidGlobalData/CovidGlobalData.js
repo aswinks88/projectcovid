@@ -30,7 +30,7 @@ export class CovidGlobalData extends Component {
            
            
                     <div className = 'col-lg-6 col-md-6 col-sm-12 col-xs-12'>
-                        <div className='card'>
+                        <div className='card rotw'>
                             <div className='body bg-orange'>
                             <div className='font-weight-bold'>Rest of the World</div>
                             <ul className='stat-list'>

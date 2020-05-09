@@ -17,7 +17,7 @@ function App() {
       <Header />
       <SummaryofCovid />
       <Maps />
-      {/* <Chart /> */}
+      <Chart />
       <Footer />
     </div>
   );
