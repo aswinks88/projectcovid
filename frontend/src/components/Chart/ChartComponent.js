@@ -8,34 +8,36 @@ const ChartComponent = (props) => {
      // col-lg-6 col-md-6 col-sm-12 col-xs-12
      // col-xs-12 col-sm-12 col-md-12 col-lg-12     
                                 <div className='chart' style={{display: 'block'}}>
-                                {props.chartType === 'line' && 
+                                {props.chartType === 'line' ? 
                                 <Line
                                       data={props.data}
                                       width={765}
                                       height={300}
-                                      options={{tooltips:{mode:'index'}, 
-                                      
+                                      options={{tooltips:{mode:'index', position:'nearest'},
+                                      plugins:{zoom :{zoom:{enabled: true, mode:'x', drag:false,rangeMin: {x:0,y:10}, rangeMax: {x:0,y:1500}}, 
+                                      pan:{enabled: true, speed: 5, mode:'x', rangeMin: {x:0,y:0}, rangeMax: {x:0,y:1500}}}}, 
                                       aspectRatio:1, maintainAspectRatio: false, responsive: true, }}
-                                  /> ||
-                                  props.chartType==='hbar' &&
+                                  /> :
+                                  props.chartType==='hbar' ?
                                   <HorizontalBar
                                       data={props.data}
                                       width={765}
                                       height={300}
-                                      options={{ aspectRatio:2, maintainAspectRatio: false, responsive: true, }}
-                                  /> || props.chartType==='pie' && 
+                                      options={{  plugins:{zoom :{zoom:{enabled: true, mode:'y', drag:false,rangeMin: {x:0,y:10}, rangeMax: {x:0,y:1500}}, 
+                                      pan:{enabled: true, speed: 5, mode:'y', rangeMin: {x:0,y:0}, rangeMax: {x:0,y:1500}}}},aspectRatio:2, maintainAspectRatio: false, responsive: true, }}
+                                  /> : props.chartType==='pie' ?
                                   <Pie 
                                       data={props.data}
                                       width={765}
                                       height={300}
                                       options={{ aspectRatio:2, maintainAspectRatio: false, responsive: true, }}/> 
-                                      || props.chartType==='bar' && 
+                                      : props.chartType==='bar' ?
                                       <Bar
                                       data={props.data}
                                       width={765}
                                       height={300}
                                       options={{ aspectRatio:2, maintainAspectRatio: false, responsive: true, }}
-                                  /> || props.chartType==='doughnut' &&  
+                                  /> : props.chartType==='doughnut' ?  
                                       <Doughnut
                                       data={props.data}
                                       width={765}
@@ -45,12 +47,10 @@ const ChartComponent = (props) => {
                                       cutoutPercentage: 80, 
                                       aspectRatio:2, 
                                       maintainAspectRatio: false, 
-                                      responsive: true, }}/> }
+                                      responsive: true, }}/> : <p>Chart failed to load</p>}
                                 </div>          
     )
 }
 
 export default ChartComponent
 
-// zoom:{enabled: true, mode:'xy', drag: false,rangeMin: {x:0,y:10}, rangeMax: {x:0,y:2000}}, 
-// pan:{enabled: true, speed: 10, mode:'xy', rangeMin: {x:0,y:0}, rangeMax: {x:0,y:2300}}, 

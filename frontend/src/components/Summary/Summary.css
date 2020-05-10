@@ -1,14 +1,15 @@
 .top {
     background-color: rgb(255, 255, 255);
-    border-radius: 10px;
+    /* border-radius: 10px; */
     margin-top: 0;
     margin-bottom: 10px;
     padding-top: 10px;
     padding-bottom: 10px;
-    border: 2px solid #dee2e6;
+    border: 1px solid #dee2e6;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    border-color: black;
 }
-section.content{
+.container .content{
     margin: 100px 15px 15px 0px;
     -moz-transition: 0.5s;
     -o-transition: 0.5s;
@@ -58,4 +59,10 @@ p {
 }
 .stats .hosup{
     color: red;
+}
+.fatality{
+    color:red;
+}
+.recovery{
+    color:green;
 }

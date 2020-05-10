@@ -30,7 +30,6 @@ async covidDataHandler(){
         var RateofRecovery = ((recovery/totaCases)*100).toFixed(2)
         var RateofDeath = ((death/totaCases)*100).toFixed(2)
         const stats = res.data
-        console.log(RateofRecovery)
         this.setState({
         data: stats,
         doughNutData: {
@@ -51,7 +50,7 @@ async covidDataHandler(){
        <div>
             <Summary data={this.state.data} death={this.state.deathRate} 
             recovery = {this.state.recoveryRate} 
-            chartData={this.state.doughNutData}/>
+           />
            
        </div>
         )

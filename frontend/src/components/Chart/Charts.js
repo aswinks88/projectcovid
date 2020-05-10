@@ -1,8 +1,12 @@
 import React, { Component } from 'react'
 import axios from 'axios'
-import ChartComponent from '../Chart/ChartComponent'
+import ChartComponent from './ChartComponent'
 import './Graph.css'
-export class Chart extends Component {
+import Slider from 'react-rangeslider'
+import 'react-rangeslider/lib/index.css'
+import { Chart } from "react-google-charts";
+// import { Slider, Rail, Handles, Tracks, Ticks } from 'react-compound-slider';
+export class Charts extends Component {
     constructor(props){
         super(props)
 
@@ -13,6 +17,8 @@ export class Chart extends Component {
             gender: {},
             genderRatio: {},
             ageGroupData:{},
+            cases: '',
+            date: ''
         }      
         this.confirmedCasesHandler = this.confirmedCasesHandler.bind(this)
         this.deathandrecoveryRateHandler = this.deathandrecoveryRateHandler.bind(this)
@@ -38,11 +44,9 @@ export class Chart extends Component {
             } else {
                 confirmedCases.push(res.data[i])
             }
-        }
-        // onClick = () => {
-        //     if()
-        // }
+        }     
         this.setState({
+           
             chartData:{
                 labels: dates,
                 datasets:[
@@ -62,13 +66,13 @@ export class Chart extends Component {
         console.log(err)
     })
     }
+    
    async deathandrecoveryRateHandler(){
         await axios.get('http://localhost:5000/recovery')
         .then(res =>{
             const dates = []
             const recoveryCases = []
             const deathRate = []
-            // console.log(res.data.totalRecoverydata)
             for(let i = 0; i< res.data.totalRecoverydata.length;i++){
                 if(i % 2 === 0 ){
                     dates.push(res.data.totalRecoverydata[i])
@@ -76,7 +80,6 @@ export class Chart extends Component {
                     recoveryCases.push(res.data.totalRecoverydata[i])
                 }
             }
-            console.log(recoveryCases)
             for(let i = 0; i < res.data.totalDeathRate.length; i++){
                 deathRate.push(res.data.totalDeathRate[i])
             }
@@ -112,7 +115,6 @@ export class Chart extends Component {
     async dhbHandler(){
         await axios.get('http://localhost:5000/dhbdata')
         .then(res => {
-            // console.log(1, res.data)
             const place = []
             const cases = []
             const deceased = []
@@ -126,7 +128,6 @@ export class Chart extends Component {
                 recovered.push(res.data[i].recovered)
                 active.push(res.data[i].cases)
             }
-            console.log(recovered)
             this.setState({
                dhb: {
                 labels: place,
@@ -176,7 +177,6 @@ export class Chart extends Component {
     async totalConfirmedCaseGenderHandler(){
         await axios.get('http://localhost:5000/agegroup-gender-affected')
         .then(async res => {
-            // console.log(res.data.parsedData.Confirmed[0].Sex)
             const male =[]
             const female =[]
             const others = []
@@ -186,7 +186,6 @@ export class Chart extends Component {
             const genderAge1to4f = []
             const genderAgeUnknown = []
             await res.data.filterByAge.forEach((data, index) => {
-                // console.log(data.gender === 'Male', index)
                 if(data.gender === 'Male'){
                    male.push(data.gender[index])
                 } else if(data.gender === 'Female'){
@@ -200,7 +199,6 @@ export class Chart extends Component {
                var Malecounter = 0
                var Femalecounter = 0
                var unknown = 0
-            console.log(res.data.result[i])
                for(let j=0; j<res.data.filterByAge.length; j++){
                    if(res.data.result[i] === res.data.filterByAge[j].ageGroup){
                        if(res.data.filterByAge[j].gender === 'Male'){ 
@@ -216,7 +214,6 @@ export class Chart extends Component {
             genderAge1to4f.push(Femalecounter)
             genderAgeUnknown.push(unknown)
            }
-            console.log(res.data.filterByAge.length, genderAge1to4m,  genderAge1to4f)
             this.setState({
                     genderRatio: {
                         male: ((male.length/total)*100).toFixed(2),
@@ -266,9 +263,9 @@ export class Chart extends Component {
     }
     render() {
         return (
-            <div>
+            <div className='container'>
             <div className='row clearfix'> 
-             <div className='col-xs-12 col-sm-12 col-md-12 col-lg-12 '>
+            <div className='col-xs-12 col-sm-12 col-md-12 col-lg-12 '>
             
                     <div className='card'>
                            <div className='header'>
@@ -279,13 +276,13 @@ export class Chart extends Component {
                                 </div>
                            </div>
                  <div className='body'>
-                        <ChartComponent data = {this.state.chartData} chartType='line'/>
+                      <ChartComponent data = {this.state.chartData} chartType='line'/>
                  </div>
                     </div>
                       
                  </div>
-                 <div className='col-xs-12 col-sm-12 col-md-12 col-lg-12  '>
-            
+                 
+                 <div className='col-xs-12 col-sm-12 col-md-12 col-lg-12  '>          
                     <div className='card'>
                            <div className='header'>
                                 <div className='row clearfix'>
@@ -299,8 +296,8 @@ export class Chart extends Component {
                  </div>
                 </div>
                  </div>
+                
                  <div className='col-xs-12 col-sm-12 col-md-12 col-lg-12  '>
-            
                     <div className='card'>
                            <div className='header'>
                                 <div className='row clearfix'>
@@ -311,10 +308,10 @@ export class Chart extends Component {
                            </div>
                  <div className='body'>
                  <ChartComponent data = {this.state.dhb} chartType='hbar'/>
-
                  </div>
                 </div>
                  </div>
+                
                  <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
             
                     <div className='card'>
@@ -327,11 +324,10 @@ export class Chart extends Component {
                            </div>
                  <div className='body'>
                  <ChartComponent data = {this.state.ageGroupData} chartType='hbar'/>
-
-
                  </div>
                 </div>
                  </div>
+                 
                  <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
             
                     <div className='card'>
@@ -358,6 +354,6 @@ export class Chart extends Component {
     }
 }
 
-export default Chart
+export default Charts
 
             

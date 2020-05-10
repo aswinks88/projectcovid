@@ -6,7 +6,7 @@ import '@fortawesome/fontawesome-free/css/brands.css'
 import '@fortawesome/fontawesome-free/css/solid.css'
 import SummaryofCovid from './components/SummaryofCovid/SummaryofCovid'
 import Maps from './components/Maps/Maps'
-import Chart from './components/Chart/Chart'
+import Chart from './components/Chart/Charts'
 import Footer from './components/Footer/Footer'
 import Header from './components/Header/Header'
 function App() {
