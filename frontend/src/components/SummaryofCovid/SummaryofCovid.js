@@ -43,15 +43,15 @@ async covidDataHandler(){
         recoveryRate: RateofRecovery
        })
     
-}).catch(err => console.log(err))
+})
+.catch(err => console.log(err))
 }
     render() {
         return (
-       <div>
+       <div>        
             <Summary data={this.state.data} death={this.state.deathRate} 
             recovery = {this.state.recoveryRate} 
            />
-           
        </div>
         )
     }

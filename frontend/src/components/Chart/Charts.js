@@ -5,7 +5,15 @@ import './Graph.css'
 import Slider from 'react-rangeslider'
 import 'react-rangeslider/lib/index.css'
 import { Chart } from "react-google-charts";
-// import { Slider, Rail, Handles, Tracks, Ticks } from 'react-compound-slider';
+import { css } from "@emotion/core";
+import ClipLoader from "react-spinners/ClipLoader";
+import Spinner from 'react-bootstrap/Spinner'
+const override = css`
+  display: block;
+  margin: 0 auto;
+  border-color: red;
+`;
+
 export class Charts extends Component {
     constructor(props){
         super(props)
@@ -17,8 +25,7 @@ export class Charts extends Component {
             gender: {},
             genderRatio: {},
             ageGroupData:{},
-            cases: '',
-            date: ''
+            loading: false
         }      
         this.confirmedCasesHandler = this.confirmedCasesHandler.bind(this)
         this.deathandrecoveryRateHandler = this.deathandrecoveryRateHandler.bind(this)
@@ -259,12 +266,19 @@ export class Charts extends Component {
                 }
             })
           
-        })
+        }).then(()=>{
+            new Promise (wait => setTimeout(wait, 2000))
+            this.setState({
+                loading: true
+            })
+        }
+          )
     }
     render() {
         return (
             <div className='container'>
-            <div className='row clearfix'> 
+            {!this.state.loading ? <span className='text-center'>Loading chart data...<Spinner className='spinner text-secondary' animation="border" variant="primary" /></span>
+                :<div className='row clearfix'> 
             <div className='col-xs-12 col-sm-12 col-md-12 col-lg-12 '>
             
                     <div className='card'>
@@ -340,15 +354,10 @@ export class Charts extends Component {
                            </div>
                  <div className='body'>
                  <ChartComponent data = {this.state.gender} chartType='pie'/>     
-
-
                  </div>
                 </div>
-                 </div>
-                 
-           
-                     
-            </div>
+                 </div>            
+            </div>}
           </div>
         )
     }

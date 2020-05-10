@@ -34,7 +34,6 @@ async function ageGroupGenderaffected(currentcasesdetails){
     const filename = url.parse(downloadUrl).pathname.split('/').pop()
     const path = Path.resolve(__dirname, 'files', filename)
     const pathtoJsonResult = Path.join(__dirname, 'files')
-    //waiting for this to be done until we move on and call this  
      fs.readdir(pathtoJsonResult,async (err, existingfile) => {
           if(filename === existingfile[0]){
             console.log('file exist')
@@ -308,7 +307,8 @@ async function genderAffected(){
     // 
     const currentcasesdetails = await getHTML(URL.currentcasesdetails)
     const totalAffected = await ageGroupGenderaffected(currentcasesdetails)
-    await new Promise (wait => setTimeout(wait, 5000))
+    //waiting for this to be done until we move on and call next 
+    await new Promise (wait => setTimeout(wait, 3000))
     const covertXLtoJson = await convertXLtoJSON(totalAffected)
     const jsonResult = await genderData(covertXLtoJson)
     return jsonResult
