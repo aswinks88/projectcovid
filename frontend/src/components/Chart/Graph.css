@@ -21,6 +21,16 @@
     font-weight: normal;
     color: #111;
 }
+.card .header .header-info {
+    position: absolute;
+    top: 20px;
+    right: 15px;
+    list-style: none;
+    cursor: pointer;
+}
+.card .header .header-info li {
+    display: inline-block;
+}
 .card .body {
     font-size: 14px;
     color: #555;

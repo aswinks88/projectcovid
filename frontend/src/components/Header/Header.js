@@ -64,7 +64,7 @@ function Header() {
                     <div className="collapse navbar-collapse" id="menuexpand">
                     <ul className='nav navbar-nav mr-auto menu'>
                          <li  className="nav-item">
-                              <a className="nav-link fa-pull-left" href='#' onClick={openModal}><i class="fas fa-info-circle"></i>&nbsp;About</a>
+                              <a className="nav-link fa-pull-left" href='#' onClick={openModal}><i className="fas fa-info-circle"></i>&nbsp;About</a>
                          </li>
                          </ul>
                     </div>
@@ -80,24 +80,29 @@ function Header() {
           onAfterOpen={afterOpenModal}
           onRequestClose={closeModal}
           style={customStyles}
-          contentLabel="Example Modal"
+          contentLabel="About Covid Dashboard"
         >
           <h2 ref={_subtitle => (subtitle = _subtitle)}>About this COVID-19 Dashboard</h2>
           <div>
                <p>
-                    This is a simple COVID-19 dashboard. <br/> The information that is shown here is taken from 
-                    Minisry of Health services, New Zealand and <br/>
-                    COVID-19 Data Repository by the Center for Systems Science and Engineering (CSSE) at <br/> 
-                    Johns Hopkins University. 
+                    This is a simple COVID-19 dashboard for NZ. <br/> The information that is shown here is collected from 
+                    Minisry of Health services, New Zealand and 
+                    COVID-19 Data <br/>Repository by the Center for Systems Science and Engineering (CSSE) at
+                    Johns Hopkins University and these sources<br/> update at different times. 
                </p>
-
+               <p>
+                    The graph shown here represent changes over the time since the first case identified in New Zealand.
+                    <ul>
+                         <li>Total Confirmed Cases</li>
+                    </ul>
+               </p>             
                <p>
                Please refer <a href='https://www.health.govt.nz/our-work/diseases-and-conditions/covid-19-novel-coronavirus/covid-19-current-situation/covid-19-current-cases'>
                Ministry of Health
                </a> website for more up to date information on covid-19.
                </p>
           </div>
-          <button onClick={closeModal}>close</button>
+          <button className='modalButton' onClick={closeModal}>close</button>
         </Modal>
           </nav>
     )

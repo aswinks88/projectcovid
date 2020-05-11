@@ -12,6 +12,10 @@ export default function Summary(props) {
      const NewinLast = props.data.map((el) => {
           return el.last
      })
+     const lastUpdated = props.data.filter((el)=>{
+          return el[6]
+     })
+     console.log(25, lastUpdated,NewinLast[2])
     return (
           <div className='container content'>
         
@@ -19,6 +23,7 @@ export default function Summary(props) {
          
                <div className='row clearfix'>
                     <div className='container top'>
+                    <small className='last-update'>Last updated: {lastUpdated}</small>
                     <h2>COVID-19 STATS</h2>
                     <div className='row stats nz'>
                          <div className='col-6 col-sm-6 col-md-2 text-center'>

@@ -66,3 +66,7 @@ p {
 .recovery{
     color:green;
 }
+.top small{
+    text-align: center;
+    color: rebeccapurple;
+}
