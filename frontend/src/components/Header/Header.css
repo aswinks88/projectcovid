@@ -56,6 +56,11 @@
 .ham{
     cursor: pointer;
 }
+.scroll{
+   overflow-y: auto;
+   max-height: calc(100vh - 210px);
+   
+}
 /* .fa-info-circle{
     font-size: 25px;
     padding: 7px 7px 2px 7px;
