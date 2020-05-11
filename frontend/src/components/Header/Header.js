@@ -113,7 +113,7 @@ function Header() {
                </a> website for more up to date information on covid-19.
                </p>
           </div>
-          <button className='modalButton' onClick={closeModal}>close</button>
+          <button className='btn bg-red waves-effect' onClick={closeModal}>close</button>
         </Modal>
           </nav>
     )
