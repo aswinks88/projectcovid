@@ -2,17 +2,7 @@ import React, { Component } from 'react'
 import axios from 'axios'
 import ChartComponent from './ChartComponent'
 import './Graph.css'
-import Slider from 'react-rangeslider'
-import 'react-rangeslider/lib/index.css'
-import { Chart } from "react-google-charts";
-import { css } from "@emotion/core";
-import ClipLoader from "react-spinners/ClipLoader";
 import Spinner from 'react-bootstrap/Spinner'
-const override = css`
-  display: block;
-  margin: 0 auto;
-  border-color: red;
-`;
 
 export class Charts extends Component {
     constructor(props){

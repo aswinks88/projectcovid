@@ -15,7 +15,6 @@ export default function Summary(props) {
      const lastUpdated = props.data.filter((el)=>{
           return el[6]
      })
-     console.log(25, lastUpdated,NewinLast[2])
     return (
           <div className='container content'>
         

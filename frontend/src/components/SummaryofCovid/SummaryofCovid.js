@@ -1,7 +1,11 @@
 import React, { Component } from 'react'
 import axios from 'axios'
 import Summary from '../Summary/Summary'
-
+import ReactGA from 'react-ga'
+import {createBrowserHistory} from 'history'
+const history = createBrowserHistory()
+const trackingId = 'UA-166269115-1'
+ReactGA.initialize(trackingId)
 export default class SummaryofCovid extends Component {
     constructor(props){
         super(props)
@@ -15,8 +19,11 @@ export default class SummaryofCovid extends Component {
     }
     async componentDidMount(){
        await this.covidDataHandler()
-        
-
+      history.listen(location => {
+        ReactGA.set({page: location.pathname})
+        ReactGA.pageview(location.pathname)
+      })
+      console.log(history)
 }
 
 async covidDataHandler(){
