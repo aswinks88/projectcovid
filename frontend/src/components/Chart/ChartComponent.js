@@ -14,8 +14,12 @@ const ChartComponent = (props) => {
                                       width={765}
                                       height={300}
                                       options={{tooltips:{mode:'index', position:'nearest'},
-                                      plugins:{zoom :{zoom:{enabled: true, mode:'x', drag:false,rangeMin: {x:0,y:10}, rangeMax: {x:0,y:1500}}, 
-                                      pan:{enabled: true, speed: 1, mode:'x', rangeMin: {x:0,y:0}, rangeMax: {x:0,y:1500}}}}, 
+                                      plugins:{
+                                      zoom :{zoom:{enabled: props.zoomStatus, mode:'x', 
+                                      drag:false,rangeMin: {x:0,y:0}, 
+                                      rangeMax: {x:0,y:1500}}, 
+                                      pan:{enabled: props.zoomStatus, speed: 1, mode:'x', 
+                                      rangeMin: {x:0,y:0}, rangeMax: {x:0,y:1550}}}}, 
                                       aspectRatio:1, maintainAspectRatio: false, responsive: true, }}
                                   /> :
                                   props.chartType==='hbar' ?
@@ -23,8 +27,12 @@ const ChartComponent = (props) => {
                                       data={props.data}
                                       width={765}
                                       height={300}
-                                      options={{  plugins:{zoom :{zoom:{enabled: true, mode:'y', drag:false,rangeMin: {x:0,y:10}, rangeMax: {x:0,y:1500}}, 
-                                      pan:{enabled: true, speed: 1, mode:'y', rangeMin: {x:0,y:0}, rangeMax: {x:0,y:1500}}}},aspectRatio:2, maintainAspectRatio: false, responsive: true, }}
+                                      options={{  plugins:{zoom :{zoom:{enabled: true, mode:'y', 
+                                      drag:false,rangeMin: {x:0,y:10}, 
+                                      rangeMax: {x:0,y:1500}}, 
+                                      pan:{enabled: true, speed: 1, mode:'y', 
+                                      rangeMin: {x:0,y:0}, rangeMax: {x:0,y:1500}}}},
+                                      aspectRatio:2, maintainAspectRatio: false, responsive: true, }}
                                   /> : props.chartType==='pie' ?
                                   <Pie 
                                       data={props.data}

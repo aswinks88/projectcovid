@@ -15,12 +15,16 @@ export class Charts extends Component {
             gender: {},
             genderRatio: {},
             ageGroupData:{},
-            loading: false
+            loading: false,
+            zoomEnabledLC1: false,
+            zoomEnabledLC2: false
         }      
         this.confirmedCasesHandler = this.confirmedCasesHandler.bind(this)
         this.deathandrecoveryRateHandler = this.deathandrecoveryRateHandler.bind(this)
         this.dhbHandler = this.dhbHandler.bind(this)
         this.totalConfirmedCaseGenderHandler = this.totalConfirmedCaseGenderHandler.bind(this)
+        this.zoomEnableHandlerLC1 = this.zoomEnableHandlerLC1.bind(this)
+        this.zoomEnableHandlerLC2 = this.zoomEnableHandlerLC2.bind(this)
     }
    async componentDidMount(){
      
@@ -31,7 +35,7 @@ export class Charts extends Component {
             
     }
     async confirmedCasesHandler(){
-        await axios.get('https://www.nzcovid19.site/api/stats')
+        await axios.get('http://localhost:5000/stats')
         .then(res => {
         let dates = []
         let confirmedCases = []
@@ -65,7 +69,7 @@ export class Charts extends Component {
     }
     
    async deathandrecoveryRateHandler(){
-        await axios.get('https://www.nzcovid19.site/api/recovery')
+        await axios.get('http://localhost:5000/recovery')
         .then(res =>{
             const dates = []
             const recoveryCases = []
@@ -110,7 +114,7 @@ export class Charts extends Component {
         })
     }
     async dhbHandler(){
-        await axios.get('https://www.nzcovid19.site/api/dhbdata')
+        await axios.get('http://localhost:5000/dhbdata')
         .then(res => {
             const place = []
             const cases = []
@@ -172,7 +176,7 @@ export class Charts extends Component {
         })
     }
     async totalConfirmedCaseGenderHandler(){
-        await axios.get('https://www.nzcovid19.site/api/agegroup-gender-affected')
+        await axios.get('http://localhost:5000/agegroup-gender-affected')
         .then(async res => {
             const male =[]
             const female =[]
@@ -264,9 +268,32 @@ export class Charts extends Component {
         }
           )
     }
+    zoomEnableHandlerLC1(e){
+        if(e === false){
+            this.setState({
+                zoomEnabledLC1: true,
+            })
+        } else {
+            this.setState({
+                zoomEnabledLC1: false,
+            })
+        }
+    }
+    zoomEnableHandlerLC2(e){
+        if(e === false){
+            this.setState({
+                zoomEnabledLC2: true,
+            })
+        } else {
+            this.setState({
+                zoomEnabledLC2: false,
+            })
+        }
+    }
     render() {
         return (
             <div className='container'>
+            <h5>Recent Trends<small>(All charts except pie chart are pan and zoom enabled)</small></h5>
             {!this.state.loading ? <span className='text-center'>Loading chart data...<Spinner className='spinner text-secondary' animation="border" variant="primary" /></span>
                 :<div className='row clearfix'> 
             <div className='col-xs-12 col-sm-12 col-md-12 col-lg-12 '>
@@ -280,7 +307,14 @@ export class Charts extends Component {
                                 </div>
                            </div>
                  <div className='body'>
-                      <ChartComponent data = {this.state.chartData} chartType='line'/>
+                      <ChartComponent data = {this.state.chartData} chartType='line' zoomStatus={this.state.zoomEnabledLC1}/>
+                      {!this.state.zoomEnabledLC1 ? <button className='zoombutton bg-red waves-effect' 
+                      onClick={() => this.zoomEnableHandlerLC1(this.state.zoomEnabledLC1)}>
+                      Enable zoom
+                      </button>:<button className='zoombutton bg-red waves-effect' 
+                      onClick={() => this.zoomEnableHandlerLC1(this.state.zoomEnabledLC1)}>
+                      Disable zoom
+                      </button>}
                  </div>
                     </div>
                       
@@ -296,7 +330,14 @@ export class Charts extends Component {
                                 </div>
                            </div>
                  <div className='body'>
-                 <ChartComponent data = {this.state.dailyCases} chartType='line'/>    
+                 <ChartComponent data = {this.state.dailyCases} chartType='line' zoomStatus={this.state.zoomEnabledLC2}/>    
+                { !this.state.zoomEnabledLC2 ? <button className='zoombutton bg-red waves-effect' 
+                 onClick={() => this.zoomEnableHandlerLC2(this.state.zoomEnabledLC2)}>
+                 Enable zoom
+                 </button> : <button className='zoombutton bg-red waves-effect' 
+                 onClick={() => this.zoomEnableHandlerLC2(this.state.zoomEnabledLC2)}>
+                 Disable zoom
+                 </button>}
                  </div>
                 </div>
                  </div>
