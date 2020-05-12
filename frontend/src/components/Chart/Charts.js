@@ -35,7 +35,7 @@ export class Charts extends Component {
             
     }
     async confirmedCasesHandler(){
-        await axios.get('http://localhost:5000/stats')
+        await axios.get('https://www.nzcovid19.site/stats')
         .then(res => {
         let dates = []
         let confirmedCases = []
@@ -69,7 +69,7 @@ export class Charts extends Component {
     }
     
    async deathandrecoveryRateHandler(){
-        await axios.get('http://localhost:5000/recovery')
+        await axios.get('https://www.nzcovid19.site/recovery')
         .then(res =>{
             const dates = []
             const recoveryCases = []
@@ -114,7 +114,7 @@ export class Charts extends Component {
         })
     }
     async dhbHandler(){
-        await axios.get('http://localhost:5000/dhbdata')
+        await axios.get('https://www.nzcovid19.site/dhbdata')
         .then(res => {
             const place = []
             const cases = []
@@ -176,7 +176,7 @@ export class Charts extends Component {
         })
     }
     async totalConfirmedCaseGenderHandler(){
-        await axios.get('http://localhost:5000/agegroup-gender-affected')
+        await axios.get('https://www.nzcovid19.site/agegroup-gender-affected')
         .then(async res => {
             const male =[]
             const female =[]
