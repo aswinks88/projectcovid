@@ -17,7 +17,9 @@ export class Charts extends Component {
             ageGroupData:{},
             loading: false,
             zoomEnabledLC1: false,
-            zoomEnabledLC2: false
+            zoomEnabledLC2: false,
+            zoomEnabledHB1:false,
+            zoomEnabledHB2:false
         }      
         this.confirmedCasesHandler = this.confirmedCasesHandler.bind(this)
         this.deathandrecoveryRateHandler = this.deathandrecoveryRateHandler.bind(this)
@@ -25,6 +27,8 @@ export class Charts extends Component {
         this.totalConfirmedCaseGenderHandler = this.totalConfirmedCaseGenderHandler.bind(this)
         this.zoomEnableHandlerLC1 = this.zoomEnableHandlerLC1.bind(this)
         this.zoomEnableHandlerLC2 = this.zoomEnableHandlerLC2.bind(this)
+        this.zoomEnableHandlerHB1 = this.zoomEnableHandlerHB1.bind(this)
+        this.zoomEnableHandlerHB2 = this.zoomEnableHandlerHB2.bind(this)
     }
    async componentDidMount(){
      
@@ -290,10 +294,32 @@ export class Charts extends Component {
             })
         }
     }
+    zoomEnableHandlerHB1(e){
+        if(e === false){
+            this.setState({
+                zoomEnabledHB1: true,
+            })
+        } else {
+            this.setState({
+                zoomEnabledHB1: false,
+            })
+        }
+    }
+    zoomEnableHandlerHB2(e){
+        if(e === false){
+            this.setState({
+                zoomEnabledHB2: true,
+            })
+        } else {
+            this.setState({
+                zoomEnabledHB2: false,
+            })
+        }
+    }
     render() {
         return (
             <div className='container'>
-            <h5>Recent Trends<small>(All charts except pie chart are pan and zoom enabled)</small></h5>
+            <h5>Recent Trends<small>(Note: Swipe up and down may not work on chart area(Mobile only))</small></h5>
             {!this.state.loading ? <span className='text-center'>Loading chart data...<Spinner className='spinner text-secondary' animation="border" variant="primary" /></span>
                 :<div className='row clearfix'> 
             <div className='col-xs-12 col-sm-12 col-md-12 col-lg-12 '>
@@ -310,10 +336,10 @@ export class Charts extends Component {
                       <ChartComponent data = {this.state.chartData} chartType='line' zoomStatus={this.state.zoomEnabledLC1}/>
                       {!this.state.zoomEnabledLC1 ? <button className='zoombutton bg-red waves-effect' 
                       onClick={() => this.zoomEnableHandlerLC1(this.state.zoomEnabledLC1)}>
-                      Enable zoom
+                      Enable pan/zoom
                       </button>:<button className='zoombutton bg-red waves-effect' 
                       onClick={() => this.zoomEnableHandlerLC1(this.state.zoomEnabledLC1)}>
-                      Disable zoom
+                      Disable pan/zoom
                       </button>}
                  </div>
                     </div>
@@ -333,10 +359,10 @@ export class Charts extends Component {
                  <ChartComponent data = {this.state.dailyCases} chartType='line' zoomStatus={this.state.zoomEnabledLC2}/>    
                 { !this.state.zoomEnabledLC2 ? <button className='zoombutton bg-red waves-effect' 
                  onClick={() => this.zoomEnableHandlerLC2(this.state.zoomEnabledLC2)}>
-                 Enable zoom
+                 Enable pan/zoom
                  </button> : <button className='zoombutton bg-red waves-effect' 
                  onClick={() => this.zoomEnableHandlerLC2(this.state.zoomEnabledLC2)}>
-                 Disable zoom
+                 Disable pan/zoom
                  </button>}
                  </div>
                 </div>
@@ -352,7 +378,14 @@ export class Charts extends Component {
                                 </div>
                            </div>
                  <div className='body'>
-                 <ChartComponent data = {this.state.dhb} chartType='hbar'/>
+                 <ChartComponent data = {this.state.dhb} chartType='hbar' zoomStatus={this.state.zoomEnabledHB1}/>
+                 { !this.state.zoomEnabledHB1 ? <button className='zoombutton bg-red waves-effect' 
+                 onClick={() => this.zoomEnableHandlerHB1(this.state.zoomEnabledHB1)}>
+                 Enable pan/zoom
+                 </button> : <button className='zoombutton bg-red waves-effect' 
+                 onClick={() => this.zoomEnableHandlerHB1(this.state.zoomEnabledHB1)}>
+                 Disable pan/zoom
+                 </button>}
                  </div>
                 </div>
                  </div>
@@ -368,7 +401,14 @@ export class Charts extends Component {
                                 </div>
                            </div>
                  <div className='body'>
-                 <ChartComponent data = {this.state.ageGroupData} chartType='hbar'/>
+                 <ChartComponent data = {this.state.ageGroupData} chartType='hbar'  zoomStatus={this.state.zoomEnabledHB2}/>
+                 { !this.state.zoomEnabledHB2 ? <button className='zoombutton bg-red waves-effect' 
+                 onClick={() => this.zoomEnableHandlerHB2(this.state.zoomEnabledHB2)}>
+                 Enable pan/zoom
+                 </button> : <button className='zoombutton bg-red waves-effect' 
+                 onClick={() => this.zoomEnableHandlerHB2(this.state.zoomEnabledHB2)}>
+                 Disable pan/zoom
+                 </button>}
                  </div>
                 </div>
                  </div>

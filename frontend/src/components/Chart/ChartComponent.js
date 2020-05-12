@@ -27,10 +27,10 @@ const ChartComponent = (props) => {
                                       data={props.data}
                                       width={765}
                                       height={300}
-                                      options={{  plugins:{zoom :{zoom:{enabled: true, mode:'y', 
+                                      options={{  plugins:{zoom :{zoom:{enabled: props.zoomStatus, mode:'y', 
                                       drag:false,rangeMin: {x:0,y:10}, 
                                       rangeMax: {x:0,y:1500}}, 
-                                      pan:{enabled: true, speed: 1, mode:'y', 
+                                      pan:{enabled: props.zoomStatus, speed: 1, mode:'y', 
                                       rangeMin: {x:0,y:0}, rangeMax: {x:0,y:1500}}}},
                                       aspectRatio:2, maintainAspectRatio: false, responsive: true, }}
                                   /> : props.chartType==='pie' ?
@@ -40,10 +40,10 @@ const ChartComponent = (props) => {
                                       height={300}
                                       options={{ aspectRatio:2, maintainAspectRatio: false, responsive: true, }}/> 
                                       : props.chartType==='bar' ?
-                                      <Bar
+                                    <Bar
                                       data={props.data}
                                       width={765}
-                                      height={300}
+                                      height={400}
                                       options={{ aspectRatio:2, maintainAspectRatio: false, responsive: true, }}
                                   /> : props.chartType==='doughnut' ?  
                                       <Doughnut
