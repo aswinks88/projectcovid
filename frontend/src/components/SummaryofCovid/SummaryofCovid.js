@@ -13,7 +13,8 @@ export default class SummaryofCovid extends Component {
                data: [],
                doughNutData: {},
                deathRate: '',
-               recoveryRate: ''
+               recoveryRate: '',
+               active:''
             }
         this.covidDataHandler = this.covidDataHandler.bind(this)
     }
@@ -47,7 +48,8 @@ async covidDataHandler(){
                     }]
         },
         deathRate: RateofDeath,
-        recoveryRate: RateofRecovery
+        recoveryRate: RateofRecovery,
+        active: activeCases
        })
     
 })
@@ -57,7 +59,7 @@ async covidDataHandler(){
         return (
        <div>        
             <Summary data={this.state.data} death={this.state.deathRate} 
-            recovery = {this.state.recoveryRate} 
+            recovery = {this.state.recoveryRate} active={this.state.active}
            />
        </div>
         )

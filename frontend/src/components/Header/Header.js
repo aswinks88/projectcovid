@@ -97,14 +97,13 @@ function Header() {
                     The graph shown here represent changes over the time since the first case identified in New Zealand.<br/>
                     Each chart has pan and zoom enabled and when you scroll or pinch(mobile) on chart area it automatically zooms in and out<br/> and 
                     pan towards X-axis.
-                    Also, it stops the page scrolling up and down when the mouse pointer is at the map area.<br/>
-                    Some browsers may not support<br/> this features (Firefox mobile).
+                    <h4>Chart Description</h4>
                     <ul>
                          <li>Total Confirmed Cases - shows the daily total of confirmed cases till date</li>
                          <li>Recovery vs Death rate - compares the recovery rate and death rate till date</li>
                          <li>Cases by DHB - shows a detailed information on number of confirmed, recovered, active and deceased cases in each District Health Board(DHB)</li>
                          <li>Age group affected - compares different age groups and gender affected</li>
-                         <li>Gender - Female to Male ratio</li>
+                         <li>Gender - Female to Male ratio of affected cases</li>
                     </ul>
                </p>             
                <p>

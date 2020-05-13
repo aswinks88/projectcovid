@@ -315,11 +315,12 @@ export class Charts extends Component {
                 zoomEnabledHB2: false,
             })
         }
+        
     }
     render() {
         return (
-            <div className='container'>
-            <h5>Recent Trends<small>(Note: Swipe up and down may not work on chart area(Mobile only))</small></h5>
+            <div className='container-fluid'>
+            <h5>Recent Trends</h5>
             {!this.state.loading ? <span className='text-center'>Loading chart data...<Spinner className='spinner text-secondary' animation="border" variant="primary" /></span>
                 :<div className='row clearfix'> 
             <div className='col-xs-12 col-sm-12 col-md-12 col-lg-12 '>
@@ -333,7 +334,7 @@ export class Charts extends Component {
                                 </div>
                            </div>
                  <div className='body'>
-                      <ChartComponent data = {this.state.chartData} chartType='line' zoomStatus={this.state.zoomEnabledLC1}/>
+                      <ChartComponent className='linechart' data = {this.state.chartData} chartType='line' zoomStatus={this.state.zoomEnabledLC1}/>
                       {!this.state.zoomEnabledLC1 ? <button className='zoombutton bg-red waves-effect' 
                       onClick={() => this.zoomEnableHandlerLC1(this.state.zoomEnabledLC1)}>
                       Enable pan/zoom

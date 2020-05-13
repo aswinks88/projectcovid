@@ -23,7 +23,8 @@ export default function Summary(props) {
                <div className='row clearfix'>
                     <div className='container top'>
                     <small className='last-update'>Last updated: {lastUpdated}</small>
-                    <h2>COVID-19 STATS</h2>
+                    <h2>COVID-19 STATS</h2> 
+                    <p className='active-cases'>Active:&nbsp;{props.active}</p>
                     <div className='row stats nz'>
                          <div className='col-6 col-sm-6 col-md-2 text-center'>
                               <p className='confirmed cases'> &nbsp;
@@ -73,7 +74,6 @@ export default function Summary(props) {
                          </div>
                     </div>
                     </div>
-                    
                </div>
         
           {/* </section> */}
