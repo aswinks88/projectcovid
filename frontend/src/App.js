@@ -9,6 +9,7 @@ import Maps from './components/Maps/Maps'
 import Chart from './components/Chart/Charts'
 import Footer from './components/Footer/Footer'
 import Header from './components/Header/Header'
+import Victory from './components/Chart/VictoryChart'
 function App() {
   return (
     <div className='container'>
@@ -17,6 +18,7 @@ function App() {
       <Header />
       <SummaryofCovid />
       <Maps />
+      {/* <Victory/> */}
       <Chart />
       <Footer />
     </div>

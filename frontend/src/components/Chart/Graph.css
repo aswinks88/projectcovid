@@ -36,6 +36,7 @@
     color: #555;
     padding: 20px;
     display: flexbox;
+    position: relative;
     /* width: 100%;
     height:100%; */
 }

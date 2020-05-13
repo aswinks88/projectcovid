@@ -14,13 +14,38 @@ const ChartComponent = (props) => {
                                       width={765}
                                       height={300}
                                       options={{tooltips:{mode:'index', position:'nearest'},
-                                      plugins:{
-                                      zoom :{zoom:{enabled: props.zoomStatus, mode:'x',
+                                      scales:{
+                                          xAxes:[{
+                                              ticks:{
+                                                  maxTicksLimit: 10,
+                                                  autoSkip: true
+                                              },
+                                              gridLines:{
+                                                  display: false
+                                              },
+                                          }],
+                                          yAxes:[{
+                                              ticks:{
+                                                  maxTicksLimit: 10,
+                                                  autoSkip: true
+                                              }
+                                          }]
+                                      },
+                                      events:['mousemove','mouseout', 'click', 'touchstart', 'touchmove'], 
+                                      pan:{enabled: true, 
+                                      speed: 10, 
+                                      threshold: 10, 
+                                      mode:'x', 
+                                      rangeMin: {x:0,y:0}, rangeMax: {x:0,y:1550}
+                                      }, 
+                                      zoom:{enabled: props.zoomStatus, 
+                                      mode:'x',
+                                      sensitivity:0.5,
+                                      drag:false,
                                       rangeMin: {x:0,y:0}, 
-                                      rangeMax: {x:0,y:1500}}, 
-                                      pan:{enabled: props.zoomStatus, speed: 1, mode:'x', 
-                                      rangeMin: {x:0,y:0}, rangeMax: {x:0,y:1550}}}}, 
-                                      aspectRatio:1, maintainAspectRatio: false}}
+                                      rangeMax: {x:0,y:1500}
+                                      },
+                                      aspectRatio:1, responsive: true, maintainAspectRatio: false}}
                                   /> :
                                   props.chartType==='hbar' ?
                                   <HorizontalBar
@@ -31,7 +56,10 @@ const ChartComponent = (props) => {
                                       zoom :{zoom:{enabled: props.zoomStatus, mode:'y', 
                                       rangeMin: {x:0,y:10}, 
                                       rangeMax: {x:0,y:1500}}, 
-                                      pan:{enabled: props.zoomStatus, speed: 1, mode:'y', 
+                                      pan:{enabled: true, 
+                                      speed: 5, 
+                                      mode:'y', 
+                                      threshold: 10, 
                                       rangeMin: {x:0,y:0}, rangeMax: {x:0,y:1500}}}},
                                       aspectRatio:2, maintainAspectRatio: false}}
                                   /> : props.chartType==='pie' ?

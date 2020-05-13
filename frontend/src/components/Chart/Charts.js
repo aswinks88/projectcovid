@@ -273,47 +273,59 @@ export class Charts extends Component {
           )
     }
     zoomEnableHandlerLC1(e){
+        var touch=document.getElementsByClassName('chartjs-render-monitor')[0]
         if(e === false){
             this.setState({
                 zoomEnabledLC1: true,
             })
+            touch.style.setProperty('touch-action', 'none', 'important')
         } else {
             this.setState({
                 zoomEnabledLC1: false,
             })
+            touch.style.setProperty('touch-action', 'auto', 'important')
         }
     }
     zoomEnableHandlerLC2(e){
+        var touch=document.getElementsByClassName('chartjs-render-monitor')[1]
         if(e === false){
             this.setState({
                 zoomEnabledLC2: true,
             })
+            touch.style.setProperty('touch-action', 'none', 'important')
         } else {
             this.setState({
                 zoomEnabledLC2: false,
             })
+            touch.style.setProperty('touch-action', 'auto', 'important')
         }
     }
     zoomEnableHandlerHB1(e){
+        var touch=document.getElementsByClassName('chartjs-render-monitor')[2]
         if(e === false){
             this.setState({
                 zoomEnabledHB1: true,
             })
+            touch.style.setProperty('touch-action', 'none', 'important')
         } else {
             this.setState({
                 zoomEnabledHB1: false,
             })
+            touch.style.setProperty('touch-action', 'auto', 'important')
         }
     }
     zoomEnableHandlerHB2(e){
+        var touch=document.getElementsByClassName('chartjs-render-monitor')[3]
         if(e === false){
             this.setState({
                 zoomEnabledHB2: true,
             })
+            touch.style.setProperty('touch-action', 'none', 'important')
         } else {
             this.setState({
                 zoomEnabledHB2: false,
             })
+            touch.style.setProperty('touch-action', 'auto', 'important')
         }
         
     }
