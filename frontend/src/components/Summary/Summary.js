@@ -15,6 +15,16 @@ export default function Summary(props) {
      const lastUpdated = props.data.filter((el)=>{
           return el[6]
      })
+     // const allData = props.data.map((el) => {
+     //      const 
+     // })
+     const totalCases = props.data.filter((total) => {
+          return total.casesSummaryHead === 'Number of confirmed and probable cases'
+     })
+     totalCases.map((total) => {
+          return console.log(total.TotaltoDate)
+     })
+     // console.log(allData )
     return (
           <div className='container content'>
         

@@ -153,6 +153,7 @@ async function findCovid19TotalCases(ministryofHealthData){
         }
         summary.push(lastUpdatedTime.text())
     })
+    console.log(summary)
 return summary
 }
 async function casesbyDHB(ministryofHealthData){
