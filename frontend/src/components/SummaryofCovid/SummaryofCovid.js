@@ -28,8 +28,8 @@ export default class SummaryofCovid extends Component {
 }
 
 async covidDataHandler(){
-    // await axios.get('https://www.nzcovid19.site/api/')
-    await axios.get('http://localhost:5000/')
+    await axios.get('https://www.nzcovid19.site/api/')
+    // await axios.get('http://localhost:5000/')
     .then(res => {
         console.log(res.data[0].casesSummaryHead)
         var recovery =(res.data[3].TotaltoDate).replace(/,/g,'')
