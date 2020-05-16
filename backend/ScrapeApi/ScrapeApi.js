@@ -137,8 +137,7 @@ async function findCovid19TotalCases(ministryofHealthData){
     const summary = []
     $(summaryData).each((i, el) => {
         const $element = $(el)
-        const lastUpdatedTime = $element.find('caption')
-        console.log(lastUpdatedTime.text())
+        const lastUpdatedTime = {lastUpdated: $element.find('caption').text()}
         const summaryofCases = $element.find('tbody > tr > th')
         const $totalToDate = $element.find('tbody > tr > td:nth-child(2)')
         const $newInLast = $element.find('tbody > tr > td:nth-child(3)')
@@ -151,7 +150,7 @@ async function findCovid19TotalCases(ministryofHealthData){
             }  
         summary.push(summaryofTable)
         }
-        summary.push(lastUpdatedTime.text())
+        summary.push(lastUpdatedTime)
     })
     console.log(summary)
 return summary

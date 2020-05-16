@@ -13,8 +13,7 @@ export default class SummaryofCovid extends Component {
                data: [],
                doughNutData: {},
                deathRate: '',
-               recoveryRate: '',
-               active:''
+               recoveryRate: ''
             }
         this.covidDataHandler = this.covidDataHandler.bind(this)
     }
@@ -24,14 +23,12 @@ export default class SummaryofCovid extends Component {
         ReactGA.set({page: location.pathname})
         ReactGA.pageview(location.pathname)
       })
-      console.log(history)
 }
 
 async covidDataHandler(){
-    await axios.get('https://www.nzcovid19.site/api/')
-    // await axios.get('http://localhost:5000/')
+    // await axios.get('https://www.nzcovid19.site/api/')
+    await axios.get('http://localhost:5000/')
     .then(res => {
-        console.log(res.data[0].casesSummaryHead)
         var recovery =(res.data[3].TotaltoDate).replace(/,/g,'')
         var totaCases = (res.data[2].TotaltoDate).replace(/,/g,'')
         var death = (res.data[4].TotaltoDate).replace(/,/g,'')
@@ -50,8 +47,7 @@ async covidDataHandler(){
                     }]
         },
         deathRate: RateofDeath,
-        recoveryRate: RateofRecovery,
-        active: activeCases
+        recoveryRate: RateofRecovery
        })
     
 })
@@ -61,7 +57,7 @@ async covidDataHandler(){
         return (
        <div>        
             <Summary data={this.state.data} death={this.state.deathRate} 
-            recovery = {this.state.recoveryRate} active={this.state.active}
+            recovery = {this.state.recoveryRate}
            />
        </div>
         )
