@@ -38,29 +38,29 @@ export default function Summary(props) {
                          <div className='col-6 col-sm-6 col-md-2 text-center'>
                               
                          <p className='death red cases'>
-                              <img src ={wreath} width = '25' height='25' alt='wreath'/>{TotaltoDate[5]}
+                              <img src ={wreath} width = '25' height='25' alt='wreath'/>{TotaltoDate[4]}
                               </p>
-                              <p className='death diff'>({NewinLast[5] > 0 ?  <i className="fas fa-arrow-up up-arrow">&nbsp;{NewinLast[3]}</i>
-                          : NewinLast[3]< 0 ? <i className="fas fa-arrow-down down-arrow">&nbsp;{NewinLast[5]}</i> : 0})</p>
+                              <p className='death diff'>({NewinLast[4] > 0 ?  <i className="fas fa-arrow-up up-arrow">&nbsp;{NewinLast[4]}</i>
+                          : NewinLast[4]< 0 ? <i className="fas fa-arrow-down down-arrow">&nbsp;{NewinLast[4]}</i> : 0})</p>
                               <p>Casualities of War</p>
                          </div>
 
                          <div className='col-6 col-sm-6 col-md-2 text-center'>
 
                               <p className='recovered cases'>
-                              <img src ={survivor} width = '25' height='25' alt='Survivor'/>{TotaltoDate[4]} 
+                              <img src ={survivor} width = '25' height='25' alt='Survivor'/>{TotaltoDate[3]} 
                               </p>
-                              <p className='recovered green diff'>({NewinLast[4] > 0 ?  <i className="fas fa-arrow-up up-arrow">&nbsp;{NewinLast[4]}</i>
+                              <p className='recovered green diff'>({NewinLast[3] > 0 ?  <i className="fas fa-arrow-up up-arrow">&nbsp;{NewinLast[3]}</i>
                           : NewinLast[3]< 0 ?  <i className="fas fa-arrow-down down-arrow">&nbsp;{NewinLast[3]}</i> : 0})</p>
                               <p>Survivors</p>
                          </div>
 
                          <div className='col-6 col-sm-6 col-md-2 text-center'>
                          <p className='hospital cases'>
-                              <img src ={hospital} width = '25' height='25' alt='hospital'/>{TotaltoDate[3]}
+                              <img src ={hospital} width = '25' height='25' alt='hospital'/>{TotaltoDate[6]}
                               </p>
-                              <p className='hospital green diff'>({NewinLast[3] > 0 ?  <i className="fas fa-arrow-up up-arrow hosup">&nbsp;{NewinLast[3]}</i>
-                          : NewinLast[3]<  0 ?  <i className="fas fa-arrow-down down-arrow ">&nbsp;{NewinLast[3]}</i>:0})</p>
+                              <p className='hospital green diff'>({NewinLast[6] > 0 ?  <i className="fas fa-arrow-up up-arrow hosup">&nbsp;{NewinLast[6]}</i>
+                          : NewinLast[6]<  0 ?  <i className="fas fa-arrow-down down-arrow ">&nbsp;{NewinLast[6]}</i>:0})</p>
                               <p>In Hospital</p>
                               
                          </div>

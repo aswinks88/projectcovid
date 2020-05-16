@@ -30,9 +30,9 @@ export default class SummaryofCovid extends Component {
 async covidDataHandler(){
     await axios.get('https://www.nzcovid19.site/api/')
     .then(res => {
-        var recovery =(res.data[4].TotaltoDate).replace(/,/g,'')
+        var recovery =(res.data[3].TotaltoDate).replace(/,/g,'')
         var totaCases = (res.data[2].TotaltoDate).replace(/,/g,'')
-        var death = (res.data[5].TotaltoDate).replace(/,/g,'')
+        var death = (res.data[4].TotaltoDate).replace(/,/g,'')
         var activeCases = (totaCases - recovery) - death
         var activeRate = ((activeCases/totaCases) * 100).toFixed(2)
         var RateofRecovery = ((recovery/totaCases)*100).toFixed(2)
