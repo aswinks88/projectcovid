@@ -17,7 +17,6 @@ const ChartComponent = (props) => {
                                       scales:{
                                           xAxes:[{
                                               ticks:{
-                                                  maxTicksLimit: 10,
                                                   autoSkip: true
                                               },
                                               gridLines:{
@@ -26,7 +25,6 @@ const ChartComponent = (props) => {
                                           }],
                                           yAxes:[{
                                               ticks:{
-                                                  maxTicksLimit: 10,
                                                   autoSkip: true
                                               }
                                           }]
