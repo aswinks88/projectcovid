@@ -94,9 +94,9 @@ function Header() {
                     Johns Hopkins University and these sources update the data at different <br/>times. 
                </p>
                <p>
-                    The graph shown here represent changes over the time since the first case identified in New Zealand.<br/>
-                    Each chart has pan and zoom enabled and when you scroll or pinch(mobile) on chart area it automatically zooms in and out<br/> and 
-                    pan towards X-axis.
+                    The graph shown here represent changes over the time since the first case was identified in New Zealand.<br/>
+                    Each chart has pan and zoom option enabled and when you scroll or pinch(mobile) on chart area it automatically zooms in/out<br/> and 
+                    pans towards X-axis.
                     <h4>Chart Description</h4>
                     <ul>
                          <li>Total Confirmed Cases - shows the daily total of confirmed cases till date</li>

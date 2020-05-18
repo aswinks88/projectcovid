@@ -138,7 +138,6 @@ export default class Leaflet extends Component {
         // this.map.fireEvent('click', )
         if(layer){
        this.resetHighlight(layer)
-        console.log('adsada')
         }
         // console.log(e.target)
          layer = e.target;

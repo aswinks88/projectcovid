@@ -60,7 +60,7 @@ export default function Summary(props) {
                               </p>
                               <p className='death diff'>({Summary.deathLastin > 0 ?  <i className="fas fa-arrow-up up-arrow">&nbsp;{Summary.deathLastin}</i>
                           : Summary.deathLastin< 0 ? <i className="fas fa-arrow-down down-arrow">&nbsp;{Summary.deathLastin}</i> : 0})</p>
-                              <p>Casualities of War</p>
+                              <p>Casualties of War</p>
                          </div>
 
                          <div className='col-6 col-sm-6 col-md-2 text-center'>
