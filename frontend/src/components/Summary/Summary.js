@@ -16,7 +16,7 @@ export default function Summary(props) {
      props.data.filter((total, index) => {
            if(total.casesSummaryHead === 'Number of confirmed and probable cases'){
                Summary.totalcases = total.TotaltoDate
-               Summary.casesLastin = total.last
+               Summary.casesLastin = total.last.replace(/[^a-zA-Z0-9 ]/g, '')
            } else if(total.casesSummaryHead === 'Number of recovered cases') {
                Summary.totalRecovered = total.TotaltoDate
                Summary.recoveredLastin = total.last
@@ -32,6 +32,7 @@ export default function Summary(props) {
            }
            Summary.lastUpdated =  total.lastUpdated
      })
+     console.log(Summary.casesLastin)
     return (
           <div className='container content'>
         
