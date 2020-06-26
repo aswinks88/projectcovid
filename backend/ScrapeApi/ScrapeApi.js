@@ -157,7 +157,7 @@ return summary
 }
 async function casesbyDHB(ministryofHealthData){
     const $ = cheerio.load(ministryofHealthData)
-    const casesbyDHB = $('.table-style-two').eq(1)
+    const casesbyDHB = $('.table-style-two').eq(3)
     const casesinDHB = []
     
     casesbyDHB.each((i, el) => {
@@ -178,8 +178,10 @@ async function casesbyDHB(ministryofHealthData){
                 changes: $lastTwentyfourhrs.eq(i).text()
             }
             casesinDHB.push(DHBall)
+            console.log(DHBall.cases)
         }
     })
+    
     const readGeojson = await fs.readFileSync('./ScrapeApi/nz1.json', 'utf8', (err, data) => {
         if(err){
             console.log(err)
@@ -191,6 +193,7 @@ async function casesbyDHB(ministryofHealthData){
     let parsedJsonData = JSON.parse(readGeojson)
     for(let i = 0; i< parsedJsonData.length; i++){ 
         for(let j = 0; j< casesinDHB.length; j++){
+            // console.log(parsedJsonData[i].properties.NAME , casesinDHB[j].Place)
             if(parsedJsonData[i].properties.NAME === casesinDHB[j].Place){
             parsedJsonData[i].properties.active = casesinDHB[j].cases
             parsedJsonData[i].properties.recovered = casesinDHB[j].recovered
@@ -204,6 +207,7 @@ async function casesbyDHB(ministryofHealthData){
             } 
         }   
     } 
+    console.log(parsedJsonData.length, casesinDHB.length)
 return casesinDHB
 
 }
