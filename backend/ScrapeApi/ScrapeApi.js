@@ -157,7 +157,7 @@ return summary
 }
 async function casesbyDHB(ministryofHealthData){
     const $ = cheerio.load(ministryofHealthData)
-    const casesbyDHB = $('.table-style-two').eq(1)
+    const casesbyDHB = $('.table-style-two').eq(2)
     const casesinDHB = []
     
     casesbyDHB.each((i, el) => {
