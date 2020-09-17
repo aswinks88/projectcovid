@@ -12,6 +12,7 @@
     "chart.js": "^2.9.3",
     "chartjs-plugin-zoom": "^0.7.6",
     "date-fns": "^2.11.1",
+    "env-cmd": "^10.1.0",
     "g": "^2.0.1",
     "history": "^4.10.1",
     "jquery": "^3.4.1",
@@ -35,8 +36,8 @@
     "victory": "^34.2.1"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
+    "start": "env-cmd -f .env.development react-scripts start",
+    "build": "env-cmd -f .env.production react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },

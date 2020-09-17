@@ -32,8 +32,15 @@ async function ageGroupGenderaffected(currentcasesdetails) {
 
   $$(totalCasesPage).each((i, el) => {
     const pageContent = $$(el);
-    const anchorTag = pageContent.find("ul").eq(1).find("li > a");
-    downloadLink.push(anchorTag.attr("href"));
+
+    const anchorTag = pageContent
+      .find("ul")
+      .eq(1)
+      .find("li")
+      .eq(0)
+      .find("a")
+      .attr("href");
+    downloadLink.push(anchorTag);
   });
 
   const downloadUrl = `https://www.health.govt.nz${downloadLink[0]}`;
