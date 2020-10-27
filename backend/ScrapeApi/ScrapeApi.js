@@ -43,7 +43,7 @@ async function ageGroupGenderaffected(currentcasesdetails) {
     downloadLink.push(anchorTag);
   });
 
-  const downloadUrl = `https://www.health.govt.nz${downloadLink[0]}`;
+  const downloadUrl = `https://www.health.govt.nz${downloadLink[1]}`;
   const filename = url.parse(downloadUrl).pathname.split("/").pop();
   const path = Path.resolve(__dirname, "files", filename);
   const pathtoJsonResult = Path.join(__dirname, "files");
